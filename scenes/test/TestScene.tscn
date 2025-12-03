@@ -1,0 +1,53 @@
+[gd_scene load_steps=10 format=3 uid="uid://bxwqs4ae7hs7f"]
+
+[ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player.tscn" id="1_kn7q3"]
+[ext_resource type="PackedScene" uid="uid://df2tgm4psj33g" path="res://scenes/builds/TileMapLyciumInside.tscn" id="2_128yo"]
+[ext_resource type="PackedScene" uid="uid://dnj3wwynfjus8" path="res://scenes/characters/guide.tscn" id="3_128yo"]
+[ext_resource type="Script" uid="uid://b1gjm82quxp6m" path="res://scenes/characters/act1.gd" id="3_u0ys8"]
+[ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component.tscn" id="4_n64gy"]
+[ext_resource type="Texture2D" uid="uid://ba1ea0fcveuwv" path="res://assets/game/build/flower.png" id="6_r7v02"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u0ys8"]
+size = Vector2(107, 80)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r7v02"]
+radius = 8.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwnrp"]
+atlas = ExtResource("6_r7v02")
+
+[node name="TestScene" type="Node2D"]
+
+[node name="TileMapLyciumInside" parent="." instance=ExtResource("2_128yo")]
+position = Vector2(0, 5)
+
+[node name="Guide" parent="." instance=ExtResource("3_128yo")]
+position = Vector2(-531, -638)
+script = ExtResource("3_u0ys8")
+
+[node name="InteractableComponent" parent="Guide" instance=ExtResource("4_n64gy")]
+position = Vector2(531, 638)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Guide/InteractableComponent"]
+light_mask = 4
+visibility_layer = 2
+position = Vector2(-531.5, -575)
+shape = SubResource("RectangleShape2D_u0ys8")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-269, 99)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 9)
+shape = SubResource("CircleShape2D_r7v02")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+texture_filter = 1
+texture = SubResource("AtlasTexture_qwnrp")
+
+[node name="Player" parent="." instance=ExtResource("1_kn7q3")]
+position = Vector2(-532, -526)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(-2, 6)
