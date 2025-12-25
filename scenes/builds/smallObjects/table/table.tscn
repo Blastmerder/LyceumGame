@@ -26,6 +26,7 @@ texture = SubResource("AtlasTexture_64pca")
 shape = SubResource("RectangleShape2D_yb62r")
 
 [node name="InteractableComponent" parent="." instance=ExtResource("3_0rd1v")]
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableComponent"]
 shape = SubResource("CircleShape2D_tdohe")
