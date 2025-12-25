@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ba5ee2c86h0bq"]
 
-[ext_resource type="Script" uid="uid://7qc7aygwgfc6" path="res://scenes/components/interactable_component.gd" id="1_onphe"]
+[ext_resource type="Script" uid="uid://7qc7aygwgfc6" path="res://scenes/components/interactable_component/interactable_component.gd" id="1_onphe"]
 
 [node name="InteractableComponent" type="Area2D"]
 light_mask = 4

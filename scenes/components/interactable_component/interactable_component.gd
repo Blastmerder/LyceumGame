@@ -6,7 +6,6 @@ signal interactable_deactivated
 
 
 func _on_body_entered(_body: Node2D) -> void:
-	print(_body)
 	interactable_activated.emit()
 
 

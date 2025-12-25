@@ -1,10 +1,10 @@
 [gd_scene load_steps=24 format=3 uid="uid://dl0qgbe50ojd3"]
 
-[ext_resource type="Script" uid="uid://comvqxi7gvu3x" path="res://scenes/characters/player.gd" id="1_kqtwu"]
+[ext_resource type="Script" uid="uid://comvqxi7gvu3x" path="res://scenes/characters/player/player.gd" id="1_kqtwu"]
 [ext_resource type="Script" uid="uid://bnjvom8uqgyex" path="res://scripts/state_machine/node_state_machine.gd" id="2_76oj4"]
 [ext_resource type="Texture2D" uid="uid://cv7keno8uqswl" path="res://assets/game/characters/player.png" id="2_atpat"]
-[ext_resource type="Script" uid="uid://b26ilhf28q4uq" path="res://scenes/characters/walk_state.gd" id="3_atpat"]
-[ext_resource type="Script" uid="uid://suheit42dprd" path="res://scenes/characters/idle_state.gd" id="3_dyp2m"]
+[ext_resource type="Script" uid="uid://b26ilhf28q4uq" path="res://scenes/characters/player/walk_state.gd" id="3_atpat"]
+[ext_resource type="Script" uid="uid://suheit42dprd" path="res://scenes/characters/player/idle_state.gd" id="3_dyp2m"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_atpat"]
 atlas = ExtResource("2_atpat")
@@ -199,6 +199,7 @@ initial_node_state = NodePath("Idle")
 script = ExtResource("3_atpat")
 player = NodePath("../..")
 animatedSprite2d = NodePath("../../AnimatedSprite2D")
+speed = 100
 
 [node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("player", "animatedSprite2d")]
 script = ExtResource("3_dyp2m")

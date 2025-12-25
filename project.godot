@@ -26,7 +26,6 @@ window/size/viewport_height=270
 window/size/window_width_override=627
 window/size/window_height_override=327
 window/stretch/mode="canvas_items"
-window/stretch/scale_mode="integer"
 
 [editor_plugins]
 
