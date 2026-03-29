@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://ceay0rhxebqgw"]
+
+[ext_resource type="Script" uid="uid://ds33c8i6ssah" path="res://scenes/builds/smallObjects/table/table.gd" id="1_tlhju"]
+[ext_resource type="Texture2D" uid="uid://b7fe1qtvddm30" path="res://assets/game/build/objects.png" id="2_rpb5w"]
+[ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="3_0rd1v"]
+[ext_resource type="PackedScene" uid="uid://bwh2r8bs6am81" path="res://scenes/interfaces/local/interactShowcase.tscn" id="4_tbabg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_64pca"]
+atlas = ExtResource("2_rpb5w")
+region = Rect2(5, 5, 24, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yb62r"]
+size = Vector2(24, 22)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tdohe"]
+radius = 24.020824
+
+[node name="Flower" type="StaticBody2D"]
+script = ExtResource("1_tlhju")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = SubResource("AtlasTexture_64pca")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_yb62r")
+
+[node name="InteractableComponent" parent="." instance=ExtResource("3_0rd1v")]
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableComponent"]
+shape = SubResource("CircleShape2D_tdohe")
+
+[node name="InteractShowcase" parent="." instance=ExtResource("4_tbabg")]
+offset_left = -4.0
+offset_top = -44.0
+offset_right = -4.0
+offset_bottom = -44.0
