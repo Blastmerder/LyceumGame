@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://bxwqs4ae7hs7f"]
+[gd_scene format=3 uid="uid://bxwqs4ae7hs7f"]
 
 [ext_resource type="PackedScene" uid="uid://d0ey4ald082ai" path="res://scenes/builds/rooms/PDZone.tscn" id="1_760l2"]
 [ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="1_kn7q3"]
-[ext_resource type="PackedScene" uid="uid://df2tgm4psj33g" path="res://scenes/builds/TileMapLyciumInside.tscn" id="2_128yo"]
 [ext_resource type="PackedScene" uid="uid://dnj3wwynfjus8" path="res://scenes/characters/guide/guide.tscn" id="3_128yo"]
 [ext_resource type="Script" uid="uid://b1gjm82quxp6m" path="res://scenes/characters/guide/act1.gd" id="3_u0ys8"]
 [ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="4_n64gy"]
@@ -17,42 +16,43 @@ radius = 8.0
 [sub_resource type="AtlasTexture" id="AtlasTexture_qwnrp"]
 atlas = ExtResource("6_r7v02")
 
-[node name="TestScene" type="Node2D"]
+[node name="TestScene" type="Node2D" unique_id=336907787]
 
-[node name="PdZone" parent="." instance=ExtResource("1_760l2")]
+[node name="PdZone" parent="." unique_id=1854962346 instance=ExtResource("1_760l2")]
 position = Vector2(0, 2)
 
-[node name="TileMapLyciumInside" parent="." instance=ExtResource("2_128yo")]
+[node name="TileMapLyciumInside" parent="." unique_id=536499763]
 visible = false
 position = Vector2(0, 5)
 
-[node name="Guide" parent="." instance=ExtResource("3_128yo")]
+[node name="Guide" parent="." unique_id=1792343770 instance=ExtResource("3_128yo")]
 position = Vector2(-531, -638)
 script = ExtResource("3_u0ys8")
 
-[node name="InteractableComponent" parent="Guide" instance=ExtResource("4_n64gy")]
+[node name="InteractableComponent" parent="Guide" unique_id=1370074751 instance=ExtResource("4_n64gy")]
 position = Vector2(531, 638)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Guide/InteractableComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Guide/InteractableComponent" unique_id=656844015]
 light_mask = 4
 visibility_layer = 2
 position = Vector2(-531.5, -575)
 shape = SubResource("RectangleShape2D_u0ys8")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=694761478]
 position = Vector2(-270, 101)
 collision_layer = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1016167345]
 position = Vector2(0, 9)
 shape = SubResource("CircleShape2D_r7v02")
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=436110283]
 texture_filter = 1
 texture = SubResource("AtlasTexture_qwnrp")
 
-[node name="Player" parent="." instance=ExtResource("1_kn7q3")]
-position = Vector2(89, 134)
+[node name="Player" parent="." unique_id=1079685121 instance=ExtResource("1_kn7q3")]
+position = Vector2(218, 291)
+floor_constant_speed = true
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=2057712249]
 position = Vector2(-2, 6)

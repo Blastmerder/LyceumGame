@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cq6ed64ywriir"]
+
+[ext_resource type="PackedScene" uid="uid://ceq3mqplpgs8l" path="res://scenes/builds/rooms/lycium1floor.tscn" id="1_uglxo"]
+[ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="2_4y7x7"]
+
+[node name="1Floor" type="Node2D" unique_id=278158406]
+
+[node name="Lycium1Floor" parent="." unique_id=2030766381 instance=ExtResource("1_uglxo")]
+
+[node name="Player" parent="." unique_id=904295320 instance=ExtResource("2_4y7x7")]
+position = Vector2(155, 62)
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1577198810]

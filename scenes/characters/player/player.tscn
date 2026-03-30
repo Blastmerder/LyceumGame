@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dl0qgbe50ojd3"]
+[gd_scene format=3 uid="uid://dl0qgbe50ojd3"]
 
 [ext_resource type="Script" uid="uid://comvqxi7gvu3x" path="res://scenes/characters/player/player.gd" id="1_kqtwu"]
 [ext_resource type="Script" uid="uid://bnjvom8uqgyex" path="res://scripts/state_machine/node_state_machine.gd" id="2_76oj4"]
@@ -178,39 +178,39 @@ radius = 7.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qd3e3"]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=904295320]
 collision_layer = 2
 script = ExtResource("1_kqtwu")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1871826510]
 light_mask = 2
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_yewv4")
 animation = &"idle_left"
 autoplay = "idle_down"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=26514540]
 position = Vector2(0, 13)
 shape = SubResource("CircleShape2D_atpat")
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_node_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=1781404170 node_paths=PackedStringArray("initial_node_state")]
 script = ExtResource("2_76oj4")
 initial_node_state = NodePath("Idle")
 
-[node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("player", "animatedSprite2d")]
+[node name="Walk" type="Node" parent="StateMachine" unique_id=785634197 node_paths=PackedStringArray("player", "animatedSprite2d")]
 script = ExtResource("3_atpat")
 player = NodePath("../..")
 animatedSprite2d = NodePath("../../AnimatedSprite2D")
-speed = 100
+speed = 10000
 
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("player", "animatedSprite2d")]
+[node name="Idle" type="Node" parent="StateMachine" unique_id=261859590 node_paths=PackedStringArray("player", "animatedSprite2d")]
 script = ExtResource("3_dyp2m")
 player = NodePath("../..")
 animatedSprite2d = NodePath("../../AnimatedSprite2D")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1405795662]
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D" unique_id=2143880501]
 light_mask = 8
 visibility_layer = 8
 position = Vector2(-17, 6)
