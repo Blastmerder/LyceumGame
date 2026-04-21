@@ -4,7 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://ceq3mqplpgs8l" path="res://scenes/builds/rooms/lycium1floor.tscn" id="1_uglxo"]
 [ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="2_4y7x7"]
 [ext_resource type="PackedScene" uid="uid://dh2mt1hptbipw" path="res://scenes/builds/rooms/ledderPart.tscn" id="3_e7sv0"]
-[ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="4_3ck7m"]
+[ext_resource type="PackedScene" path="res://scenes/builds/staircase/staircase.tscn" id="4_staircase"]
+[ext_resource type="PackedScene" path="res://scenes/interfaces/tasks/task_list.tscn" id="5_tasks"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ck7m"]
 size = Vector2(40, 140.25)
@@ -12,22 +13,46 @@ size = Vector2(40, 140.25)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8jdgd"]
 size = Vector2(40, 60.5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(40, 40)
+
 [node name="1Floor" type="Node2D" unique_id=278158406]
+y_sort_enabled = true
 script = ExtResource("1_4y7x7")
+initial_floor_id = 0
+tasks_file = "res://diologue/conversations/act1_tasks.json"
 
 [node name="LedderPart" parent="." unique_id=1864144600 instance=ExtResource("3_e7sv0")]
+visible = false
+
+[node name="LadderExitDown" parent="LedderPart" groups=["ladder_exit"] instance=ExtResource("4_staircase")]
+target_floor_id = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LedderPart/LadderExitDown"]
+position = Vector2(1100, -320)
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="LadderExitUp" parent="LedderPart" groups=["ladder_exit"] instance=ExtResource("4_staircase")]
+target_floor_id = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LedderPart/LadderExitUp"]
+position = Vector2(1100, -480)
+shape = SubResource("RectangleShape2D_exit")
 
 [node name="floors" type="Node2D" parent="." unique_id=958970242]
+y_sort_enabled = true
 
 [node name="Lycium1Floor" parent="floors" unique_id=2030766381 instance=ExtResource("1_uglxo")]
-collision_enabled = false
+collision_enabled = true
+metadata/floor_id = 0
 
 [node name="Player" parent="." unique_id=904295320 instance=ExtResource("2_4y7x7")]
 position = Vector2(155, 62)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1577198810]
 
-[node name="stairs1-up" parent="." unique_id=641009064 instance=ExtResource("4_3ck7m")]
+[node name="stairs1-up" parent="." groups=["staircase"] unique_id=641009064 instance=ExtResource("4_staircase")]
+source_floor_id = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="stairs1-up" unique_id=892498119]
 position = Vector2(1160, -389.875)
@@ -37,8 +62,13 @@ shape = SubResource("RectangleShape2D_3ck7m")
 position = Vector2(-780, -390)
 shape = SubResource("RectangleShape2D_3ck7m")
 
-[node name="stairs1-up2" parent="." unique_id=240905396 instance=ExtResource("4_3ck7m")]
+[node name="stairs1-up2" parent="." groups=["staircase"] unique_id=240905396 instance=ExtResource("4_staircase")]
+source_floor_id = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="stairs1-up2" unique_id=85819030]
 position = Vector2(1039, -350.75)
 shape = SubResource("RectangleShape2D_8jdgd")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="TaskListUI" parent="UI" instance=ExtResource("5_tasks")]

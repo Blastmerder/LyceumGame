@@ -1,0 +1,22 @@
+[
+	{
+		"id": "find_stairs",
+		"title": "Найти лестницу",
+		"description": "Осмотрись на этаже и найди лестницу наверх.",
+		"fuzzy": true
+	},
+	{
+		"id": "touch_guide",
+		"title": "Подойти к гиду",
+		"description": "Подойди вплотную к Неизвестному.",
+		"fuzzy": false,
+		"exact_trigger": "touched_guide"
+	},
+	{
+		"id": "ring_bell",
+		"title": "Услышать звонок",
+		"description": "Дождись или спровоцируй школьный звонок.",
+		"fuzzy": false,
+		"exact_trigger": "bell_rang"
+	}
+]
