@@ -3,15 +3,24 @@
 [ext_resource type="Script" uid="uid://cae3t8tsf2rrn" path="res://scenes/test/MainNode.gd" id="1_4y7x7"]
 [ext_resource type="PackedScene" uid="uid://ceq3mqplpgs8l" path="res://scenes/builds/rooms/lycium1floor.tscn" id="1_uglxo"]
 [ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="2_4y7x7"]
+[ext_resource type="PackedScene" uid="uid://dh2mt1hptbipw" path="res://scenes/builds/rooms/ledderPart.tscn" id="3_e7sv0"]
 [ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="4_3ck7m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ck7m"]
-size = Vector2(40, 61)
+size = Vector2(40, 140.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8jdgd"]
+size = Vector2(40, 60.5)
 
 [node name="1Floor" type="Node2D" unique_id=278158406]
 script = ExtResource("1_4y7x7")
 
-[node name="Lycium1Floor" parent="." unique_id=2030766381 instance=ExtResource("1_uglxo")]
+[node name="LedderPart" parent="." unique_id=1864144600 instance=ExtResource("3_e7sv0")]
+
+[node name="floors" type="Node2D" parent="." unique_id=958970242]
+
+[node name="Lycium1Floor" parent="floors" unique_id=2030766381 instance=ExtResource("1_uglxo")]
+collision_enabled = false
 
 [node name="Player" parent="." unique_id=904295320 instance=ExtResource("2_4y7x7")]
 position = Vector2(155, 62)
@@ -21,11 +30,15 @@ position = Vector2(155, 62)
 [node name="stairs1-up" parent="." unique_id=641009064 instance=ExtResource("4_3ck7m")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="stairs1-up" unique_id=892498119]
-position = Vector2(1160, -350)
+position = Vector2(1160, -389.875)
 shape = SubResource("RectangleShape2D_3ck7m")
 
-[node name="stairs2-up" parent="." unique_id=768872922 instance=ExtResource("4_3ck7m")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="stairs2-up" unique_id=2050470178]
-position = Vector2(-780, -429)
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="stairs1-up" unique_id=2050470178]
+position = Vector2(-780, -390)
 shape = SubResource("RectangleShape2D_3ck7m")
+
+[node name="stairs1-up2" parent="." unique_id=240905396 instance=ExtResource("4_3ck7m")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="stairs1-up2" unique_id=85819030]
+position = Vector2(1039, -350.75)
+shape = SubResource("RectangleShape2D_8jdgd")
