@@ -9,33 +9,18 @@ signal ladder_entered(source_floor_id: int)
 
 @onready var floors_node: Node = $floors
 @onready var ledder_part: Node2D = $LedderPart
-@onready var player: Player = $Player
 
 var cur_floor_id: int = 0
 var _on_ladder: bool = false
 
 func _ready() -> void:
 	cur_floor_id = initial_floor_id
-	_setup_render(self)
 	_connect_staircases()
 	_show_floor(cur_floor_id)
 	if tasks_file != "":
 		var tm := _task_manager()
 		if tm:
 			tm.load_from_file(tasks_file)
-
-
-func _setup_render(root: Node) -> void:
-	if root is Node2D:
-		(root as Node2D).y_sort_enabled = true
-	for child in root.get_children():
-		if child is CanvasLayer:
-			continue
-		if child is TileMapLayer:
-			child.y_sort_enabled = true
-			if child.tile_set and child.tile_set.get_physics_layers_count() > 0:
-				child.add_to_group("physics_layer")
-		_setup_render(child)
 
 func _connect_staircases() -> void:
 	for stair in get_tree().get_nodes_in_group("staircase"):
@@ -54,6 +39,7 @@ func _on_staircase_entered(target_floor_id: int, source_floor_id: int) -> void:
 func _enter_ladder(source_floor_id: int) -> void:
 	cur_floor_id = source_floor_id
 	_on_ladder = true
+	
 	ladder_entered.emit(source_floor_id)
 	_show_ladder()
 	var em := _event_manager()
@@ -67,6 +53,7 @@ func _goto_floor(new_id: int) -> void:
 	var prev := cur_floor_id
 	cur_floor_id = new_id
 	_on_ladder = false
+	
 	_show_floor(new_id)
 	floor_changed.emit(new_id, prev)
 	var em := _event_manager()
@@ -77,10 +64,17 @@ func _show_floor(floor_id: int) -> void:
 	floors_node.visible = true
 	ledder_part.visible = false
 	_set_collision(ledder_part, false)
+	
 	for child in floors_node.get_children():
 		var active: bool = int(child.get_meta("floor_id", 0)) == floor_id
 		child.visible = active
 		_set_collision(child, active)
+	
+	for col in ledder_part.get_children():
+		if col.get_meta("exit", false):
+			for child in col.get_children():
+				print("HUH??")
+				child.disabled = true
 
 func _show_ladder() -> void:
 	floors_node.visible = false
@@ -88,6 +82,12 @@ func _show_ladder() -> void:
 	_set_collision(ledder_part, true)
 	for child in floors_node.get_children():
 		_set_collision(child, false)
+	
+	for col in ledder_part.get_children():
+		if col.get_meta("exit", false):
+			for child in col.get_children():
+				child.disabled = false
+				print(child)
 
 func _has_floor(floor_id: int) -> bool:
 	for child in floors_node.get_children():
