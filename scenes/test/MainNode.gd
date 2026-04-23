@@ -62,6 +62,8 @@ func _on_staircase_activated(stair: Staircase) -> void:
 			target = stair.target_floor_id
 		_goto_floor(target)
 	elif stair.leads_to_ladder():
+		if _on_ladder:
+			return
 		_enter_ladder(stair.source_floor_id)
 	else:
 		_goto_floor(stair.target_floor_id)

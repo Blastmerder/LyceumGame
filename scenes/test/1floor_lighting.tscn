@@ -28,6 +28,7 @@ collision_enabled = true
 script = ExtResource("3_occ")
 target = NodePath("..")
 occluder_light_mask = 1
+polygon_inset = 3.0
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(155, 62)

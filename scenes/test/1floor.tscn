@@ -18,6 +18,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ck7m"]
 size = Vector2(40, 140.25)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wide"]
+size = Vector2(60, 280.5)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8jdgd"]
 size = Vector2(40, 60.5)
 
@@ -116,6 +119,28 @@ shape = SubResource("RectangleShape2D_3ck7m")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="stairs1-up" unique_id=2050470178]
 position = Vector2(-780, -390)
 shape = SubResource("RectangleShape2D_3ck7m")
+
+[node name="stairs1-up-above" parent="." groups=["staircase"] instance=ExtResource("4_staircase")]
+source_floor_id = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="stairs1-up-above"]
+position = Vector2(1160, -530.125)
+shape = SubResource("RectangleShape2D_3ck7m")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="stairs1-up-above"]
+position = Vector2(-780, -530.25)
+shape = SubResource("RectangleShape2D_3ck7m")
+
+[node name="stairs1-up-wide" parent="." groups=["staircase"] instance=ExtResource("4_staircase")]
+source_floor_id = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="stairs1-up-wide"]
+position = Vector2(1160, -460)
+shape = SubResource("RectangleShape2D_wide")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="stairs1-up-wide"]
+position = Vector2(-780, -460.125)
+shape = SubResource("RectangleShape2D_wide")
 
 [node name="stairs1-up2" parent="." groups=["staircase"] unique_id=240905396 instance=ExtResource("4_staircase")]
 source_floor_id = 0
