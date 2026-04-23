@@ -3,10 +3,19 @@ extends Node2D
 
 const BALLOON_SCENE := preload("res://diologue/game_dialogue_balloon.tscn")
 
+enum InteractMode {
+	AUTO_ON_TOUCH,
+	KEY_PRESS,
+}
+
 @export_group("Dialogue")
 @export var dialogue_resource: DialogueResource
 @export var dialogue_start_title: String = "start"
 @export var auto_block_player: bool = true
+
+@export_group("Interaction")
+@export var interact_mode: InteractMode = InteractMode.AUTO_ON_TOUCH
+@export var interact_action: StringName = &"interact"
 
 @export_group("Appearance")
 @export var sprite_frames: SpriteFrames
@@ -23,6 +32,7 @@ const BALLOON_SCENE := preload("res://diologue/game_dialogue_balloon.tscn")
 
 var _player: Player
 var _dialogue_active: bool = false
+var _player_in_range: bool = false
 
 func _ready() -> void:
 	if sprite_frames:
@@ -32,6 +42,17 @@ func _ready() -> void:
 		animated_sprite.play(idle_animation)
 	interactable_component.interactable_activated.connect(_on_interactable_activated)
 	interactable_component.interactable_deactivated.connect(_on_interactable_deactivated)
+	interactable_component.area_entered.connect(_on_area_entered)
+	interactable_component.area_exited.connect(_on_area_exited)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if interact_mode != InteractMode.KEY_PRESS:
+		return
+	if not _player_in_range or _dialogue_active:
+		return
+	if event.is_action_pressed(interact_action):
+		get_viewport().set_input_as_handled()
+		_start_dialogue()
 
 func _find_player() -> Player:
 	if _player:
@@ -42,14 +63,24 @@ func _find_player() -> Player:
 	return _player
 
 func _on_interactable_activated() -> void:
+	_player_in_range = true
 	if exact_trigger_on_touch != "":
 		var tm := _task_manager()
 		if tm:
 			tm.notify_exact_trigger(exact_trigger_on_touch)
-	_start_dialogue()
+	if interact_mode == InteractMode.AUTO_ON_TOUCH:
+		_start_dialogue()
 
 func _on_interactable_deactivated() -> void:
-	pass
+	_player_in_range = false
+
+func _on_area_entered(area: Area2D) -> void:
+	if area.get_parent() is Player:
+		_player_in_range = true
+
+func _on_area_exited(area: Area2D) -> void:
+	if area.get_parent() is Player:
+		_player_in_range = false
 
 func _start_dialogue() -> void:
 	if _dialogue_active or dialogue_resource == null:

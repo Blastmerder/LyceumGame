@@ -6,6 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://dh2mt1hptbipw" path="res://scenes/builds/rooms/ledderPart.tscn" id="3_e7sv0"]
 [ext_resource type="PackedScene" path="res://scenes/builds/staircase/staircase.tscn" id="4_staircase"]
 [ext_resource type="PackedScene" path="res://scenes/interfaces/tasks/task_list.tscn" id="5_tasks"]
+[ext_resource type="PackedScene" uid="uid://cfloor0002aaaa" path="res://scenes/builds/rooms/lycium2floor.tscn" id="6_f2"]
+[ext_resource type="PackedScene" uid="uid://cfloor0003aaaa" path="res://scenes/builds/rooms/lycium3floor.tscn" id="7_f3"]
+[ext_resource type="PackedScene" uid="uid://cfloor0004aaaa" path="res://scenes/builds/rooms/lycium4floor.tscn" id="8_f4"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc/dialogue_npc.tscn" id="9_npc"]
+[ext_resource type="Script" path="res://scripts/events/events_container.gd" id="10_events"]
+[ext_resource type="Script" path="res://scripts/events/game_event.gd" id="11_gameevent"]
+[ext_resource type="Resource" path="res://diologue/conversations/test_npc.dialogue" id="12_npcdlg"]
+[ext_resource type="Texture2D" uid="uid://22aeivuk4o3u" path="res://assets/game/characters/playerALT.png" id="13_npctex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ck7m"]
 size = Vector2(40, 140.25)
@@ -16,8 +24,25 @@ size = Vector2(40, 60.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(40, 40)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
+size = Vector2(200, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_npc_idle"]
+atlas = ExtResource("13_npctex")
+region = Rect2(0, 0, 19, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_npc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_npc_idle")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
 [node name="1Floor" type="Node2D" unique_id=278158406]
-y_sort_enabled = true
 script = ExtResource("1_4y7x7")
 initial_floor_id = 0
 tasks_file = "res://diologue/conversations/act1_tasks.json"
@@ -25,31 +50,61 @@ tasks_file = "res://diologue/conversations/act1_tasks.json"
 [node name="LedderPart" parent="." unique_id=1864144600 instance=ExtResource("3_e7sv0")]
 visible = false
 
+[node name="LadderZone" type="Area2D" parent="LedderPart" groups=["ladder_zone"]]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LedderPart/LadderZone"]
+position = Vector2(1100, -400)
+shape = SubResource("RectangleShape2D_zone")
+
 [node name="LadderExitDown" parent="LedderPart" groups=["ladder_exit"] instance=ExtResource("4_staircase")]
-target_floor_id = 0
+relative_direction = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LedderPart/LadderExitDown"]
 position = Vector2(1100, -320)
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="LadderExitUp" parent="LedderPart" groups=["ladder_exit"] instance=ExtResource("4_staircase")]
-target_floor_id = 1
+relative_direction = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LedderPart/LadderExitUp"]
 position = Vector2(1100, -480)
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="floors" type="Node2D" parent="." unique_id=958970242]
-y_sort_enabled = true
 
 [node name="Lycium1Floor" parent="floors" unique_id=2030766381 instance=ExtResource("1_uglxo")]
 collision_enabled = true
 metadata/floor_id = 0
 
+[node name="Lycium2Floor" parent="floors" instance=ExtResource("6_f2")]
+visible = false
+collision_enabled = false
+metadata/floor_id = 1
+
+[node name="Lycium3Floor" parent="floors" instance=ExtResource("7_f3")]
+visible = false
+collision_enabled = false
+metadata/floor_id = 2
+
+[node name="Lycium4Floor" parent="floors" instance=ExtResource("8_f4")]
+visible = false
+collision_enabled = false
+metadata/floor_id = 3
+
 [node name="Player" parent="." unique_id=904295320 instance=ExtResource("2_4y7x7")]
 position = Vector2(155, 62)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1577198810]
+
+[node name="TestNPC" parent="." instance=ExtResource("9_npc")]
+position = Vector2(185, 62)
+dialogue_resource = ExtResource("12_npcdlg")
+dialogue_start_title = "start"
+interact_mode = 1
+sprite_frames = SubResource("SpriteFrames_npc")
+idle_animation = &"idle"
 
 [node name="stairs1-up" parent="." groups=["staircase"] unique_id=641009064 instance=ExtResource("4_staircase")]
 source_floor_id = 0
@@ -68,6 +123,20 @@ source_floor_id = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="stairs1-up2" unique_id=85819030]
 position = Vector2(1039, -350.75)
 shape = SubResource("RectangleShape2D_8jdgd")
+
+[node name="Events" type="Node" parent="." node_paths=PackedStringArray("audio_player_path", "test_event_path")]
+script = ExtResource("10_events")
+audio_player_path = NodePath("AudioStreamPlayer")
+test_event_path = NodePath("TestEvent")
+
+[node name="TestEvent" type="Node" parent="Events"]
+script = ExtResource("11_gameevent")
+period = 120.0
+repeats = true
+autostart = true
+event_name = &"test_event"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Events"]
 
 [node name="UI" type="CanvasLayer" parent="."]
 

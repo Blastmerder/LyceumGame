@@ -13,11 +13,12 @@ signal ladder_entered(source_floor_id: int)
 
 var cur_floor_id: int = 0
 var _on_ladder: bool = false
+var _ladder_armed: bool = false
 
 func _ready() -> void:
 	cur_floor_id = initial_floor_id
-	_setup_render(self)
 	_connect_staircases()
+	_connect_ladder_zones()
 	_show_floor(cur_floor_id)
 	if tasks_file != "":
 		var tm := _task_manager()
@@ -25,40 +26,57 @@ func _ready() -> void:
 			tm.load_from_file(tasks_file)
 
 
-func _setup_render(root: Node) -> void:
-	if root is Node2D:
-		(root as Node2D).y_sort_enabled = true
-	for child in root.get_children():
-		if child is CanvasLayer:
-			continue
-		if child is TileMapLayer:
-			child.y_sort_enabled = true
-			if child.tile_set and child.tile_set.get_physics_layers_count() > 0:
-				child.add_to_group("physics_layer")
-		_setup_render(child)
-
 func _connect_staircases() -> void:
-	for stair in get_tree().get_nodes_in_group("staircase"):
-		if stair is Staircase:
-			stair.staircase_entered.connect(_on_staircase_entered)
-	for exit in get_tree().get_nodes_in_group("ladder_exit"):
-		if exit is Staircase:
-			exit.staircase_entered.connect(_on_staircase_entered)
+	for node in get_tree().get_nodes_in_group("staircase"):
+		if node is Staircase:
+			node.staircase_activated.connect(_on_staircase_activated)
+	for node in get_tree().get_nodes_in_group("ladder_exit"):
+		if node is Staircase:
+			node.staircase_activated.connect(_on_staircase_activated)
 
-func _on_staircase_entered(target_floor_id: int, source_floor_id: int) -> void:
-	if target_floor_id == Staircase.LADDER_FLOOR_ID:
-		_enter_ladder(source_floor_id)
+
+func _connect_ladder_zones() -> void:
+	for zone in get_tree().get_nodes_in_group("ladder_zone"):
+		if zone is Area2D:
+			zone.body_entered.connect(_on_ladder_zone_entered)
+			zone.body_exited.connect(_on_ladder_zone_exited)
+
+
+func _on_ladder_zone_entered(_body: Node2D) -> void:
+	if _on_ladder:
+		_ladder_armed = true
+
+
+func _on_ladder_zone_exited(_body: Node2D) -> void:
+	pass
+
+
+func _on_staircase_activated(stair: Staircase) -> void:
+	if stair.is_in_group("ladder_exit"):
+		if not _on_ladder or not _ladder_armed:
+			return
+		var target: int
+		if stair.relative_direction != 0:
+			target = cur_floor_id + stair.relative_direction
+		else:
+			target = stair.target_floor_id
+		_goto_floor(target)
+	elif stair.leads_to_ladder():
+		_enter_ladder(stair.source_floor_id)
 	else:
-		_goto_floor(target_floor_id)
+		_goto_floor(stair.target_floor_id)
+
 
 func _enter_ladder(source_floor_id: int) -> void:
 	cur_floor_id = source_floor_id
 	_on_ladder = true
+	_ladder_armed = false
 	ladder_entered.emit(source_floor_id)
 	_show_ladder()
 	var em := _event_manager()
 	if em:
 		em.trigger("ladder_entered", {"from_floor": source_floor_id})
+
 
 func _goto_floor(new_id: int) -> void:
 	if not _has_floor(new_id):
@@ -67,11 +85,13 @@ func _goto_floor(new_id: int) -> void:
 	var prev := cur_floor_id
 	cur_floor_id = new_id
 	_on_ladder = false
+	_ladder_armed = false
 	_show_floor(new_id)
 	floor_changed.emit(new_id, prev)
 	var em := _event_manager()
 	if em:
 		em.notify_floor_change(new_id, prev)
+
 
 func _show_floor(floor_id: int) -> void:
 	floors_node.visible = true
@@ -82,6 +102,7 @@ func _show_floor(floor_id: int) -> void:
 		child.visible = active
 		_set_collision(child, active)
 
+
 func _show_ladder() -> void:
 	floors_node.visible = false
 	ledder_part.visible = true
@@ -89,11 +110,13 @@ func _show_ladder() -> void:
 	for child in floors_node.get_children():
 		_set_collision(child, false)
 
+
 func _has_floor(floor_id: int) -> bool:
 	for child in floors_node.get_children():
 		if int(child.get_meta("floor_id", 0)) == floor_id:
 			return true
 	return false
+
 
 func _set_collision(root: Node, enabled: bool) -> void:
 	if root == null:
@@ -107,8 +130,10 @@ func _set_collision(root: Node, enabled: bool) -> void:
 		else:
 			_set_collision(child, enabled)
 
+
 func _event_manager() -> Node:
 	return get_tree().root.get_node_or_null("EventManager")
+
 
 func _task_manager() -> Node:
 	return get_tree().root.get_node_or_null("TaskManager")

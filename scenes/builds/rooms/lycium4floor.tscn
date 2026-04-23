@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://cfloor0003aaaa"]
+[gd_scene format=4 uid="uid://cfloor0004aaaa"]
 
 [ext_resource type="Script" uid="uid://dgre4c4x1xo7k" path="res://scenes/builds/rooms/lycium_1_floor.gd" id="1_2pgmq"]
 [ext_resource type="Texture2D" uid="uid://dqfkv3lc575gv" path="res://assets/game/build/walls.png" id="1_uc17g"]
