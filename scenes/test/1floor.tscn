@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="2_4y7x7"]
 [ext_resource type="PackedScene" uid="uid://dh2mt1hptbipw" path="res://scenes/builds/rooms/ledderPart.tscn" id="3_e7sv0"]
 [ext_resource type="PackedScene" path="res://scenes/builds/staircase/staircase.tscn" id="4_staircase"]
+[ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="4b_interact"]
+[ext_resource type="Script" path="res://scenes/builds/staircase/listener.gd" id="4c_listener"]
 [ext_resource type="PackedScene" path="res://scenes/interfaces/tasks/task_list.tscn" id="5_tasks"]
 [ext_resource type="PackedScene" uid="uid://cfloor0002aaaa" path="res://scenes/builds/rooms/lycium2floor.tscn" id="6_f2"]
 [ext_resource type="PackedScene" uid="uid://cfloor0003aaaa" path="res://scenes/builds/rooms/lycium3floor.tscn" id="7_f3"]
@@ -29,6 +31,9 @@ size = Vector2(40, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
 size = Vector2(200, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_listener"]
+size = Vector2(40, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_npc_idle"]
 atlas = ExtResource("13_npctex")
@@ -148,6 +153,21 @@ source_floor_id = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="stairs1-up2" unique_id=85819030]
 position = Vector2(1039, -350.75)
 shape = SubResource("RectangleShape2D_8jdgd")
+
+[node name="StairsListenerUp" parent="." instance=ExtResource("4b_interact")]
+position = Vector2(260, 62)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StairsListenerUp"]
+shape = SubResource("RectangleShape2D_listener")
+
+[node name="Listener" type="Node" parent="StairsListenerUp" groups=["floor_listener"]]
+script = ExtResource("4c_listener")
+
+[node name="Toggle" type="Node" parent="StairsListenerUp/Listener"]
+metadata/diraction = 0
+
+[node name="Up" type="Node" parent="StairsListenerUp/Listener"]
+metadata/diraction = 1
 
 [node name="Events" type="Node" parent="." node_paths=PackedStringArray("audio_player_path", "test_event_path")]
 script = ExtResource("10_events")

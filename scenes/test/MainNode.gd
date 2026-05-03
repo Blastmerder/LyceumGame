@@ -19,6 +19,7 @@ func _ready() -> void:
 	cur_floor_id = initial_floor_id
 	_connect_staircases()
 	_connect_ladder_zones()
+	_connect_floor_listeners()
 	_show_floor(cur_floor_id)
 	if tasks_file != "":
 		var tm := _task_manager()
@@ -33,6 +34,21 @@ func _connect_staircases() -> void:
 	for node in get_tree().get_nodes_in_group("ladder_exit"):
 		if node is Staircase:
 			node.staircase_activated.connect(_on_staircase_activated)
+
+
+func _connect_floor_listeners() -> void:
+	for node in get_tree().get_nodes_in_group("floor_listener"):
+		if node is Listener:
+			node.UP.connect(_on_listener_up)
+			node.DOWN.connect(_on_listener_down)
+
+
+func _on_listener_up(_obj: Node) -> void:
+	_goto_floor(cur_floor_id + 1)
+
+
+func _on_listener_down(_obj: Node) -> void:
+	_goto_floor(cur_floor_id - 1)
 
 
 func _connect_ladder_zones() -> void:
