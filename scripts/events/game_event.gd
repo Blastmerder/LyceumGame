@@ -38,12 +38,9 @@ func stop() -> void:
 		_timer.stop()
 
 func fire_now() -> void:
-	_emit_fired()
+	fired.emit(self)
 
 func _on_timeout() -> void:
-	_emit_fired()
+	fired.emit(self)
 	if repeats:
 		_timer.start()
-
-func _emit_fired() -> void:
-	fired.emit(self)

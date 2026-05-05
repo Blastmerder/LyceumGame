@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cxvrirgifddkh"]
+
+[ext_resource type="Script" uid="uid://bh3ay8p8mqmra" path="res://scenes/components/ladder_component/ladder_component.gd" id="1_f04q0"]
+
+[node name="LadderComponent" type="Area2D" unique_id=1773091002]
+collision_layer = 4
+collision_mask = 10
+script = ExtResource("1_f04q0")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
