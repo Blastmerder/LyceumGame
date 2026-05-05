@@ -289,6 +289,49 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_32qff"]
+atlas = ExtResource("4_1hqji")
+region = Rect2(271, 271, 49, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dx4s4"]
+atlas = ExtResource("4_1hqji")
+region = Rect2(271, 222, 49, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bh6qa"]
+atlas = ExtResource("4_1hqji")
+region = Rect2(222, 222, 49, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_thufj"]
+atlas = ExtResource("4_1hqji")
+region = Rect2(222, 271, 49, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ryu46"]
+atlas = ExtResource("4_1hqji")
+region = Rect2(173, 271, 49, 49)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dx4s4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_32qff")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dx4s4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bh6qa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_thufj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ryu46")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_32qff"]
 
 [node name="Lycium1Floor" type="Node2D" unique_id=1444185617]
@@ -350,6 +393,7 @@ sprite_frames = SubResource("SpriteFrames_b6yea")
 
 [node name="DialogueNPC" parent="." unique_id=419836626 instance=ExtResource("5_r8mrn")]
 position = Vector2(369, 1)
+sprite_frames = SubResource("SpriteFrames_dx4s4")
 
 [node name="DialogueNPC2" parent="." unique_id=548846676 instance=ExtResource("5_r8mrn")]
 position = Vector2(595, -97)
