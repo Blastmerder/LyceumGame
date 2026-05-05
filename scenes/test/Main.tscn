@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://cjw47c7s8q3ou"]
+
+[ext_resource type="Script" uid="uid://co08hci2dlcaf" path="res://scenes/test/main.gd" id="1_3vdn0"]
+[ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="1_vwkqo"]
+[ext_resource type="PackedScene" uid="uid://dh2mt1hptbipw" path="res://scenes/builds/rooms/ledderPart.tscn" id="2_ptl7i"]
+[ext_resource type="Script" uid="uid://cqu1r3wb01rsf" path="res://scripts/events/events_container.gd" id="6_bi4fu"]
+[ext_resource type="Script" uid="uid://dyni6mpi3p24o" path="res://scripts/events/game_event.gd" id="7_cdnlt"]
+
+[node name="Main" type="Node2D" unique_id=2021297408]
+script = ExtResource("1_3vdn0")
+ledder_part = ExtResource("2_ptl7i")
+
+[node name="Player" parent="." unique_id=904295320 instance=ExtResource("1_vwkqo")]
+position = Vector2(846, -368)
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=2027242827]
+
+[node name="Events" type="Node" parent="." unique_id=1042785857]
+script = ExtResource("6_bi4fu")
+
+[node name="TestEvent" type="Node" parent="Events" unique_id=234368305]
+script = ExtResource("7_cdnlt")
+event_name = &"test_event"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Events" unique_id=1562880973]

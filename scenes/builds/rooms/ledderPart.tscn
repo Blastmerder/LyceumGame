@@ -2,6 +2,10 @@
 
 [ext_resource type="Texture2D" uid="uid://dqfkv3lc575gv" path="res://assets/game/build/walls.png" id="1_55ucp"]
 [ext_resource type="Texture2D" uid="uid://dmrlpif00bfbg" path="res://assets/game/build/lycium_inside.png" id="2_tyvuy"]
+[ext_resource type="Texture2D" uid="uid://b3vwcrmnw8pta" path="res://assets/raw/spritesheet new.png" id="3_1sffw"]
+[ext_resource type="PackedScene" uid="uid://cxvrirgifddkh" path="res://scenes/components/ladder_component/ladder_component.tscn" id="3_tyvuy"]
+[ext_resource type="Texture2D" uid="uid://clpdgxmki4b1s" path="res://assets/raw/spritesheet new3.png" id="4_rjc7q"]
+[ext_resource type="Texture2D" uid="uid://da3ex4g2qfjkd" path="res://assets/raw/spriteshee new.png" id="5_cg0ad"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1kwib"]
 texture = ExtResource("1_55ucp")
@@ -109,11 +113,31 @@ texture_region_size = Vector2i(20, 20)
 2:6/0 = 0
 2:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s7nx6"]
+texture = ExtResource("3_1sffw")
+texture_region_size = Vector2i(20, 20)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iawkm"]
+texture = ExtResource("4_rjc7q")
+texture_region_size = Vector2i(20, 20)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2h0hn"]
+texture = ExtResource("5_cg0ad")
+texture_region_size = Vector2i(20, 20)
+7:1/0 = 0
+6:0/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_1sffw"]
 tile_size = Vector2i(20, 20)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_1kwib")
 sources/1 = SubResource("TileSetAtlasSource_yedcl")
+sources/2 = SubResource("TileSetAtlasSource_s7nx6")
+sources/3 = SubResource("TileSetAtlasSource_iawkm")
+sources/4 = SubResource("TileSetAtlasSource_2h0hn")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1kwib"]
+size = Vector2(41, 61)
 
 [node name="LedderPart" type="Node2D" unique_id=1864144600]
 
@@ -128,3 +152,27 @@ texture_filter = 1
 tile_map_data = PackedByteArray("AAAwAOj/AQABAAIAAAAwAPD/AQABAAAAAAAxAOj/AQABAAIAAAAxAPD/AQABAAAAAAAyAOj/AQABAAIAAAAyAPD/AQABAAAAAAAzAOj/AQABAAIAAAAzAPD/AQABAAAAAAA0AOj/AQABAAIAAAA0APD/AQABAAAAAAA1AOj/AQABAAIAAAA1APD/AQABAAAAAAA2AOj/AQABAAIAAAA2APD/AQABAAAAAAA3AOj/AQABAAIAAAA3APD/AQABAAAAAAA4AOj/AQABAAIAAAA4APD/AQABAAAAAAA5AOj/AQABAAIAAAA5APD/AQABAAAAAAA6AOj/AQABAAIAAAA6APD/AQABAAAAAAA7AOj/AQACAAEAAAA7AOn/AQACAAEAAAA7AOr/AQACAAEAAAA7AOv/AQACAAEAAAA7AOz/AQACAAEAAAA7AO3/AQACAAEAAAA7AO7/AQACAAEAAAA7AO//AQACAAEAAAA7APD/AQACAAEAAADj//D/AQABAAIAAADi//D/AQABAAIAAADh//D/AQABAAIAAADg//D/AQABAAIAAADX//D/AQAAAAIAAADY//D/AQABAAIAAADZ//D/AQABAAIAAADa//D/AQABAAIAAADb//D/AQABAAIAAADc//D/AQABAAIAAADd//D/AQABAAIAAADe//D/AQABAAIAAADf//D/AQABAAIAAADj/+j/AQABAAAAAADi/+j/AQABAAAAAADh/+j/AQABAAAAAADg/+j/AQABAAAAAADe/+j/AQABAAAAAADf/+j/AQABAAAAAADd/+j/AQABAAAAAADc/+j/AQABAAAAAADb/+j/AQABAAAAAADa/+j/AQABAAAAAADZ/+j/AQABAAAAAADY/+j/AQABAAAAAADX/+j/AQAAAAEAAADX/+n/AQAAAAEAAADX/+r/AQAAAAEAAADX/+v/AQAAAAEAAADX/+z/AQAAAAEAAADX/+3/AQAAAAEAAADX/+7/AQAAAAEAAADX/+//AQAAAAEAAAA=")
 tile_set = SubResource("TileSet_1sffw")
 rendering_quadrant_size = 40
+
+[node name="ladders" type="Node" parent="." unique_id=902065671]
+
+[node name="up" parent="ladders" unique_id=1773091002 instance=ExtResource("3_tyvuy")]
+direction = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ladders/up" unique_id=392808502]
+position = Vector2(999, -430)
+shape = SubResource("RectangleShape2D_1kwib")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="ladders/up" unique_id=1808334397]
+position = Vector2(-601, -350.5)
+shape = SubResource("RectangleShape2D_1kwib")
+
+[node name="down" parent="ladders" unique_id=831215949 instance=ExtResource("3_tyvuy")]
+direction = -1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ladders/down" unique_id=115419620]
+position = Vector2(999, -350.5)
+shape = SubResource("RectangleShape2D_1kwib")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladders/down" unique_id=1508041888]
+position = Vector2(-601, -430)
+shape = SubResource("RectangleShape2D_1kwib")
