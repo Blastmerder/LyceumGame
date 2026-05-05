@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d3dv18p4yqrhb"]
+[gd_scene format=3 uid="uid://d3dv18p4yqrhb"]
 
 [ext_resource type="Script" uid="uid://btaqu57ocu6v8" path="res://scenes/builds/smallObjects/door/door.gd" id="1_uvcd1"]
 [ext_resource type="Texture2D" uid="uid://cdwjosdl4sdx7" path="res://assets/game/build/door_lycium_inside.png" id="2_68h7n"]
@@ -17,10 +17,6 @@ atlas = ExtResource("2_68h7n")
 region = Rect2(0, 20, 20, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wjalm"]
-atlas = ExtResource("2_68h7n")
-region = Rect2(0, 0, 20, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d303a"]
 atlas = ExtResource("2_68h7n")
 region = Rect2(0, 0, 20, 20)
 
@@ -59,10 +55,7 @@ animations = [{
 "name": &"close",
 "speed": 5.0
 }, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d303a")
-}],
+"frames": [],
 "loop": true,
 "name": &"default",
 "speed": 5.0
@@ -90,20 +83,21 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uivk7"]
 size = Vector2(12, 42)
 
-[node name="Door" type="StaticBody2D"]
+[node name="Door" type="StaticBody2D" unique_id=1557800463]
 script = ExtResource("1_uvcd1")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=738714865]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_cgj44")
 autoplay = "default"
+frame_progress = 0.6281904
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1563834877]
 shape = SubResource("RectangleShape2D_gsxvu")
 
-[node name="InteractableComponent" parent="." instance=ExtResource("3_2e0aa")]
+[node name="InteractableComponent" parent="." unique_id=2019706780 instance=ExtResource("3_2e0aa")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableComponent" unique_id=1497583813]
 light_mask = 4
 visibility_layer = 2
 shape = SubResource("RectangleShape2D_uivk7")
