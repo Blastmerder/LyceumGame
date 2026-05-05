@@ -177,8 +177,35 @@ shape = SubResource("RectangleShape2D_ki1je")
 position = Vector2(-651, -350)
 shape = SubResource("RectangleShape2D_ki1je")
 
-[node name="TestNPC" parent="." unique_id=174773808 instance=ExtResource("5_r8mrn")]
-position = Vector2(153, -131)
+[node name="NPC-У_Входа" parent="." unique_id=174773808 instance=ExtResource("5_r8mrn")]
+position = Vector2(173, -171)
 dialogue_resource = ExtResource("6_1hqji")
 interact_mode = 1
 sprite_frames = SubResource("SpriteFrames_b6yea")
+
+[node name="DialogueNPC" parent="." unique_id=419836626 instance=ExtResource("5_r8mrn")]
+position = Vector2(369, 1)
+
+[node name="DialogueNPC2" parent="." unique_id=548846676 instance=ExtResource("5_r8mrn")]
+position = Vector2(595, -97)
+
+[node name="DialogueNPC3" parent="." unique_id=533483831 instance=ExtResource("5_r8mrn")]
+position = Vector2(762, -8)
+
+[node name="DialogueNPC4" parent="." unique_id=745793207 instance=ExtResource("5_r8mrn")]
+position = Vector2(894, -28)
+
+[node name="DialogueNPC5" parent="." unique_id=276397611 instance=ExtResource("5_r8mrn")]
+position = Vector2(1122, -256)
+
+[node name="DialogueNPC6" parent="." unique_id=526368415 instance=ExtResource("5_r8mrn")]
+position = Vector2(886, -631)
+
+[node name="DialogueNPC7" parent="." unique_id=19980931 instance=ExtResource("5_r8mrn")]
+position = Vector2(-512, -22)
+
+[node name="DialogueNPC8" parent="." unique_id=1819682464 instance=ExtResource("5_r8mrn")]
+position = Vector2(-750, -849)
+
+[node name="DialogueNPC9" parent="." unique_id=743734416 instance=ExtResource("5_r8mrn")]
+position = Vector2(-636, -522)
