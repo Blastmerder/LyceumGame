@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://citeakbrlwwpj"]
+
+[ext_resource type="Script" uid="uid://r1rgcb0yth8u" path="res://scenes/interfaces/chat/chat.gd" id="1_xrhkf"]
+
+[node name="Chat" type="Control" unique_id=377739546]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xrhkf")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1202807641]
+layout_mode = 1
+offset_right = 98.0
+offset_bottom = 116.0
+
+[node name="Margin" type="MarginContainer" parent="Panel" unique_id=1707607647]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin" unique_id=1586270184]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 2
+
+[node name="row" type="Label" parent="Panel/Margin/VBox" unique_id=1338663464]
+layout_mode = 2
+text = "фывапппппппп"
+
+[node name="row2" type="Label" parent="Panel/Margin/VBox" unique_id=1657074579]
+layout_mode = 2
+text = "фыацуфца"
+
+[node name="row3" type="Label" parent="Panel/Margin/VBox" unique_id=1755450633]
+layout_mode = 2
+text = "фыацуфца"
+
+[node name="row4" type="Label" parent="Panel/Margin/VBox" unique_id=2043927041]
+layout_mode = 2
+text = "фыацуфца"
