@@ -21,6 +21,10 @@ signal failed(event: EvacuationEvent)
 @export var fail_message: String = "Время вышло, тренировка провалена."
 
 @export_group("Targeting")
+## Path to an InteractableComponent. The evacuation completes when its
+## interactable_activated signal fires (i.e. the player walked into the
+## zone). Plain Area2D nodes also work — anything that emits
+## `interactable_activated` or, failing that, `body_entered`.
 @export var target_path: NodePath
 @export var player_group: StringName = &"player"
 
@@ -33,28 +37,37 @@ signal failed(event: EvacuationEvent)
 @export_group("Path display")
 @export var path_color: Color = Color(1.0, 0.55, 0.0, 0.9)
 @export var path_width: float = 2.0
-@export var update_interval: float = 0.1
 
 var active: bool = false
 
-var _target: Area2D
+var _target: Node
 var _player: Node2D
 var _line: Line2D
 var _deadline_timer: Timer
-var _redraw_timer: Timer
 var _completed: bool = false
 
 func _ready() -> void:
 	super._ready()
-	_target = get_node_or_null(target_path) as Area2D
-	if _target:
-		_target.body_entered.connect(_on_target_entered)
+	_target = get_node_or_null(target_path)
+	_connect_target()
 	if auto_register_task and task_id != "":
 		var tm: Node = get_tree().root.get_node_or_null("TaskManager")
 		if tm:
 			var existing: Variant = tm.get_task(task_id)
 			if existing == null:
 				tm.register_raw(task_id, _resolve_title(), task_description, false, "")
+
+
+## Hook the target so player entry triggers _on_target_entered. Prefers
+## the InteractableComponent contract (`interactable_activated`); falls
+## back to Area2D.body_entered for plain areas.
+func _connect_target() -> void:
+	if _target == null:
+		return
+	if _target is InteractableComponent:
+		(_target as InteractableComponent).interactable_activated.connect(_on_target_activated)
+	elif _target is Area2D:
+		(_target as Area2D).body_entered.connect(_on_target_body_entered)
 
 
 func trigger(_payload: Dictionary = {}) -> void:
@@ -98,13 +111,6 @@ func _setup_path() -> void:
 	_line.z_index = 10
 	get_tree().current_scene.add_child(_line)
 	_redraw()
-	if _redraw_timer:
-		_redraw_timer.queue_free()
-	_redraw_timer = Timer.new()
-	_redraw_timer.wait_time = max(update_interval, 0.02)
-	_redraw_timer.autostart = true
-	add_child(_redraw_timer)
-	_redraw_timer.timeout.connect(_redraw)
 
 
 func _setup_deadline() -> void:
@@ -123,16 +129,26 @@ func _setup_deadline() -> void:
 func _redraw() -> void:
 	if not is_instance_valid(_line):
 		return
-	if not is_instance_valid(_player) or not is_instance_valid(_target):
+	if not is_instance_valid(_player) or not is_instance_valid(_target) or not (_target is Node2D):
 		_line.points = PackedVector2Array()
 		return
-	_line.points = PackedVector2Array([_player.global_position, _target.global_position])
+	_line.points = PackedVector2Array([_player.global_position, (_target as Node2D).global_position])
 
 
-func _on_target_entered(body: Node) -> void:
+## InteractableComponent already filters by collision_mask, so any
+## activation means the player entered the zone.
+func _on_target_activated() -> void:
+	_complete_success()
+
+
+## Fallback for plain Area2D targets — verify it's the player.
+func _on_target_body_entered(body: Node) -> void:
+	if body.is_in_group(player_group):
+		_complete_success()
+
+
+func _complete_success() -> void:
 	if not active or _completed:
-		return
-	if not body.is_in_group(player_group):
 		return
 	_completed = true
 	if task_id != "":
@@ -157,9 +173,6 @@ func _teardown() -> void:
 	if is_instance_valid(_line):
 		_line.queue_free()
 	_line = null
-	if _redraw_timer:
-		_redraw_timer.queue_free()
-		_redraw_timer = null
 	if _deadline_timer:
 		_deadline_timer.queue_free()
 		_deadline_timer = null

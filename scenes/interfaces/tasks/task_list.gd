@@ -2,6 +2,10 @@ class_name TaskListUI
 extends Control
 
 @export var toggle_action: StringName = &"task_list"
+## When true the panel hides itself in _ready and the toggle action
+## brings it back. Set to false on test/demo scenes that should always
+## show the list.
+@export var start_hidden: bool = true
 
 @onready var exact_list: VBoxContainer = %ExactList
 @onready var fuzzy_list: VBoxContainer = %FuzzyList
@@ -10,7 +14,7 @@ extends Control
 var _rows: Dictionary = {}
 
 func _ready() -> void:
-	visible = false
+	visible = not start_hidden
 	var tm := _task_manager()
 	if tm == null:
 		return

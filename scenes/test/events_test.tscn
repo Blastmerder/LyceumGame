@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scenes/test/events_test.gd" id="1_test"]
 [ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="2_player"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/events/evacuation_event.gd" id="4_evac"]
 [ext_resource type="PackedScene" path="res://scenes/interfaces/chat/chat_ui.tscn" id="5_chat"]
 [ext_resource type="PackedScene" path="res://scenes/interfaces/tasks/task_list.tscn" id="6_tasks"]
+[ext_resource type="PackedScene" path="res://scenes/components/interactable_component/interactable_component.tscn" id="7_interact"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_target"]
 size = Vector2(40, 40)
@@ -32,10 +33,8 @@ shape = SubResource("RectangleShape2D_floor")
 
 [node name="Targets" type="Node2D" parent="."]
 
-[node name="DroneShelter" type="Area2D" parent="Targets"]
+[node name="DroneShelter" parent="Targets" instance=ExtResource("7_interact")]
 position = Vector2(-220, -120)
-collision_layer = 4
-collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Targets/DroneShelter"]
 shape = SubResource("RectangleShape2D_target")
@@ -55,10 +54,8 @@ offset_bottom = 38.0
 text = "Укрытие БПЛА"
 horizontal_alignment = 1
 
-[node name="FireExit" type="Area2D" parent="Targets"]
+[node name="FireExit" parent="Targets" instance=ExtResource("7_interact")]
 position = Vector2(220, -120)
-collision_layer = 4
-collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Targets/FireExit"]
 shape = SubResource("RectangleShape2D_target")
@@ -78,10 +75,8 @@ offset_bottom = 38.0
 text = "Выход (пожар)"
 horizontal_alignment = 1
 
-[node name="TerrorShelter" type="Area2D" parent="Targets"]
+[node name="TerrorShelter" parent="Targets" instance=ExtResource("7_interact")]
 position = Vector2(0, 130)
-collision_layer = 4
-collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Targets/TerrorShelter"]
 shape = SubResource("RectangleShape2D_target")
@@ -166,6 +161,7 @@ path_color = Color(0.7, 0.4, 0.9, 0.9)
 [node name="ChatUI" parent="UI" instance=ExtResource("5_chat")]
 
 [node name="TaskListUI" parent="UI" instance=ExtResource("6_tasks")]
+start_hidden = false
 
 [node name="Controls" type="PanelContainer" parent="UI"]
 anchors_preset = 12

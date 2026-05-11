@@ -78,5 +78,6 @@ position = Vector2(0, 60)
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="TaskListUI" parent="UI" instance=ExtResource("4_tasks")]
+start_hidden = false
 
 [node name="ChatUI" parent="UI" instance=ExtResource("5_chat")]
