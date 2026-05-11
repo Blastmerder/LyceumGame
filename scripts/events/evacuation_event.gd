@@ -14,7 +14,7 @@ signal succeeded(event: EvacuationEvent)
 
 @export_group("Drill")
 @export var announcement: String = "Тревога: эвакуация!"
-@export var sender: String = "Завуч"
+@export var sender: String = "Кавеев Рам. Н."
 @export var success_message: String = "Эвакуация выполнена."
 @export var already_message: String = "Молодец, ты уже на месте."
 
