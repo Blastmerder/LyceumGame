@@ -8,6 +8,9 @@
 [ext_resource type="PackedScene" path="res://scenes/characters/npc/dialogue_npc.tscn" id="5_raot0"]
 [ext_resource type="Texture2D" uid="uid://cjlapl3y7srae" path="res://assets/game/лестница лево (2).png" id="7_oeygp"]
 [ext_resource type="Texture2D" uid="uid://bpstjoh46xrw4" path="res://assets/game/лестница право.png" id="8_n18g0"]
+[ext_resource type="Script" path="res://scripts/events/event_triggers_dispatcher.gd" id="9_wp1s6"]
+[ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="10_oo38l"]
+[ext_resource type="Script" path="res://scripts/events/event_trigger.gd" id="11_btheq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w6l0a"]
 texture = ExtResource("1_uc17g")
@@ -384,6 +387,12 @@ sources/1 = SubResource("TileSetAtlasSource_n18g0")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1w1c5"]
 size = Vector2(20, 60)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g6dyr"]
+size = Vector2(64, 35)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wp1s6"]
+size = Vector2(86.1875, 20)
+
 [node name="Lycium2Floor" type="Node2D" unique_id=1444185617]
 script = ExtResource("1_2pgmq")
 
@@ -473,3 +482,19 @@ texture = ExtResource("7_oeygp")
 texture_filter = 1
 position = Vector2(1095, -393)
 texture = ExtResource("8_n18g0")
+
+[node name="Triggers" type="Node" parent="." unique_id=498070334]
+script = ExtResource("9_wp1s6")
+
+[node name="DroneShelter" parent="Triggers" unique_id=1300566564 instance=ExtResource("10_oo38l")]
+position = Vector2(-220, -120)
+script = ExtResource("11_btheq")
+event_name = "drill_drone"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/DroneShelter" unique_id=649384841]
+position = Vector2(320, -16)
+shape = SubResource("RectangleShape2D_g6dyr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1871587087]
+position = Vector2(1082.0938, -391)
+shape = SubResource("RectangleShape2D_wp1s6")

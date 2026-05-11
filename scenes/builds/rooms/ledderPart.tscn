@@ -290,6 +290,9 @@ sources/3 = SubResource("TileSetAtlasSource_qa6tw")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1kwib"]
 size = Vector2(41, 61)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s7nx6"]
+size = Vector2(145.04688, 27)
+
 [node name="LedderPart" type="Node2D" unique_id=1864144600]
 
 [node name="TileMapLayer2" type="TileMapLayer" parent="." unique_id=181780272]
@@ -343,3 +346,13 @@ texture = ExtResource("7_cg0ad")
 texture_filter = 1
 position = Vector2(1095, -393)
 texture = ExtResource("8_s7nx6")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1458351824]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=308881847]
+position = Vector2(1065.0469, -397)
+shape = SubResource("RectangleShape2D_s7nx6")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=885149222]
+position = Vector2(-690.52344, -398.5)
+shape = SubResource("RectangleShape2D_s7nx6")
