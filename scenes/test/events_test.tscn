@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scenes/test/events_test.gd" id="1_test"]
 [ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="2_player"]
@@ -7,12 +7,11 @@
 [ext_resource type="PackedScene" path="res://scenes/interfaces/chat/chat_ui.tscn" id="5_chat"]
 [ext_resource type="PackedScene" path="res://scenes/interfaces/tasks/task_list.tscn" id="6_tasks"]
 [ext_resource type="PackedScene" path="res://scenes/components/interactable_component/interactable_component.tscn" id="7_interact"]
+[ext_resource type="Script" path="res://scripts/events/event_trigger.gd" id="8_trigger"]
+[ext_resource type="Script" path="res://scripts/events/event_triggers_dispatcher.gd" id="9_disp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_target"]
 size = Vector2(40, 40)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
-size = Vector2(640, 360)
 
 [node name="EventsTest" type="Node2D"]
 script = ExtResource("1_test")
@@ -24,29 +23,25 @@ offset_right = 320.0
 offset_bottom = 180.0
 color = Color(0.12, 0.12, 0.16, 1)
 
-[node name="FloorBody" type="StaticBody2D" parent="."]
-collision_layer = 0
-collision_mask = 0
+[node name="Triggers" type="Node" parent="."]
+script = ExtResource("9_disp")
 
-[node name="Bounds" type="CollisionShape2D" parent="FloorBody"]
-shape = SubResource("RectangleShape2D_floor")
-
-[node name="Targets" type="Node2D" parent="."]
-
-[node name="DroneShelter" parent="Targets" instance=ExtResource("7_interact")]
+[node name="DroneShelter" parent="Triggers" instance=ExtResource("7_interact")]
 position = Vector2(-220, -120)
+script = ExtResource("8_trigger")
+event_name = "drill_drone"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Targets/DroneShelter"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/DroneShelter"]
 shape = SubResource("RectangleShape2D_target")
 
-[node name="Sprite" type="ColorRect" parent="Targets/DroneShelter"]
+[node name="Sprite" type="ColorRect" parent="Triggers/DroneShelter"]
 offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
 color = Color(0.2, 0.5, 0.9, 0.55)
 
-[node name="Label" type="Label" parent="Targets/DroneShelter"]
+[node name="Label" type="Label" parent="Triggers/DroneShelter"]
 offset_left = -40.0
 offset_top = 22.0
 offset_right = 40.0
@@ -54,20 +49,22 @@ offset_bottom = 38.0
 text = "Укрытие БПЛА"
 horizontal_alignment = 1
 
-[node name="FireExit" parent="Targets" instance=ExtResource("7_interact")]
+[node name="FireExit" parent="Triggers" instance=ExtResource("7_interact")]
 position = Vector2(220, -120)
+script = ExtResource("8_trigger")
+event_name = "drill_fire"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Targets/FireExit"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/FireExit"]
 shape = SubResource("RectangleShape2D_target")
 
-[node name="Sprite" type="ColorRect" parent="Targets/FireExit"]
+[node name="Sprite" type="ColorRect" parent="Triggers/FireExit"]
 offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
 color = Color(0.95, 0.35, 0.2, 0.55)
 
-[node name="Label" type="Label" parent="Targets/FireExit"]
+[node name="Label" type="Label" parent="Triggers/FireExit"]
 offset_left = -40.0
 offset_top = 22.0
 offset_right = 40.0
@@ -75,20 +72,22 @@ offset_bottom = 38.0
 text = "Выход (пожар)"
 horizontal_alignment = 1
 
-[node name="TerrorShelter" parent="Targets" instance=ExtResource("7_interact")]
+[node name="TerrorShelter" parent="Triggers" instance=ExtResource("7_interact")]
 position = Vector2(0, 130)
+script = ExtResource("8_trigger")
+event_name = "drill_terror"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Targets/TerrorShelter"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/TerrorShelter"]
 shape = SubResource("RectangleShape2D_target")
 
-[node name="Sprite" type="ColorRect" parent="Targets/TerrorShelter"]
+[node name="Sprite" type="ColorRect" parent="Triggers/TerrorShelter"]
 offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
 color = Color(0.6, 0.2, 0.7, 0.55)
 
-[node name="Label" type="Label" parent="Targets/TerrorShelter"]
+[node name="Label" type="Label" parent="Triggers/TerrorShelter"]
 offset_left = -50.0
 offset_top = 22.0
 offset_right = 50.0
@@ -101,7 +100,7 @@ position = Vector2(0, 0)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 
-[node name="Events" type="Node" parent="." node_paths=PackedStringArray()]
+[node name="Events" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_evcont")
 
@@ -113,10 +112,9 @@ autostart = false
 event_name = &"drill_drone"
 announcement = "Воздушная тревога: дойди до укрытия!"
 sender = "Завуч"
-time_limit = 30.0
 success_message = "Молодец, ты в укрытии."
-fail_message = "Не успел. Возвращаемся."
-target_path = NodePath("../../Targets/DroneShelter")
+already_message = "Ты уже в укрытии. Жди следующего этапа."
+target_path = NodePath("../../Triggers/DroneShelter")
 task_id = "drill_drone"
 task_title = "Учебная тревога: БПЛА"
 task_description = "Доберись до укрытия по подсказке на полу."
@@ -130,10 +128,9 @@ autostart = false
 event_name = &"drill_fire"
 announcement = "Пожарная тревога: эвакуируйся."
 sender = "Завуч"
-time_limit = 30.0
 success_message = "Эвакуация выполнена."
-fail_message = "Не успел эвакуироваться."
-target_path = NodePath("../../Targets/FireExit")
+already_message = "Ты уже у выхода — жди продолжения."
+target_path = NodePath("../../Triggers/FireExit")
 task_id = "drill_fire"
 task_title = "Учебная тревога: пожар"
 task_description = "Дойди до пожарного выхода."
@@ -147,10 +144,9 @@ autostart = false
 event_name = &"drill_terror"
 announcement = "Антитеррор: укройся в кабинете 202."
 sender = "Завуч"
-time_limit = 40.0
 success_message = "Кабинет закрыт изнутри. Молодец."
-fail_message = "Не уложился, повторим."
-target_path = NodePath("../../Targets/TerrorShelter")
+already_message = "Ты уже в кабинете 202."
+target_path = NodePath("../../Triggers/TerrorShelter")
 task_id = "drill_terror"
 task_title = "Антитеррор"
 task_description = "Спрячься в кабинете 202."

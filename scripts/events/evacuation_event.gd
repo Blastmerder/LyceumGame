@@ -1,13 +1,14 @@
 class_name EvacuationEvent
 extends GameEvent
 
-## Minimal "touch-to-win" drill. When triggered by the EventsContainer
-## (via EventManager.trigger(event_name)) it announces itself in chat,
-## marks the linked task as accepted, and waits for the linked
-## InteractableComponent's `interactable_activated` signal. The first
-## touch completes the task and emits `succeeded`. Any subsequent
-## touch only nudges the player with `already_message` — the drill
-## itself stays in the "done" state until the next trigger() call.
+## Drill event driven by the events bus. `trigger()` is a tiny state
+## machine:
+##   - first call  -> start (announce, accept task, draw path)
+##   - second call -> success (complete task, emit `succeeded`)
+##   - subsequent  -> just chat-nudge with `already_message`
+## The same name covers both phases, so the dispatcher routing an
+## InteractableComponent activation to EventManager.trigger(event_name)
+## naturally lands on the right phase.
 
 signal succeeded(event: EvacuationEvent)
 
@@ -18,8 +19,9 @@ signal succeeded(event: EvacuationEvent)
 @export var already_message: String = "Молодец, ты уже на месте."
 
 @export_group("Targeting")
-## Path to an InteractableComponent that emits `interactable_activated`
-## when the player enters it.
+## Path to the InteractableComponent (or any Node2D) used as the goal
+## marker. Only consumed for path drawing — the actual completion
+## signal comes through EventManager.
 @export var target_path: NodePath
 
 @export_group("Tasks")
@@ -32,21 +34,21 @@ signal succeeded(event: EvacuationEvent)
 @export var draw_path: bool = true
 @export var path_color: Color = Color(1.0, 0.55, 0.0, 0.9)
 @export var path_width: float = 2.0
+## Drawn on a high z_index so it can't be covered by floors/walls.
+@export var path_z_index: int = 100
 
 var active: bool = false
 
-var _target: InteractableComponent
+var _target: Node2D
 var _player: Node2D
 var _line: Line2D
 var _completed: bool = false
 
 func _ready() -> void:
 	super._ready()
-	_target = get_node_or_null(target_path) as InteractableComponent
-	if _target:
-		_target.interactable_activated.connect(_on_target_activated)
-	else:
-		push_warning("EvacuationEvent %s: target_path '%s' is not an InteractableComponent" % [name, target_path])
+	_target = get_node_or_null(target_path) as Node2D
+	if _target == null:
+		push_warning("EvacuationEvent %s: target_path '%s' didn't resolve to a Node2D" % [name, target_path])
 	if auto_register_task and task_id != "":
 		var tm: Node = get_tree().root.get_node_or_null("TaskManager")
 		if tm and tm.get_task(task_id) == null:
@@ -54,51 +56,49 @@ func _ready() -> void:
 
 
 func trigger(_payload: Dictionary = {}) -> void:
-	if active:
-		return
-	print("[EvacuationEvent] trigger:", event_name, " target=", _target)
+	if not active:
+		_start_drill()
+	elif not _completed:
+		_complete_drill()
+	else:
+		_already_drill()
+	fire_now()
+
+
+func _start_drill() -> void:
+	print("[EvacuationEvent] start:", event_name, " target=", _target)
 	active = true
 	_completed = false
 	_player = _find_player()
 	_announce(announcement)
 	_accept_task()
 	_setup_path()
-	fire_now()
-	# Catch the corner case where the player is already standing in the
-	# zone when the drill starts — `interactable_activated` only fires
-	# on the body_entered transition, so we re-check via overlap.
-	call_deferred("_check_already_inside")
 
 
-func _process(_delta: float) -> void:
-	if active and is_instance_valid(_line) and is_instance_valid(_player) and is_instance_valid(_target):
-		_line.points = PackedVector2Array([_player.global_position, _target.global_position])
-
-
-func _on_target_activated() -> void:
-	print("[EvacuationEvent] interactable_activated:", event_name, " active=", active, " completed=", _completed)
-	if not active:
-		return
-	if _completed:
-		_announce(already_message, sender)
-		return
+func _complete_drill() -> void:
+	print("[EvacuationEvent] complete:", event_name)
 	_completed = true
 	if task_id != "":
 		var tm: Node = get_tree().root.get_node_or_null("TaskManager")
 		if tm:
 			tm.complete(task_id)
 	_announce(success_message, sender)
-	succeeded.emit(self)
 	_clear_path()
+	succeeded.emit(self)
 
 
-func _check_already_inside() -> void:
-	if _target == null or _completed or not active:
+func _already_drill() -> void:
+	_announce(already_message, sender)
+
+
+func _process(_delta: float) -> void:
+	if not active or _completed:
 		return
-	for body in _target.get_overlapping_bodies():
-		if body.is_in_group(&"player"):
-			_on_target_activated()
-			return
+	if not is_instance_valid(_line):
+		return
+	if not is_instance_valid(_player) or not is_instance_valid(_target):
+		return
+	_line.points = PackedVector2Array([_player.global_position, _target.global_position])
 
 
 func _accept_task() -> void:
@@ -113,11 +113,19 @@ func _setup_path() -> void:
 	_clear_path()
 	if not draw_path or _target == null:
 		return
+	var host: Node = get_tree().current_scene
+	if host == null:
+		host = get_tree().root
 	_line = Line2D.new()
 	_line.default_color = path_color
 	_line.width = path_width
-	_line.z_index = 10
-	get_tree().current_scene.add_child(_line)
+	_line.z_index = path_z_index
+	_line.z_as_relative = false
+	_line.top_level = true
+	if _player and _target:
+		_line.points = PackedVector2Array([_player.global_position, _target.global_position])
+	host.add_child(_line)
+	print("[EvacuationEvent] line drawn, parent=", host.name, " points=", _line.points)
 
 
 func _clear_path() -> void:
