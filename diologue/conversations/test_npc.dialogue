@@ -1,8 +1,13 @@
 ~ start
-Тренер: Привет! Это тест-сцена. Я тут ради разминки.
-- Ок
-	=> END
-- ТЕСТ
-	do EventManager.trigger("drill_drone")
-	Тренер: Запустил тестовый таймер.
-	=> END
+ОБ: Хотите начать учебную тревогу?
+- Пожар в здании
+do EventManager.trigger("drill_drone")
+  => END
+- Вооруженное нападение
+do EventManager.trigger("drill_drone")
+  => END
+- Беспилотная опасность
+do EventManager.trigger("drill_drone")
+  => END
+- Нет
+  => END

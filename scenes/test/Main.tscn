@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://co08hci2dlcaf" path="res://scenes/test/main.gd" id="1_3vdn0"]
 [ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="1_vwkqo"]
 [ext_resource type="PackedScene" uid="uid://dh2mt1hptbipw" path="res://scenes/builds/rooms/ledderPart.tscn" id="2_ptl7i"]
-[ext_resource type="PackedScene" uid="uid://c6vfy7ojfiv85" path="res://scenes/interfaces/chat/chat_ui.tscn" id="6_3vdn0"]
+[ext_resource type="PackedScene" path="res://scenes/interfaces/chat/chat_ui.tscn" id="6_3vdn0"]
 [ext_resource type="Script" uid="uid://cqu1r3wb01rsf" path="res://scripts/events/events_container.gd" id="6_bi4fu"]
 [ext_resource type="Script" uid="uid://c833ruxnus227" path="res://scripts/events/evacuation_event.gd" id="6_gjcg6"]
 [ext_resource type="PackedScene" uid="uid://biyhbeknolt4d" path="res://scenes/interfaces/tasks/task_list.tscn" id="7_ptl7i"]
@@ -13,7 +13,7 @@ script = ExtResource("1_3vdn0")
 ledder_part = ExtResource("2_ptl7i")
 
 [node name="Player" parent="." unique_id=904295320 instance=ExtResource("1_vwkqo")]
-position = Vector2(846, -368)
+position = Vector2(182, 70)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=2027242827]
 

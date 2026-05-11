@@ -11,9 +11,10 @@ extends GameEvent
 signal started(event: EvacuationEvent)
 signal succeeded(event: EvacuationEvent)
 
+
 @export_group("Сообщения")
 ## Sender shown next to every chat line this event produces.
-@export var sender: String = "Завуч"
+@export var sender: String = "Кавеев Рам. Н."
 ## Sent to chat when on_start runs.
 @export var start_message: String = "Тревога: эвакуация!"
 ## Sent when on_complete succeeds the first time.
