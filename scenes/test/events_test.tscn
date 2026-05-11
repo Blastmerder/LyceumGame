@@ -1,9 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://br5ba008j0r1c"]
+[gd_scene load_steps=12 format=3 uid="uid://br5ba008j0r1c"]
 
 [ext_resource type="Script" uid="uid://c0b5qc3kssypp" path="res://scenes/test/events_test.gd" id="1_test"]
 [ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="2_player"]
 [ext_resource type="Script" uid="uid://cqu1r3wb01rsf" path="res://scripts/events/events_container.gd" id="3_evcont"]
-[ext_resource type="Script" uid="uid://c833ruxnus227" path="res://scripts/events/evacuation_event.gd" id="4_evac"]
+[ext_resource type="Script" path="res://scripts/events/drone_drill_event.gd" id="4a_drone"]
+[ext_resource type="Script" path="res://scripts/events/fire_drill_event.gd" id="4b_fire"]
+[ext_resource type="Script" path="res://scripts/events/terror_drill_event.gd" id="4c_terror"]
 [ext_resource type="PackedScene" uid="uid://c6vfy7ojfiv85" path="res://scenes/interfaces/chat/chat_ui.tscn" id="5_chat"]
 [ext_resource type="PackedScene" uid="uid://biyhbeknolt4d" path="res://scenes/interfaces/tasks/task_list.tscn" id="6_tasks"]
 [ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="7_interact"]
@@ -110,52 +112,32 @@ unique_name_in_owner = true
 script = ExtResource("3_evcont")
 
 [node name="DroneDrill" type="Node" parent="Events" unique_id=839351047 node_paths=PackedStringArray("target_path")]
-script = ExtResource("4_evac")
-sender = "Завуч"
-start_message = "Воздушная тревога: дойди до укрытия!"
-success_message = "Молодец, ты в укрытии."
-already_message = "Ты уже в укрытии. Жди следующего этапа."
-idle_complete_message = ""
-already_active_message = ""
+script = ExtResource("4a_drone")
 target_path = NodePath("../../Triggers/DroneShelter")
 task_id = "drill_drone"
 task_title = "Учебная тревога: БПЛА"
 task_description = "Доберись до укрытия по подсказке на полу."
 path_color = Color(0.4, 0.7, 1, 0.9)
-period = 60.0
-repeats = false
 autostart = false
 event_name = &"drill_drone"
 
 [node name="FireDrill" type="Node" parent="Events" unique_id=1214396123 node_paths=PackedStringArray("target_path")]
-script = ExtResource("4_evac")
-sender = "Завуч"
-start_message = "Пожарная тревога: эвакуируйся."
-success_message = "Эвакуация выполнена."
-already_message = "Ты уже у выхода — жди продолжения."
+script = ExtResource("4b_fire")
 target_path = NodePath("../../Triggers/FireExit")
 task_id = "drill_fire"
 task_title = "Учебная тревога: пожар"
 task_description = "Дойди до пожарного выхода."
 path_color = Color(1, 0.5, 0.2, 0.9)
-period = 60.0
-repeats = false
 autostart = false
 event_name = &"drill_fire"
 
 [node name="TerrorDrill" type="Node" parent="Events" unique_id=1765702842 node_paths=PackedStringArray("target_path")]
-script = ExtResource("4_evac")
-sender = "Завуч"
-start_message = "Антитеррор: укройся в кабинете 202."
-success_message = "Кабинет закрыт изнутри. Молодец."
-already_message = "Ты уже в кабинете 202."
+script = ExtResource("4c_terror")
 target_path = NodePath("../../Triggers/TerrorShelter")
 task_id = "drill_terror"
 task_title = "Антитеррор"
 task_description = "Спрячься в кабинете 202."
 path_color = Color(0.7, 0.4, 0.9, 0.9)
-period = 60.0
-repeats = false
 autostart = false
 event_name = &"drill_terror"
 
