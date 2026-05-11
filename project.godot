@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="LyciumGame"
-run/main_scene="uid://cjw47c7s8q3ou"
+run/main_scene="uid://ctomei1e86tmm"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://assets/icon.svg"
 
@@ -86,7 +86,7 @@ task_list={
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://diologue/conversations/act1.dialogue", "res://diologue/conversations/npc_example.dialogue", "res://diologue/conversations/test_npc.dialogue")
+locale/translations_pot_files=PackedStringArray("res://diologue/conversations/npc_example.dialogue", "res://diologue/conversations/test_npc.dialogue")
 
 [layer_names]
 

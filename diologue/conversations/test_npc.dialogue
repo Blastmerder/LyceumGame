@@ -3,6 +3,6 @@
 - Ок
 	=> END
 - ТЕСТ
-	do EventManager.trigger("npc_test")
+	do EventManager.trigger("drill_drone")
 	Тренер: Запустил тестовый таймер.
 	=> END

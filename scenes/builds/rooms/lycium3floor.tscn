@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://dqfkv3lc575gv" path="res://assets/game/build/walls.png" id="1_uc17g"]
 [ext_resource type="Texture2D" uid="uid://dmrlpif00bfbg" path="res://assets/game/build/lycium_inside.png" id="2_3j6x7"]
 [ext_resource type="PackedScene" uid="uid://cxvrirgifddkh" path="res://scenes/components/ladder_component/ladder_component.tscn" id="4_1ivv1"]
+[ext_resource type="Script" uid="uid://cfi22hd8uh7j7" path="res://scripts/events/event_triggers_dispatcher.gd" id="5_p2aln"]
+[ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="6_awm0h"]
+[ext_resource type="Script" uid="uid://2xwga2k0xqe7" path="res://scripts/events/event_trigger.gd" id="7_x13qc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3j6x7"]
 texture = ExtResource("1_uc17g")
@@ -120,6 +123,9 @@ sources/1 = SubResource("TileSetAtlasSource_2pgmq")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2khlx"]
 size = Vector2(20, 60)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oxbsj"]
+size = Vector2(40, 40)
+
 [node name="Lycium1Floor" type="Node2D" unique_id=1444185617]
 script = ExtResource("1_2pgmq")
 
@@ -158,3 +164,15 @@ shape = SubResource("RectangleShape2D_2khlx")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="ladders/down" unique_id=851565182]
 position = Vector2(-651, -350)
 shape = SubResource("RectangleShape2D_2khlx")
+
+[node name="Triggers" type="Node" parent="." unique_id=528283433]
+script = ExtResource("5_p2aln")
+
+[node name="DroneShelter" parent="Triggers" unique_id=1636713848 instance=ExtResource("6_awm0h")]
+position = Vector2(-220, -120)
+script = ExtResource("7_x13qc")
+event_name = "drill_drone"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/DroneShelter" unique_id=68409280]
+position = Vector2(-41, -1)
+shape = SubResource("RectangleShape2D_oxbsj")

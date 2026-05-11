@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene format=3 uid="uid://c5dn8qm3ks03s"]
 
-[ext_resource type="Script" path="res://scenes/test/quest_test.gd" id="1_quest"]
+[ext_resource type="Script" uid="uid://djkxsj2kp55fr" path="res://scenes/test/quest_test.gd" id="1_quest"]
 [ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/components/task_trigger/task_trigger.tscn" id="3_trigger"]
 [ext_resource type="PackedScene" path="res://scenes/interfaces/tasks/task_list.tscn" id="4_tasks"]
@@ -9,36 +9,35 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
 size = Vector2(48, 48)
 
-[node name="QuestTest" type="Node2D"]
+[node name="QuestTest" type="Node2D" unique_id=590202863]
 script = ExtResource("1_quest")
-tasks_file = "res://diologue/conversations/quest_test_tasks.json"
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=2133675776]
 offset_left = -320.0
 offset_top = -180.0
 offset_right = 320.0
 offset_bottom = 180.0
 color = Color(0.14, 0.16, 0.18, 1)
 
-[node name="Doors" type="Node2D" parent="."]
+[node name="Doors" type="Node2D" parent="." unique_id=1266507199]
 
-[node name="Room202" parent="Doors" instance=ExtResource("3_trigger")]
+[node name="Room202" parent="Doors" unique_id=852681431 instance=ExtResource("3_trigger")]
 position = Vector2(-200, -100)
 task_id = "go_to_202"
 trigger_id = "room_202"
 complete_directly = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Room202"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Room202" unique_id=1237129545]
 shape = SubResource("RectangleShape2D_door")
 
-[node name="Sprite" type="ColorRect" parent="Doors/Room202"]
+[node name="Sprite" type="ColorRect" parent="Doors/Room202" unique_id=1278669260]
 offset_left = -24.0
 offset_top = -24.0
 offset_right = 24.0
 offset_bottom = 24.0
 color = Color(0.5, 0.7, 0.9, 0.6)
 
-[node name="Label" type="Label" parent="Doors/Room202"]
+[node name="Label" type="Label" parent="Doors/Room202" unique_id=951127058]
 offset_left = -40.0
 offset_top = 26.0
 offset_right = 40.0
@@ -46,23 +45,23 @@ offset_bottom = 42.0
 text = "Кабинет 202"
 horizontal_alignment = 1
 
-[node name="Lab" parent="Doors" instance=ExtResource("3_trigger")]
+[node name="Lab" parent="Doors" unique_id=1985855633 instance=ExtResource("3_trigger")]
 position = Vector2(200, -100)
 task_id = "go_to_lab"
 trigger_id = "lab_door"
 complete_directly = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Lab"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Lab" unique_id=1646623553]
 shape = SubResource("RectangleShape2D_door")
 
-[node name="Sprite" type="ColorRect" parent="Doors/Lab"]
+[node name="Sprite" type="ColorRect" parent="Doors/Lab" unique_id=815389331]
 offset_left = -24.0
 offset_top = -24.0
 offset_right = 24.0
 offset_bottom = 24.0
 color = Color(0.5, 0.9, 0.6, 0.6)
 
-[node name="Label" type="Label" parent="Doors/Lab"]
+[node name="Label" type="Label" parent="Doors/Lab" unique_id=22258129]
 offset_left = -40.0
 offset_top = 26.0
 offset_right = 40.0
@@ -70,14 +69,14 @@ offset_bottom = 42.0
 text = "Лаборатория"
 horizontal_alignment = 1
 
-[node name="Player" parent="." groups=["player"] instance=ExtResource("2_player")]
+[node name="Player" parent="." unique_id=1641125712 groups=["player"] instance=ExtResource("2_player")]
 position = Vector2(0, 60)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1979553517]
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=245002240]
 
-[node name="TaskListUI" parent="UI" instance=ExtResource("4_tasks")]
+[node name="TaskListUI" parent="UI" unique_id=2050623741 instance=ExtResource("4_tasks")]
 start_hidden = false
 
-[node name="ChatUI" parent="UI" instance=ExtResource("5_chat")]
+[node name="ChatUI" parent="UI" unique_id=399714168 instance=ExtResource("5_chat")]
