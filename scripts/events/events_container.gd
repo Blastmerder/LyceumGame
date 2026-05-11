@@ -1,61 +1,78 @@
 class_name EventsContainer
 extends Node
 
-## Manager node that owns GameEvent children. Acts as a single signal
-## hub: external code emits EventManager.event_triggered(name, payload),
-## the container looks up the matching GameEvent child by name and
-## asks it to perform its action via `trigger(payload)`.
+## Owns GameEvent children and routes EventManager's two phase signals
+## to them: `event_started` -> child.on_start(), `event_completed` ->
+## child.on_complete(). The phases are isolated — neither path knows
+## about the other.
 ##
-## A single GameEvent can answer to several names (see
-## GameEvent.get_handled_names()) — for example a drill that has a
-## "drill_drone" start and a "drill_drone_done" completion. The
-## triggered name is forwarded in payload["event_name"] so the event
-## can branch on it.
+## Legacy `event_triggered` is treated as a generic "started" alias so
+## existing code (e.g. dialogue mutations doing
+## `do EventManager.trigger("npc_test")`) keeps working without
+## creating a third phase.
 
-signal event_dispatched(event: GameEvent, payload: Dictionary)
+signal event_started_dispatched(event: GameEvent, payload: Dictionary)
+signal event_completed_dispatched(event: GameEvent, payload: Dictionary)
 signal event_fired(event: GameEvent)
 
-var _events_by_name: Dictionary = {}
+var _starts_by_name: Dictionary = {}
+var _completes_by_name: Dictionary = {}
 
 func _ready() -> void:
 	for child in get_children():
 		if child is GameEvent:
 			child.fired.connect(_on_event_fired)
-			for n in child.get_handled_names():
-				_events_by_name[n] = child
+			for n in child.get_start_names():
+				_starts_by_name[n] = child
+			for n in child.get_complete_names():
+				_completes_by_name[n] = child
 	var em: Node = get_tree().root.get_node_or_null("EventManager")
 	if em:
-		em.event_triggered.connect(_on_manager_event)
+		em.event_started.connect(_on_started_signal)
+		em.event_completed.connect(_on_completed_signal)
+		em.event_triggered.connect(_on_legacy_triggered)
 
 
-## Look up a child by any of its handled names. Returns null when
-## nothing answers to that name.
-func get_event(event_name: StringName) -> GameEvent:
-	return _events_by_name.get(event_name)
+## Programmatic alias for EventManager.start_event without going via
+## the autoload — useful in tests and internal wiring.
+func dispatch_start(event_name: StringName, payload: Dictionary = {}) -> void:
+	_dispatch_to(_starts_by_name, event_name, payload, true)
 
 
-## Trigger an event by name without going through the EventManager.
-func trigger(event_name: StringName, payload: Dictionary = {}) -> void:
-	var ev: GameEvent = _events_by_name.get(event_name)
+func dispatch_complete(event_name: StringName, payload: Dictionary = {}) -> void:
+	_dispatch_to(_completes_by_name, event_name, payload, false)
+
+
+func _on_started_signal(event_name: String, payload: Dictionary) -> void:
+	_dispatch_to(_starts_by_name, StringName(event_name), payload, true)
+
+
+func _on_completed_signal(event_name: String, payload: Dictionary) -> void:
+	_dispatch_to(_completes_by_name, StringName(event_name), payload, false)
+
+
+func _on_legacy_triggered(event_name: String, payload: Dictionary) -> void:
+	_dispatch_to(_starts_by_name, StringName(event_name), payload, true)
+
+
+func _dispatch_to(table: Dictionary, key: StringName, payload: Dictionary, is_start: bool) -> void:
+	var ev: GameEvent = table.get(key)
 	if ev == null:
+		print("[EventsContainer] no %s handler for %s, known=%s" % [
+			"start" if is_start else "complete", key, table.keys()
+		])
 		return
 	var enriched := payload.duplicate()
-	enriched["event_name"] = String(event_name)
-	ev.trigger(enriched)
-	event_dispatched.emit(ev, enriched)
-
-
-func _on_manager_event(event_name: String, payload: Dictionary) -> void:
-	var sn := StringName(event_name)
-	var ev: GameEvent = _events_by_name.get(sn)
-	if ev == null:
-		print("[EventsContainer] no event for name:", event_name, " known:", _events_by_name.keys())
-		return
-	print("[EventsContainer] dispatch:", event_name, " -> ", ev.name)
-	var enriched := payload.duplicate()
-	enriched["event_name"] = event_name
-	ev.trigger(enriched)
-	event_dispatched.emit(ev, enriched)
+	enriched["event_name"] = String(key)
+	print("[EventsContainer] %s %s -> %s" % [
+		"start" if is_start else "complete", key, ev.name
+	])
+	if is_start:
+		ev.on_start(enriched)
+		event_started_dispatched.emit(ev, enriched)
+	else:
+		ev.on_complete(enriched)
+		event_completed_dispatched.emit(ev, enriched)
 
 
 func _on_event_fired(event: GameEvent) -> void:

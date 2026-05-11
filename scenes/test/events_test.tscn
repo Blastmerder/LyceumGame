@@ -29,7 +29,7 @@ script = ExtResource("9_disp")
 [node name="DroneShelter" parent="Triggers" unique_id=1120217301 instance=ExtResource("7_interact")]
 position = Vector2(-220, -120)
 script = ExtResource("8_trigger")
-event_name = "drill_drone_done"
+event_name = "drill_drone"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/DroneShelter" unique_id=1472275366]
 shape = SubResource("RectangleShape2D_target")
@@ -54,7 +54,7 @@ metadata/_edit_use_anchors_ = true
 [node name="FireExit" parent="Triggers" unique_id=1987920786 instance=ExtResource("7_interact")]
 position = Vector2(220, -120)
 script = ExtResource("8_trigger")
-event_name = "drill_fire_done"
+event_name = "drill_fire"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/FireExit" unique_id=1906905635]
 shape = SubResource("RectangleShape2D_target")
@@ -79,7 +79,7 @@ metadata/_edit_use_anchors_ = true
 [node name="TerrorShelter" parent="Triggers" unique_id=1274807435 instance=ExtResource("7_interact")]
 position = Vector2(0, 130)
 script = ExtResource("8_trigger")
-event_name = "drill_terror_done"
+event_name = "drill_terror"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/TerrorShelter" unique_id=123280556]
 shape = SubResource("RectangleShape2D_target")
@@ -111,10 +111,12 @@ script = ExtResource("3_evcont")
 
 [node name="DroneDrill" type="Node" parent="Events" unique_id=839351047 node_paths=PackedStringArray("target_path")]
 script = ExtResource("4_evac")
-announcement = "Воздушная тревога: дойди до укрытия!"
+sender = "Завуч"
+start_message = "Воздушная тревога: дойди до укрытия!"
 success_message = "Молодец, ты в укрытии."
 already_message = "Ты уже в укрытии. Жди следующего этапа."
-complete_event_name = &"drill_drone_done"
+idle_complete_message = ""
+already_active_message = ""
 target_path = NodePath("../../Triggers/DroneShelter")
 task_id = "drill_drone"
 task_title = "Учебная тревога: БПЛА"
@@ -127,9 +129,10 @@ event_name = &"drill_drone"
 
 [node name="FireDrill" type="Node" parent="Events" unique_id=1214396123 node_paths=PackedStringArray("target_path")]
 script = ExtResource("4_evac")
-announcement = "Пожарная тревога: эвакуируйся."
+sender = "Завуч"
+start_message = "Пожарная тревога: эвакуируйся."
+success_message = "Эвакуация выполнена."
 already_message = "Ты уже у выхода — жди продолжения."
-complete_event_name = &"drill_fire_done"
 target_path = NodePath("../../Triggers/FireExit")
 task_id = "drill_fire"
 task_title = "Учебная тревога: пожар"
@@ -142,10 +145,10 @@ event_name = &"drill_fire"
 
 [node name="TerrorDrill" type="Node" parent="Events" unique_id=1765702842 node_paths=PackedStringArray("target_path")]
 script = ExtResource("4_evac")
-announcement = "Антитеррор: укройся в кабинете 202."
+sender = "Завуч"
+start_message = "Антитеррор: укройся в кабинете 202."
 success_message = "Кабинет закрыт изнутри. Молодец."
 already_message = "Ты уже в кабинете 202."
-complete_event_name = &"drill_terror_done"
 target_path = NodePath("../../Triggers/TerrorShelter")
 task_id = "drill_terror"
 task_title = "Антитеррор"

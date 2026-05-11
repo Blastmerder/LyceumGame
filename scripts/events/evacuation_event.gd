@@ -1,37 +1,34 @@
 class_name EvacuationEvent
 extends GameEvent
 
-## Drill event driven by the events bus. It listens to TWO names so
-## starting and completing the drill are different signals:
+## Drill event split across the two phase entry points of the events
+## bus: `on_start` from EventManager.event_started, `on_complete` from
+## EventManager.event_completed. No shared "trigger" path.
 ##
-##   event_name           ("drill_drone")        -> start the drill
-##   complete_event_name  ("drill_drone_done")   -> mark it succeeded
-##
-## EventsContainer registers both names (see get_handled_names()) and
-## passes the actually triggered name back via payload["event_name"].
-## The drill ignores `complete_event_name` while it isn't active, so a
-## player wandering into the hitbox before the sequencer starts does
-## nothing. Once active, the first hit completes; later hits chat the
-## `already_message`.
+## All chat-facing text lives on this node — change a wording here
+## and nowhere else.
 
+signal started(event: EvacuationEvent)
 signal succeeded(event: EvacuationEvent)
 
-@export_group("Drill")
-@export var announcement: String = "Тревога: эвакуация!"
+@export_group("Сообщения")
+## Sender shown next to every chat line this event produces.
 @export var sender: String = "Завуч"
+## Sent to chat when on_start runs.
+@export var start_message: String = "Тревога: эвакуация!"
+## Sent when on_complete succeeds the first time.
 @export var success_message: String = "Эвакуация выполнена."
+## Sent when on_complete fires again after success.
 @export var already_message: String = "Молодец, ты уже на месте."
-
-@export_group("Events")
-## Name dispatched by the sequencer to START this drill. Matches the
-## base GameEvent.event_name; kept here just for the inspector group.
-## The "complete" name below is the one the hitbox dispatcher sends.
-@export var complete_event_name: StringName = &""
+## Sent when on_complete fires while the drill isn't active. Empty by
+## default — leave blank to keep the early hit completely silent.
+@export var idle_complete_message: String = ""
+## Sent when on_start fires while the drill is already active.
+@export var already_active_message: String = ""
 
 @export_group("Targeting")
 ## Path to the InteractableComponent (or any Node2D) used as the goal
-## marker. Only consumed for path drawing — the completion signal
-## comes through EventManager.
+## marker for the Line2D path display.
 @export var target_path: NodePath
 
 @export_group("Tasks")
@@ -64,60 +61,41 @@ func _ready() -> void:
 			tm.register_raw(task_id, _resolve_title(), task_description, false, "")
 
 
-func get_handled_names() -> Array[StringName]:
-	var out: Array[StringName] = []
-	if event_name != &"":
-		out.append(event_name)
-	if complete_event_name != &"" and complete_event_name != event_name:
-		out.append(complete_event_name)
-	return out
-
-
-func trigger(payload: Dictionary = {}) -> void:
-	var name: StringName = StringName(payload.get("event_name", String(event_name)))
-	if name == event_name:
-		if active:
-			print("[EvacuationEvent] %s already started, ignoring start signal" % event_name)
-			return
-		_start_drill()
-	elif name == complete_event_name:
-		if not active:
-			print("[EvacuationEvent] %s completion ignored — drill not active" % complete_event_name)
-			return
-		if _completed:
-			_already_drill()
-			return
-		_complete_drill()
-	else:
-		push_warning("EvacuationEvent %s: unknown trigger name '%s'" % [name, name])
-
-
-func _start_drill() -> void:
+func on_start(_payload: Dictionary = {}) -> void:
+	if active:
+		print("[EvacuationEvent] start ignored, %s already active" % event_name)
+		_announce(already_active_message)
+		return
 	print("[EvacuationEvent] start:", event_name, " target=", _target)
 	active = true
 	_completed = false
 	_player = _find_player()
-	_announce(announcement)
+	_announce(start_message)
 	_accept_task()
 	_setup_path()
 	fire_now()
+	started.emit(self)
 
 
-func _complete_drill() -> void:
+func on_complete(_payload: Dictionary = {}) -> void:
+	if not active:
+		print("[EvacuationEvent] complete ignored, %s not active" % event_name)
+		_announce(idle_complete_message)
+		return
+	if _completed:
+		print("[EvacuationEvent] complete: %s already done" % event_name)
+		_announce(already_message)
+		return
 	print("[EvacuationEvent] complete:", event_name)
 	_completed = true
 	if task_id != "":
 		var tm: Node = get_tree().root.get_node_or_null("TaskManager")
 		if tm:
 			tm.complete(task_id)
-	_announce(success_message, sender)
+	_announce(success_message)
 	_clear_path()
 	fire_now()
 	succeeded.emit(self)
-
-
-func _already_drill() -> void:
-	_announce(already_message, sender)
 
 
 func _process(_delta: float) -> void:
@@ -154,7 +132,6 @@ func _setup_path() -> void:
 	if _player and _target:
 		_line.points = PackedVector2Array([_player.global_position, _target.global_position])
 	host.add_child(_line)
-	print("[EvacuationEvent] line drawn, parent=", host.name, " points=", _line.points)
 
 
 func _clear_path() -> void:
@@ -163,12 +140,14 @@ func _clear_path() -> void:
 	_line = null
 
 
-func _announce(text: String, who: String = sender) -> void:
+## Every chat line passes through this single helper so wording stays
+## inside the node. Empty text is skipped silently.
+func _announce(text: String) -> void:
 	if text.is_empty():
 		return
 	var cm: Node = get_tree().root.get_node_or_null("ChatManager")
 	if cm:
-		cm.send(text, who)
+		cm.send(text, sender)
 
 
 func _find_player() -> Node2D:
@@ -181,4 +160,4 @@ func _find_player() -> Node2D:
 func _resolve_title() -> String:
 	if not task_title.is_empty():
 		return task_title
-	return announcement
+	return start_message
