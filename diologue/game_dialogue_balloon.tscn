@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c81kabk2diueb"]
+[gd_scene format=3 uid="uid://c81kabk2diueb"]
 
 [ext_resource type="Script" path="res://diologue/game_dialogue_balloon.gd" id="1_04n3d"]
 [ext_resource type="Theme" uid="uid://dqosyc6fpher1" path="res://diologue/dialogue_balloon_theme.tres" id="2_0elcl"]
