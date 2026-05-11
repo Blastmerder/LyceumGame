@@ -1,14 +1,18 @@
 class_name EvacuationEvent
 extends GameEvent
 
-## Drill event driven by the events bus. `trigger()` is a tiny state
-## machine:
-##   - first call  -> start (announce, accept task, draw path)
-##   - second call -> success (complete task, emit `succeeded`)
-##   - subsequent  -> just chat-nudge with `already_message`
-## The same name covers both phases, so the dispatcher routing an
-## InteractableComponent activation to EventManager.trigger(event_name)
-## naturally lands on the right phase.
+## Drill event driven by the events bus. It listens to TWO names so
+## starting and completing the drill are different signals:
+##
+##   event_name           ("drill_drone")        -> start the drill
+##   complete_event_name  ("drill_drone_done")   -> mark it succeeded
+##
+## EventsContainer registers both names (see get_handled_names()) and
+## passes the actually triggered name back via payload["event_name"].
+## The drill ignores `complete_event_name` while it isn't active, so a
+## player wandering into the hitbox before the sequencer starts does
+## nothing. Once active, the first hit completes; later hits chat the
+## `already_message`.
 
 signal succeeded(event: EvacuationEvent)
 
@@ -18,10 +22,16 @@ signal succeeded(event: EvacuationEvent)
 @export var success_message: String = "Эвакуация выполнена."
 @export var already_message: String = "Молодец, ты уже на месте."
 
+@export_group("Events")
+## Name dispatched by the sequencer to START this drill. Matches the
+## base GameEvent.event_name; kept here just for the inspector group.
+## The "complete" name below is the one the hitbox dispatcher sends.
+@export var complete_event_name: StringName = &""
+
 @export_group("Targeting")
 ## Path to the InteractableComponent (or any Node2D) used as the goal
-## marker. Only consumed for path drawing — the actual completion
-## signal comes through EventManager.
+## marker. Only consumed for path drawing — the completion signal
+## comes through EventManager.
 @export var target_path: NodePath
 
 @export_group("Tasks")
@@ -34,7 +44,6 @@ signal succeeded(event: EvacuationEvent)
 @export var draw_path: bool = true
 @export var path_color: Color = Color(1.0, 0.55, 0.0, 0.9)
 @export var path_width: float = 2.0
-## Drawn on a high z_index so it can't be covered by floors/walls.
 @export var path_z_index: int = 100
 
 var active: bool = false
@@ -55,14 +64,32 @@ func _ready() -> void:
 			tm.register_raw(task_id, _resolve_title(), task_description, false, "")
 
 
-func trigger(_payload: Dictionary = {}) -> void:
-	if not active:
+func get_handled_names() -> Array[StringName]:
+	var out: Array[StringName] = []
+	if event_name != &"":
+		out.append(event_name)
+	if complete_event_name != &"" and complete_event_name != event_name:
+		out.append(complete_event_name)
+	return out
+
+
+func trigger(payload: Dictionary = {}) -> void:
+	var name: StringName = StringName(payload.get("event_name", String(event_name)))
+	if name == event_name:
+		if active:
+			print("[EvacuationEvent] %s already started, ignoring start signal" % event_name)
+			return
 		_start_drill()
-	elif not _completed:
+	elif name == complete_event_name:
+		if not active:
+			print("[EvacuationEvent] %s completion ignored — drill not active" % complete_event_name)
+			return
+		if _completed:
+			_already_drill()
+			return
 		_complete_drill()
 	else:
-		_already_drill()
-	fire_now()
+		push_warning("EvacuationEvent %s: unknown trigger name '%s'" % [name, name])
 
 
 func _start_drill() -> void:
@@ -73,6 +100,7 @@ func _start_drill() -> void:
 	_announce(announcement)
 	_accept_task()
 	_setup_path()
+	fire_now()
 
 
 func _complete_drill() -> void:
@@ -84,6 +112,7 @@ func _complete_drill() -> void:
 			tm.complete(task_id)
 	_announce(success_message, sender)
 	_clear_path()
+	fire_now()
 	succeeded.emit(self)
 
 
