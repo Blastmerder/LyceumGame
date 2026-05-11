@@ -24,6 +24,7 @@ config/icon="res://assets/icon.svg"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 EventManager="*res://scripts/events/event_manager.gd"
 TaskManager="*res://scripts/tasks/task_manager.gd"
+ChatManager="*res://scripts/chat/chat_manager.gd"
 
 [display]
 

@@ -1,0 +1,22 @@
+[
+	{
+		"id": "go_to_202",
+		"title": "Дойти до кабинета 202",
+		"description": "Найди класс 202 и подойди к двери.",
+		"fuzzy": false,
+		"exact_trigger": "room_202"
+	},
+	{
+		"id": "go_to_lab",
+		"title": "Найти лабораторию",
+		"description": "Доберись до двери лаборатории.",
+		"fuzzy": false,
+		"exact_trigger": "lab_door"
+	},
+	{
+		"id": "stop_by_locker",
+		"title": "Заглянуть к шкафчику",
+		"description": "Проверь свой шкафчик, может что забыл.",
+		"fuzzy": true
+	}
+]

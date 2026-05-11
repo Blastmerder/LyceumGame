@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/test/chat_test.gd" id="1_chattest"]
+[ext_resource type="PackedScene" path="res://scenes/interfaces/chat/chat_ui.tscn" id="2_chatui"]
+
+[node name="ChatTest" type="Node"]
+script = ExtResource("1_chattest")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ChatUI" parent="UI" instance=ExtResource("2_chatui")]
+
+[node name="ControlsPanel" type="PanelContainer" parent="UI"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Margin" type="MarginContainer" parent="UI/ControlsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 4
+
+[node name="HBox" type="HBoxContainer" parent="UI/ControlsPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SenderLabel" type="Label" parent="UI/ControlsPanel/Margin/HBox"]
+layout_mode = 2
+text = "От:"
+
+[node name="Sender" type="LineEdit" parent="UI/ControlsPanel/Margin/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Игрок"
+
+[node name="Input" type="LineEdit" parent="UI/ControlsPanel/Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Сообщение"
+
+[node name="SendButton" type="Button" parent="UI/ControlsPanel/Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Send"
+
+[node name="AutoTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 5.0
+autostart = true

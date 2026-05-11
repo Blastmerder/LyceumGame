@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://c6vfy7ojfiv85"]
+
+[ext_resource type="Script" uid="uid://cmhuylmbukvru" path="res://scenes/interfaces/chat/chat_ui.gd" id="1_chatui"]
+
+[node name="ChatUI" type="Control" unique_id=409288263]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_chatui")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=62209294]
+layout_mode = 1
+offset_right = 148.0
+offset_bottom = 188.0
+
+[node name="Margin" type="MarginContainer" parent="Panel" unique_id=1573795810]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin" unique_id=650198209]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox" unique_id=1633330003]
+layout_mode = 2
+text = "Чат"
+
+[node name="Scroll" type="ScrollContainer" parent="Panel/Margin/VBox" unique_id=1525824273]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="MessageList" type="VBoxContainer" parent="Panel/Margin/VBox/Scroll" unique_id=643541865]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

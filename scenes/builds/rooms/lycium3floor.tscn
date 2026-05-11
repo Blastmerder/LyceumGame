@@ -5,8 +5,11 @@
 [ext_resource type="Texture2D" uid="uid://dmrlpif00bfbg" path="res://assets/game/build/lycium_inside.png" id="2_3j6x7"]
 [ext_resource type="PackedScene" uid="uid://cxvrirgifddkh" path="res://scenes/components/ladder_component/ladder_component.tscn" id="4_1ivv1"]
 [ext_resource type="Texture2D" uid="uid://bd01q85dkccx6" path="res://assets/game/all spritesheet.png" id="4_2khlx"]
+[ext_resource type="Script" path="res://scripts/events/event_triggers_dispatcher.gd" id="5_p2aln"]
+[ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="6_awm0h"]
 [ext_resource type="Texture2D" uid="uid://cjlapl3y7srae" path="res://assets/game/лестница лево (2).png" id="6_p2aln"]
 [ext_resource type="Texture2D" uid="uid://bpstjoh46xrw4" path="res://assets/game/лестница право.png" id="7_awm0h"]
+[ext_resource type="Script" path="res://scripts/events/event_trigger.gd" id="7_x13qc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7u27s"]
 texture = ExtResource("1_uc17g")
@@ -159,6 +162,9 @@ sources/3 = SubResource("TileSetAtlasSource_awm0h")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2khlx"]
 size = Vector2(20, 60)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oxbsj"]
+size = Vector2(40, 40)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oxbsj"]
 texture = ExtResource("1_uc17g")
 texture_region_size = Vector2i(40, 40)
@@ -303,6 +309,18 @@ shape = SubResource("RectangleShape2D_2khlx")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="ladders/down" unique_id=851565182]
 position = Vector2(-651, -350)
 shape = SubResource("RectangleShape2D_2khlx")
+
+[node name="Triggers" type="Node" parent="." unique_id=528283433]
+script = ExtResource("5_p2aln")
+
+[node name="DroneShelter" parent="Triggers" unique_id=1636713848 instance=ExtResource("6_awm0h")]
+position = Vector2(-220, -120)
+script = ExtResource("7_x13qc")
+event_name = "drill_drone"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/DroneShelter" unique_id=68409280]
+position = Vector2(-41, -1)
+shape = SubResource("RectangleShape2D_oxbsj")
 
 [node name="TileMapLayer2" type="TileMapLayer" parent="." unique_id=1160776867]
 texture_filter = 1
