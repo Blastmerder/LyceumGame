@@ -42,7 +42,9 @@ func trigger(event_name: StringName, payload: Dictionary = {}) -> void:
 func _on_manager_event(event_name: String, payload: Dictionary) -> void:
 	var ev: GameEvent = _events_by_name.get(StringName(event_name))
 	if ev == null:
+		print("[EventsContainer] no event for name:", event_name, " known:", _events_by_name.keys())
 		return
+	print("[EventsContainer] dispatch:", event_name, " -> ", ev.name)
 	ev.trigger(payload)
 	event_dispatched.emit(ev, payload)
 
