@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://1icxoiyrvjpr"
+path="res://.godot/imported/АК.dialogue-7ed7743b151221320076fa3a5140b6c4.tres"
+
+[deps]
+
+source_file="res://diologue/conversations/АК.dialogue"
+dest_files=["res://.godot/imported/АК.dialogue-7ed7743b151221320076fa3a5140b6c4.tres"]
+
+[params]
+
+defaults=true

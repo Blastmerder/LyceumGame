@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://crtucu33cfvwi"
+path="res://.godot/imported/ГОША.dialogue-517aa1cc51dfc17eec69e184e79d8b69.tres"
+
+[deps]
+
+source_file="res://diologue/conversations/ГОША.dialogue"
+dest_files=["res://.godot/imported/ГОША.dialogue-517aa1cc51dfc17eec69e184e79d8b69.tres"]
+
+[params]
+
+defaults=true

@@ -86,7 +86,7 @@ task_list={
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://diologue/conversations/npc_example.dialogue", "res://diologue/conversations/test_npc.dialogue")
+locale/translations_pot_files=PackedStringArray("res://diologue/conversations/npc_example.dialogue", "res://diologue/conversations/test_npc.dialogue", "res://diologue/conversations/ГОША.dialogue", "res://diologue/conversations/test.dialogue", "res://diologue/conversations/ИФ.dialogue", "res://diologue/conversations/мат.dialogue", "res://diologue/conversations/РС.dialogue", "res://diologue/conversations/АК.dialogue", "res://diologue/conversations/untitled.dialogue")
 
 [layer_names]
 
