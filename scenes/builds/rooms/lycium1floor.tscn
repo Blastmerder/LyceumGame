@@ -8,8 +8,9 @@
 [ext_resource type="PackedScene" path="res://scenes/characters/npc/dialogue_npc.tscn" id="5_r8mrn"]
 [ext_resource type="Resource" uid="uid://ued4680tl1ga" path="res://diologue/conversations/test_npc.dialogue" id="6_1hqji"]
 [ext_resource type="Texture2D" uid="uid://bpstjoh46xrw4" path="res://assets/game/лестница право.png" id="9_b6yea"]
+[ext_resource type="Resource" uid="uid://crtucu33cfvwi" path="res://diologue/conversations/ГОША.dialogue" id="9_bh6qa"]
 [ext_resource type="Texture2D" uid="uid://cjlapl3y7srae" path="res://assets/game/лестница лево (2).png" id="9_utufe"]
-[ext_resource type="Script" path="res://scripts/events/event_triggers_dispatcher.gd" id="11_bh6qa"]
+[ext_resource type="Script" uid="uid://cfi22hd8uh7j7" path="res://scripts/events/event_triggers_dispatcher.gd" id="11_bh6qa"]
 [ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="12_thufj"]
 [ext_resource type="Script" path="res://scripts/events/event_trigger.gd" id="13_ryu46"]
 
@@ -351,7 +352,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jv5ce"]
 size = Vector2(64, 35)
 
-[node name="Lycium1Floor" type="Node2D" unique_id=1444185617]
+[node name="Lycium1Floor2" type="Node2D" unique_id=1444185617]
 script = ExtResource("1_2pgmq")
 
 [node name="TileMapLayer4" type="TileMapLayer" parent="." unique_id=1596546290]
@@ -402,8 +403,14 @@ shape = SubResource("RectangleShape2D_ki1je")
 position = Vector2(-670, -350)
 shape = SubResource("RectangleShape2D_ki1je")
 
+[node name="ГОША" parent="." unique_id=256227528 instance=ExtResource("5_r8mrn")]
+position = Vector2(144, 4)
+dialogue_resource = ExtResource("9_bh6qa")
+interact_mode = 1
+idle_texture = SubResource("AtlasTexture_jv5ce")
+
 [node name="NPC-У_Входа" parent="." unique_id=174773808 instance=ExtResource("5_r8mrn")]
-position = Vector2(173, -171)
+position = Vector2(174, -168)
 dialogue_resource = ExtResource("6_1hqji")
 interact_mode = 1
 idle_texture = SubResource("AtlasTexture_jv5ce")
