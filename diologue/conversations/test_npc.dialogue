@@ -1,9 +1,9 @@
 ~ start
 ОБ: Хотите начать учебную тревогу?
 - Пожар в здании 
-	do EventManager.trigger("drill_drone")
+	do EventManager.trigger("drill_fire")
 - Вооруженное нападение
-	do EventManager.trigger("drill_drone")
+	do EventManager.trigger("drill_terror")
 - Беспилотная опасность
 	do EventManager.trigger("drill_drone")
 - Нет

@@ -7,15 +7,15 @@ extends StaticBody2D
 func _ready() -> void:
 	interactable_component.interactable_activated.connect(on_interactable_activated)
 	interactable_component.interactable_deactivated.connect(on_interactable_deactivated)
-	collision_layer = 1
+	collision_layer = 2
 
 func on_interactable_activated(obj) -> void:
 	animated_sprite_2d.play("open")
-	collision_layer = 2
+	collision_layer = 1
 	print("activated")
 
 
 func on_interactable_deactivated() -> void:
 	animated_sprite_2d.play("close")
-	collision_layer = 1
+	collision_layer = 2
 	print("deactivated")
