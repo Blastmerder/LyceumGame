@@ -1,10 +1,10 @@
 extends Node
 
-## Sequenced evacuation-drill demo. The EventsContainer ("Events")
-## holds three EvacuationEvent children (drone, fire, terrorist). The
-## script triggers them in order via EventManager — exactly what
-## external code would do — and chains them by listening to each
-## event's `succeeded` signal.
+## Sequenced evacuation-drill demo. The Start button kicks off the
+## first drill via EventManager.start_event; each EvacuationEvent
+## emits `succeeded` when its hitbox is touched, which advances the
+## sequence. The sequencer holds NO event-facing text — every chat
+## line is configured on the EvacuationEvent itself.
 
 @onready var events: EventsContainer = %Events
 @onready var start_button: Button = %StartButton
@@ -25,17 +25,15 @@ func _ready() -> void:
 
 func _start_sequence() -> void:
 	_index = 0
-	ChatManager.send("Учения эвакуации начинаются.", "Завуч")
 	_run_current()
 
 
 func _run_current() -> void:
 	if _index >= _sequence.size():
-		ChatManager.send("Все учения завершены.", "Завуч")
 		return
-	var drill_name := StringName(_sequence[_index])
-	print("[EventsTest] dispatch:", drill_name)
-	EventManager.trigger(drill_name)
+	var drill_name := _sequence[_index]
+	print("[EventsTest] start_event:", drill_name)
+	EventManager.start_event(drill_name)
 
 
 func _on_drill_finished(_event: EvacuationEvent) -> void:
