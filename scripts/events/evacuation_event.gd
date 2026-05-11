@@ -1,34 +1,17 @@
 class_name EvacuationEvent
 extends GameEvent
 
-## Drill event split across the two phase entry points of the events
-## bus: `on_start` from EventManager.event_started, `on_complete` from
-## EventManager.event_completed. No shared "trigger" path.
-##
-## All chat-facing text lives on this node — change a wording here
-## and nowhere else.
+## Base for "go-to-zone" drills. Holds only mechanics: state flag,
+## task wiring, Line2D path, hooks. Each concrete drill is its own
+## script that overrides `_on_drill_started` and `_on_drill_completed`
+## to send chat lines. No text is configured on this base class.
 
 signal started(event: EvacuationEvent)
 signal succeeded(event: EvacuationEvent)
 
-@export_group("Сообщения")
-## Sender shown next to every chat line this event produces.
-@export var sender: String = "Завуч"
-## Sent to chat when on_start runs.
-@export var start_message: String = "Тревога: эвакуация!"
-## Sent when on_complete succeeds the first time.
-@export var success_message: String = "Эвакуация выполнена."
-## Sent when on_complete fires again after success.
-@export var already_message: String = "Молодец, ты уже на месте."
-## Sent when on_complete fires while the drill isn't active. Empty by
-## default — leave blank to keep the early hit completely silent.
-@export var idle_complete_message: String = ""
-## Sent when on_start fires while the drill is already active.
-@export var already_active_message: String = ""
-
 @export_group("Targeting")
 ## Path to the InteractableComponent (or any Node2D) used as the goal
-## marker for the Line2D path display.
+## marker for path drawing.
 @export var target_path: NodePath
 
 @export_group("Tasks")
@@ -63,28 +46,25 @@ func _ready() -> void:
 
 func on_start(_payload: Dictionary = {}) -> void:
 	if active:
-		print("[EvacuationEvent] start ignored, %s already active" % event_name)
-		_announce(already_active_message)
+		print("[EvacuationEvent] %s already active — start ignored" % event_name)
 		return
-	print("[EvacuationEvent] start:", event_name, " target=", _target)
+	print("[EvacuationEvent] start:", event_name)
 	active = true
 	_completed = false
 	_player = _find_player()
-	_announce(start_message)
 	_accept_task()
 	_setup_path()
+	_on_drill_started()
 	fire_now()
 	started.emit(self)
 
 
 func on_complete(_payload: Dictionary = {}) -> void:
 	if not active:
-		print("[EvacuationEvent] complete ignored, %s not active" % event_name)
-		_announce(idle_complete_message)
+		print("[EvacuationEvent] %s not active — complete ignored" % event_name)
 		return
 	if _completed:
-		print("[EvacuationEvent] complete: %s already done" % event_name)
-		_announce(already_message)
+		print("[EvacuationEvent] %s already completed — ignored" % event_name)
 		return
 	print("[EvacuationEvent] complete:", event_name)
 	_completed = true
@@ -92,10 +72,31 @@ func on_complete(_payload: Dictionary = {}) -> void:
 		var tm: Node = get_tree().root.get_node_or_null("TaskManager")
 		if tm:
 			tm.complete(task_id)
-	_announce(success_message)
 	_clear_path()
+	_on_drill_completed()
 	fire_now()
 	succeeded.emit(self)
+
+
+## Override in a subclass to push the drill's start text to chat.
+## Called once per successful on_start; not called on repeated starts.
+func _on_drill_started() -> void:
+	pass
+
+
+## Override in a subclass to push the drill's completion text to chat.
+## Called once per successful on_complete; not called on repeats.
+func _on_drill_completed() -> void:
+	pass
+
+
+## Helper for subclasses to drop a line into ChatManager.
+func chat(text: String, sender: String) -> void:
+	if text.is_empty():
+		return
+	var cm: Node = get_tree().root.get_node_or_null("ChatManager")
+	if cm:
+		cm.send(text, sender)
 
 
 func _process(_delta: float) -> void:
@@ -140,16 +141,6 @@ func _clear_path() -> void:
 	_line = null
 
 
-## Every chat line passes through this single helper so wording stays
-## inside the node. Empty text is skipped silently.
-func _announce(text: String) -> void:
-	if text.is_empty():
-		return
-	var cm: Node = get_tree().root.get_node_or_null("ChatManager")
-	if cm:
-		cm.send(text, sender)
-
-
 func _find_player() -> Node2D:
 	for node in get_tree().get_nodes_in_group(&"player"):
 		if node is Node2D:
@@ -160,4 +151,4 @@ func _find_player() -> Node2D:
 func _resolve_title() -> String:
 	if not task_title.is_empty():
 		return task_title
-	return start_message
+	return String(event_name)
