@@ -44,3 +44,11 @@ func _on_timeout() -> void:
 	fired.emit(self)
 	if repeats:
 		_timer.start()
+
+
+## Called by EventsContainer when an event is dispatched by name.
+## Override in subclasses to perform the actual side-effects.
+## Default behaviour: fire immediately so anyone wired to `fired`
+## still hears about it.
+func trigger(_payload: Dictionary = {}) -> void:
+	fire_now()
