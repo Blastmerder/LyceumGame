@@ -322,19 +322,19 @@ direction = 1
 position = Vector2(999, -430)
 shape = SubResource("RectangleShape2D_1kwib")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="ladders/up" unique_id=1808334397]
-position = Vector2(-601, -350.5)
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladders/up" unique_id=1508041888]
+position = Vector2(-601, -430)
 shape = SubResource("RectangleShape2D_1kwib")
 
 [node name="down" parent="ladders" unique_id=831215949 instance=ExtResource("3_tyvuy")]
 direction = -1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ladders/down" unique_id=115419620]
-position = Vector2(999, -350.5)
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="ladders/down" unique_id=1808334397]
+position = Vector2(-601, -350.5)
 shape = SubResource("RectangleShape2D_1kwib")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladders/down" unique_id=1508041888]
-position = Vector2(-601, -430)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ladders/down" unique_id=115419620]
+position = Vector2(999, -350.5)
 shape = SubResource("RectangleShape2D_1kwib")
 
 [node name="ЛестницаЛево(2)" type="Sprite2D" parent="." unique_id=1046364633]

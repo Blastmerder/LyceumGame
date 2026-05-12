@@ -375,3 +375,22 @@ event_name = "drill_fire"
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Triggers/FireExit" unique_id=845275868]
 position = Vector2(-66, -109)
 shape = SubResource("RectangleShape2D_bh6qa")
+
+[node name="Node" type="Node" parent="." unique_id=390970291]
+
+[node name="Label" type="Label" parent="Node" unique_id=988335361]
+offset_left = 319.0
+offset_top = -182.0
+offset_right = 359.0
+offset_bottom = -133.0
+text = "102
+"
+
+[node name="Label" type="Label" parent="Node/Label" unique_id=1728969965]
+layout_mode = 0
+offset_left = 793.0
+offset_top = -302.0
+offset_right = 845.0
+offset_bottom = -253.0
+text = "1 этаж
+"

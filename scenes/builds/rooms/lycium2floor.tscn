@@ -6,12 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://cxvrirgifddkh" path="res://scenes/components/ladder_component/ladder_component.tscn" id="4_1w1c5"]
 [ext_resource type="Texture2D" uid="uid://bd01q85dkccx6" path="res://assets/game/all spritesheet.png" id="4_a0wtj"]
 [ext_resource type="PackedScene" path="res://scenes/characters/npc/dialogue_npc.tscn" id="5_raot0"]
+[ext_resource type="Resource" uid="uid://b7yraqrx2wc6k" path="res://diologue/conversations/мат.dialogue" id="7_g6dyr"]
 [ext_resource type="Texture2D" uid="uid://cjlapl3y7srae" path="res://assets/game/лестница лево (2).png" id="7_oeygp"]
+[ext_resource type="Resource" uid="uid://4g6rivprc0lb" path="res://diologue/conversations/РС.dialogue" id="8_07bby"]
 [ext_resource type="Texture2D" uid="uid://bpstjoh46xrw4" path="res://assets/game/лестница право.png" id="8_n18g0"]
 [ext_resource type="Script" uid="uid://cfi22hd8uh7j7" path="res://scripts/events/event_triggers_dispatcher.gd" id="9_wp1s6"]
 [ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="10_oo38l"]
 [ext_resource type="Script" path="res://scripts/events/event_trigger.gd" id="11_btheq"]
-[ext_resource type="Resource" uid="uid://ued4680tl1ga" path="res://diologue/conversations/test_npc.dialogue" id="12_oo38l"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w6l0a"]
 texture = ExtResource("1_uc17g")
@@ -388,12 +389,12 @@ sources/1 = SubResource("TileSetAtlasSource_n18g0")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1w1c5"]
 size = Vector2(20, 60)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_lhv57"]
+atlas = ExtResource("4_a0wtj")
+region = Rect2(279.01202, 218.12775, 29.314056, 52.255493)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oo38l"]
 size = Vector2(64, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_btheq"]
-atlas = ExtResource("4_a0wtj")
-region = Rect2(186.453, 272.26108, 21.743713, 46.19519)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_btheq"]
 texture = ExtResource("1_uc17g")
@@ -596,28 +597,23 @@ shape = SubResource("RectangleShape2D_1w1c5")
 
 [node name="NPCs" type="Node" parent="." unique_id=262984613]
 
-[node name="DialogueNPC" parent="." unique_id=2025251257 instance=ExtResource("5_raot0")]
-position = Vector2(691, -1)
+[node name="DialogueNPC10" parent="NPCs" unique_id=302088968 instance=ExtResource("5_raot0")]
+position = Vector2(380, 2)
+dialogue_resource = ExtResource("7_g6dyr")
+idle_texture = SubResource("AtlasTexture_lhv57")
 
-[node name="DialogueNPC2" parent="." unique_id=1702554735 instance=ExtResource("5_raot0")]
-position = Vector2(390, -1)
-
-[node name="DialogueNPC4" parent="." unique_id=1692169350 instance=ExtResource("5_raot0")]
-position = Vector2(-201, 0)
-
-[node name="DialogueNPC5" parent="." unique_id=10446470 instance=ExtResource("5_raot0")]
-position = Vector2(-502, -9)
-
-[node name="DialogueNPC6" parent="." unique_id=1610530424 instance=ExtResource("5_raot0")]
+[node name="DialogueNPC6" parent="NPCs" unique_id=1610530424 instance=ExtResource("5_raot0")]
 position = Vector2(-754, -268)
+dialogue_resource = ExtResource("8_07bby")
+idle_texture = SubResource("AtlasTexture_lhv57")
 
-[node name="DialogueNPC7" parent="." unique_id=177766233 instance=ExtResource("5_raot0")]
+[node name="DialogueNPC7" parent="NPCs" unique_id=177766233 instance=ExtResource("5_raot0")]
 position = Vector2(-754, -859)
 
-[node name="DialogueNPC8" parent="." unique_id=1970528152 instance=ExtResource("5_raot0")]
+[node name="DialogueNPC8" parent="NPCs" unique_id=1970528152 instance=ExtResource("5_raot0")]
 position = Vector2(1153, -648)
 
-[node name="DialogueNPC9" parent="." unique_id=687622419 instance=ExtResource("5_raot0")]
+[node name="DialogueNPC9" parent="NPCs" unique_id=687622419 instance=ExtResource("5_raot0")]
 position = Vector2(933, -825)
 
 [node name="ЛестницаЛево(2)" type="Sprite2D" parent="." unique_id=1072345367]
@@ -642,15 +638,69 @@ event_name = "drill_terror"
 position = Vector2(101, -269)
 shape = SubResource("RectangleShape2D_oo38l")
 
-[node name="NPC-У_Входа" parent="Triggers/TerrorShelter" unique_id=1175136508 instance=ExtResource("5_raot0")]
-position = Vector2(85, -129)
-dialogue_resource = ExtResource("12_oo38l")
-interact_mode = 1
-idle_texture = SubResource("AtlasTexture_btheq")
-
 [node name="TileMapLayer5" type="TileMapLayer" parent="." unique_id=1724633460]
 texture_filter = 1
 position = Vector2(85, 1)
 tile_map_data = PackedByteArray("AACy/93/AwAIAAYAAAC0/93/AwAIAAYAAAC2/93/AwAIAAYAAAC4/93/AwAIAAYAAAC6/93/AwAIAAYAAADU//X/AwAIAAYAAADU//f/AwAIAAYAAADU//n/AwAIAAYAAADU//v/AwAIAAYAAADU//3/AwAIAAYAAADW//X/AwAIAAYAAADW//f/AwAIAAYAAADW//n/AwAIAAYAAADW//v/AwAIAAYAAADW//3/AwAIAAYAAADY//X/AwAIAAYAAADY//f/AwAIAAYAAADY//n/AwAIAAYAAADY//v/AwAIAAYAAADY//3/AwAIAAYAAADa//X/AwAIAAYAAADa//f/AwAIAAYAAADa//n/AwAIAAYAAADa//v/AwAIAAYAAADa//3/AwAIAAYAAADc//X/AwAIAAYAAADc//f/AwAIAAYAAADc//n/AwAIAAYAAADc//v/AwAIAAYAAADc//3/AwAIAAYAAADk//n/AwAHAAYAAADk//v/AwAHAAYAAADk//3/AwAHAAYAAADk////AwAHAAYAAADm//n/AwAHAAYAAADm//v/AwAHAAYAAADm//3/AwAHAAYAAADm////AwAHAAYAAADo//n/AwAHAAYAAADo//v/AwAHAAYAAADo//3/AwAHAAYAAADo////AwAHAAYAAADq//n/AwAHAAYAAADq//v/AwAHAAYAAADq//3/AwAHAAYAAADq////AwAHAAYAAADz//n/AwAHAAYAAADz//v/AwAHAAYAAADz//3/AwAHAAYAAADz////AwAHAAYAAAD1//n/AwAHAAYAAAD1//v/AwAHAAYAAAD1//3/AwAHAAYAAAD1////AwAHAAYAAAD3//n/AwAHAAYAAAD3//v/AwAHAAYAAAD3//3/AwAHAAYAAAD3////AwAHAAYAAAD5//n/AwAHAAYAAAD5//v/AwAHAAYAAAD5//3/AwAHAAYAAAD5////AwAHAAYAAAADAPn/AwAHAAYAAAADAPv/AwAHAAYAAAADAP3/AwAHAAYAAAADAP//AwAHAAYAAAAFAPn/AwAHAAYAAAAFAPv/AwAHAAYAAAAFAP3/AwAHAAYAAAAFAP//AwAHAAYAAAAHAPn/AwAHAAYAAAAHAPv/AwAHAAYAAAAHAP3/AwAHAAYAAAAHAP//AwAHAAYAAAAJAPn/AwAHAAYAAAAJAPv/AwAHAAYAAAAJAP3/AwAHAAYAAAAJAP//AwAHAAYAAAARAPn/AwAHAAYAAAARAPv/AwAHAAYAAAARAP3/AwAHAAYAAAARAP//AwAHAAYAAAATAPn/AwAHAAYAAAATAPv/AwAHAAYAAAATAP3/AwAHAAYAAAATAP//AwAHAAYAAAAVAPn/AwAHAAYAAAAVAPv/AwAHAAYAAAAVAP3/AwAHAAYAAAAVAP//AwAHAAYAAAAXAPn/AwAHAAYAAAAXAPv/AwAHAAYAAAAXAP3/AwAHAAYAAAAXAP//AwAHAAYAAAAaAPn/AwANAAIAAAAaAPr/AwANAAMAAAAgAPj/AwAHAAYAAAAgAPr/AwAHAAYAAAAgAPz/AwAHAAYAAAAgAP7/AwAHAAYAAAAiAPj/AwAHAAYAAAAiAPr/AwAHAAYAAAAiAPz/AwAHAAYAAAAiAP7/AwAHAAYAAAAkAPj/AwAHAAYAAAAkAPr/AwAHAAYAAAAkAPz/AwAHAAYAAAAkAP7/AwAHAAYAAAAmAPj/AwAHAAYAAAAmAPr/AwAHAAYAAAAmAPz/AwAHAAYAAAAmAP7/AwAHAAYAAAAqAPv/AwANAAIAAAAqAPz/AwANAAMAAAA=")
 tile_set = SubResource("TileSet_pdq7r")
 rendering_quadrant_size = 40
+
+[node name="Label" type="Label" parent="." unique_id=832700209]
+offset_left = 1124.0
+offset_top = -480.0
+offset_right = 1176.0
+offset_bottom = -431.0
+text = "2 этаж
+"
+
+[node name="Label3" type="Label" parent="." unique_id=2023606024]
+offset_left = 735.0
+offset_top = -183.0
+offset_right = 787.0
+offset_bottom = -134.0
+text = "207
+"
+
+[node name="Label3" type="Label" parent="Label3" unique_id=491294141]
+layout_mode = 0
+offset_left = -302.0
+offset_right = -250.0
+offset_bottom = 49.0
+text = "206"
+
+[node name="Label3" type="Label" parent="Label3/Label3" unique_id=1267868408]
+layout_mode = 0
+offset_left = -302.0
+offset_right = -250.0
+offset_bottom = 49.0
+text = "205"
+
+[node name="Label3" type="Label" parent="Label3/Label3/Label3" unique_id=1302525008]
+layout_mode = 0
+offset_left = -302.0
+offset_right = -250.0
+offset_bottom = 49.0
+text = "204"
+
+[node name="Label3" type="Label" parent="Label3/Label3/Label3/Label3" unique_id=1309562351]
+layout_mode = 0
+offset_left = -302.0
+offset_right = -250.0
+offset_bottom = 49.0
+text = "203"
+
+[node name="Label3" type="Label" parent="Label3/Label3/Label3/Label3/Label3" unique_id=1061729533]
+layout_mode = 0
+offset_left = -142.0
+offset_top = -138.0
+offset_right = -90.0
+offset_bottom = -89.0
+text = "202"
+
+[node name="Label2" type="Label" parent="." unique_id=1786432920]
+offset_left = -798.0
+offset_top = -480.0
+offset_right = -746.0
+offset_bottom = -431.0
+text = "2 этаж
+"
