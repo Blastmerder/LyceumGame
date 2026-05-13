@@ -5,11 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://dmrlpif00bfbg" path="res://assets/game/build/lycium_inside.png" id="2_3j6x7"]
 [ext_resource type="PackedScene" uid="uid://cxvrirgifddkh" path="res://scenes/components/ladder_component/ladder_component.tscn" id="4_1ivv1"]
 [ext_resource type="Texture2D" uid="uid://bd01q85dkccx6" path="res://assets/game/all spritesheet.png" id="4_2khlx"]
-[ext_resource type="Script" uid="uid://cfi22hd8uh7j7" path="res://scripts/events/event_triggers_dispatcher.gd" id="5_p2aln"]
 [ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="6_awm0h"]
 [ext_resource type="Texture2D" uid="uid://cjlapl3y7srae" path="res://assets/game/лестница лево (2).png" id="6_p2aln"]
 [ext_resource type="Texture2D" uid="uid://bpstjoh46xrw4" path="res://assets/game/лестница право.png" id="7_awm0h"]
-[ext_resource type="Script" path="res://scripts/events/event_trigger.gd" id="7_x13qc"]
+[ext_resource type="Script" path="res://scenes/components/trigger_zone/trigger_zone.gd" id="7_x13qc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7u27s"]
 texture = ExtResource("1_uc17g")
@@ -323,12 +322,12 @@ position = Vector2(-651, -430)
 shape = SubResource("RectangleShape2D_2khlx")
 
 [node name="Triggers" type="Node" parent="." unique_id=528283433]
-script = ExtResource("5_p2aln")
 
 [node name="TerrorShelter" parent="Triggers" unique_id=628084336 instance=ExtResource("6_awm0h")]
 position = Vector2(0, 130)
 script = ExtResource("7_x13qc")
 event_name = "drill_terror"
+trigger_type = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/TerrorShelter" unique_id=1102045571]
 position = Vector2(101, -269)
