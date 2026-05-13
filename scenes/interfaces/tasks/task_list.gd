@@ -1,20 +1,17 @@
 class_name TaskListUI
 extends Control
 
-## Renders a single flat list of accepted tasks (no categories). Each
-## row is an HBox containing a click-able icon Button (used as the
-## checkbox for fuzzy tasks) and a RichTextLabel for the title. When
-## a task completes, the row briefly flashes green; when it fails,
-## the icon switches to ✕, the title is wrapped in [s]…[/s] and the
-## row flashes red. Either resolution schedules the row to be removed
-## after `remove_delay` seconds.
+## Single flat list of accepted tasks. Rows are read-only — the icon
+## is shown for state (☐ / ✔ / ✕) but isn't clickable. Tasks are
+## resolved exclusively by TaskManager (events, triggers, scripts).
 ##
-## Implements the Player idle protocol: on_idle_enable fades the
-## panel out, on_idle_disable fades it back in.
+## Implements the Player idle protocol: on_idle_enable fades the panel
+## out, on_idle_disable fades it back in.
 
 @export var toggle_action: StringName = &"task_list"
 @export var start_hidden: bool = true
 @export var row_font_size: int = 7
+@export var tooltip_font_size: int = 6
 @export var remove_delay: float = 7.0
 @export var success_color: Color = Color(0.45, 1.0, 0.55, 1.0)
 @export var fail_color: Color = Color(1.0, 0.45, 0.45, 1.0)
@@ -68,6 +65,10 @@ func _fade_panel_to(alpha: float, duration: float) -> void:
 
 
 func _on_task_accepted(task: TaskResource) -> void:
+	# Re-accepting a task drops the (possibly resolved) leftover row
+	# straight away so the new run gets a fresh pending row.
+	if _rows.has(task.id):
+		_remove_row_now(task.id)
 	_add_row(task)
 	_update_empty()
 
@@ -87,30 +88,24 @@ func _add_row(task: TaskResource) -> void:
 	var row := HBoxContainer.new()
 	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
-	var icon := Button.new()
-	icon.flat = true
-	icon.focus_mode = Control.FOCUS_NONE
+	var icon := Label.new()
 	icon.custom_minimum_size = Vector2(14, 0)
 	icon.add_theme_font_size_override("font_size", row_font_size)
 
-	var label := RichTextLabel.new()
+	var label := TaskRowLabel.new()
 	label.bbcode_enabled = true
 	label.fit_content = true
 	label.scroll_active = false
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.tooltip_text = task.description
+	label.tooltip_font_size = tooltip_font_size
 	for k in [&"normal_font_size", &"bold_font_size", &"italics_font_size", &"bold_italics_font_size"]:
 		label.add_theme_font_size_override(k, row_font_size)
 
 	row.add_child(icon)
 	row.add_child(label)
 	task_list.add_child(row)
-
-	if task.is_fuzzy():
-		icon.pressed.connect(_on_row_icon_pressed.bind(task.id))
-	else:
-		icon.disabled = true
 
 	_rows[task.id] = {
 		"row": row,
@@ -126,15 +121,13 @@ func _refresh_row(task: TaskResource) -> void:
 	var entry: Dictionary = _rows.get(task.id, {})
 	if entry.is_empty():
 		return
-	var icon: Button = entry.icon
+	var icon: Label = entry.icon
 	var label: RichTextLabel = entry.label
 	if task.failed:
 		icon.text = ICON_FAILED
-		icon.disabled = true
 		label.text = "[s]%s[/s]" % task.title
 	elif task.completed:
 		icon.text = ICON_DONE
-		icon.disabled = true
 		label.text = task.title
 	else:
 		icon.text = ICON_PENDING
@@ -189,14 +182,17 @@ func _remove_row(task_id: String) -> void:
 	_update_empty()
 
 
-func _on_row_icon_pressed(task_id: String) -> void:
-	var tm := _task_manager()
-	if tm == null:
+func _remove_row_now(task_id: String) -> void:
+	var entry: Dictionary = _rows.get(task_id, {})
+	if entry.is_empty():
 		return
-	var task: TaskResource = tm.get_task(task_id)
-	if task == null or task.is_resolved():
-		return
-	tm.complete(task_id)
+	var row: HBoxContainer = entry.row
+	if is_instance_valid(row):
+		row.free()
+	var timer: Timer = entry.timer
+	if timer and is_instance_valid(timer):
+		timer.free()
+	_rows.erase(task_id)
 
 
 func _update_empty() -> void:

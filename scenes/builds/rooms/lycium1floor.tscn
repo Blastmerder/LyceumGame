@@ -11,9 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://bpstjoh46xrw4" path="res://assets/game/лестница право.png" id="9_b6yea"]
 [ext_resource type="Resource" uid="uid://crtucu33cfvwi" path="res://diologue/conversations/ГОША.dialogue" id="9_bh6qa"]
 [ext_resource type="Texture2D" uid="uid://cjlapl3y7srae" path="res://assets/game/лестница лево (2).png" id="9_utufe"]
-[ext_resource type="Script" uid="uid://cfi22hd8uh7j7" path="res://scripts/events/event_triggers_dispatcher.gd" id="11_bh6qa"]
 [ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="12_thufj"]
-[ext_resource type="Script" path="res://scripts/events/event_trigger.gd" id="13_ryu46"]
+[ext_resource type="Script" path="res://scenes/components/trigger_zone/trigger_zone.gd" id="13_ryu46"]
+[ext_resource type="Script" path="res://scripts/events/trigger_zones_manager.gd" id="14_zmgr"]
+[ext_resource type="PackedScene" path="res://scenes/components/trigger_zone/trigger_zone.tscn" id="15_tzpkg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b6yea"]
 texture = ExtResource("1_uc17g")
@@ -356,12 +357,12 @@ interact_mode = 1
 idle_texture = SubResource("AtlasTexture_jv5ce")
 
 [node name="Triggers" type="Node" parent="." unique_id=650280285]
-script = ExtResource("11_bh6qa")
 
 [node name="DroneShelter" parent="Triggers" unique_id=1972534258 instance=ExtResource("12_thufj")]
 position = Vector2(-220, -120)
 script = ExtResource("13_ryu46")
 event_name = "drill_drone"
+trigger_type = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/DroneShelter" unique_id=202642539]
 position = Vector2(-42, -10)
@@ -371,6 +372,7 @@ shape = SubResource("RectangleShape2D_jv5ce")
 position = Vector2(220, -120)
 script = ExtResource("13_ryu46")
 event_name = "drill_fire"
+trigger_type = 0
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Triggers/FireExit" unique_id=845275868]
 position = Vector2(-66, -109)
@@ -394,3 +396,51 @@ offset_right = 845.0
 offset_bottom = -253.0
 text = "1 этаж
 "
+
+[node name="DroneZones" type="Node" parent="."]
+script = ExtResource("14_zmgr")
+event_name = "drill_drone"
+
+[node name="drone_1_a" parent="DroneZones" instance=ExtResource("15_tzpkg")]
+event_name = "drill_drone"
+trigger_type = 1
+
+[node name="drone_1_b" parent="DroneZones" instance=ExtResource("15_tzpkg")]
+event_name = "drill_drone"
+trigger_type = 1
+
+[node name="drone_1_c" parent="DroneZones" instance=ExtResource("15_tzpkg")]
+event_name = "drill_drone"
+trigger_type = 1
+
+[node name="FireZones" type="Node" parent="."]
+script = ExtResource("14_zmgr")
+event_name = "drill_fire"
+
+[node name="fire_1_a" parent="FireZones" instance=ExtResource("15_tzpkg")]
+event_name = "drill_fire"
+trigger_type = 1
+
+[node name="fire_1_b" parent="FireZones" instance=ExtResource("15_tzpkg")]
+event_name = "drill_fire"
+trigger_type = 1
+
+[node name="fire_1_c" parent="FireZones" instance=ExtResource("15_tzpkg")]
+event_name = "drill_fire"
+trigger_type = 1
+
+[node name="TerrorZones" type="Node" parent="."]
+script = ExtResource("14_zmgr")
+event_name = "drill_terror"
+
+[node name="terror_1_a" parent="TerrorZones" instance=ExtResource("15_tzpkg")]
+event_name = "drill_terror"
+trigger_type = 1
+
+[node name="terror_1_b" parent="TerrorZones" instance=ExtResource("15_tzpkg")]
+event_name = "drill_terror"
+trigger_type = 1
+
+[node name="terror_1_c" parent="TerrorZones" instance=ExtResource("15_tzpkg")]
+event_name = "drill_terror"
+trigger_type = 1

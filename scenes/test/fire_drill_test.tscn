@@ -1,0 +1,198 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scenes/test/fire_drill_test.gd" id="1_test"]
+[ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="2_player"]
+[ext_resource type="Script" uid="uid://cqu1r3wb01rsf" path="res://scripts/events/events_container.gd" id="3_evcont"]
+[ext_resource type="Script" path="res://scripts/events/game_event.gd" id="4_event"]
+[ext_resource type="PackedScene" path="res://scenes/components/trigger_zone/trigger_zone.tscn" id="5_zone"]
+[ext_resource type="Script" path="res://scripts/events/trigger_zones_manager.gd" id="6_zmgr"]
+[ext_resource type="PackedScene" uid="uid://c6vfy7ojfiv85" path="res://scenes/interfaces/chat/chat_ui.tscn" id="7_chat"]
+[ext_resource type="PackedScene" uid="uid://biyhbeknolt4d" path="res://scenes/interfaces/tasks/task_list.tscn" id="8_tasks"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(56, 56)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fire"]
+size = Vector2(48, 48)
+
+[node name="FireDrillTest" type="Node2D"]
+script = ExtResource("1_test")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_left = -320.0
+offset_top = -180.0
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0.13, 0.13, 0.16, 1)
+
+[node name="FireExit" parent="." instance=ExtResource("5_zone")]
+position = Vector2(0, -130)
+event_name = "drill_fire"
+trigger_type = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FireExit"]
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="Sprite" type="ColorRect" parent="FireExit"]
+offset_left = -28.0
+offset_top = -28.0
+offset_right = 28.0
+offset_bottom = 28.0
+color = Color(0.4, 0.85, 0.5, 0.6)
+
+[node name="Label" type="Label" parent="FireExit"]
+offset_left = -56.0
+offset_top = 30.0
+offset_right = 56.0
+offset_bottom = 46.0
+text = "Пожарный выход"
+horizontal_alignment = 1
+
+[node name="FireZones" type="Node" parent="."]
+script = ExtResource("6_zmgr")
+event_name = "drill_fire"
+sender = "Менеджер тревоги"
+announce_template = "Активна зона: %s"
+show_active = true
+fade_duration = 0.4
+
+[node name="FireA" parent="FireZones" instance=ExtResource("5_zone")]
+position = Vector2(-200, 40)
+event_name = "drill_fire"
+trigger_type = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FireZones/FireA"]
+shape = SubResource("RectangleShape2D_fire")
+
+[node name="Sprite" type="ColorRect" parent="FireZones/FireA"]
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+color = Color(0.85, 0.3, 0.3, 0.55)
+
+[node name="Label" type="Label" parent="FireZones/FireA"]
+offset_left = -40.0
+offset_top = 26.0
+offset_right = 40.0
+offset_bottom = 42.0
+text = "Огонь A"
+horizontal_alignment = 1
+
+[node name="FireB" parent="FireZones" instance=ExtResource("5_zone")]
+position = Vector2(-70, 110)
+event_name = "drill_fire"
+trigger_type = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FireZones/FireB"]
+shape = SubResource("RectangleShape2D_fire")
+
+[node name="Sprite" type="ColorRect" parent="FireZones/FireB"]
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+color = Color(0.85, 0.3, 0.3, 0.55)
+
+[node name="Label" type="Label" parent="FireZones/FireB"]
+offset_left = -40.0
+offset_top = 26.0
+offset_right = 40.0
+offset_bottom = 42.0
+text = "Огонь B"
+horizontal_alignment = 1
+
+[node name="FireC" parent="FireZones" instance=ExtResource("5_zone")]
+position = Vector2(70, 110)
+event_name = "drill_fire"
+trigger_type = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FireZones/FireC"]
+shape = SubResource("RectangleShape2D_fire")
+
+[node name="Sprite" type="ColorRect" parent="FireZones/FireC"]
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+color = Color(0.85, 0.3, 0.3, 0.55)
+
+[node name="Label" type="Label" parent="FireZones/FireC"]
+offset_left = -40.0
+offset_top = 26.0
+offset_right = 40.0
+offset_bottom = 42.0
+text = "Огонь C"
+horizontal_alignment = 1
+
+[node name="FireD" parent="FireZones" instance=ExtResource("5_zone")]
+position = Vector2(200, 40)
+event_name = "drill_fire"
+trigger_type = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FireZones/FireD"]
+shape = SubResource("RectangleShape2D_fire")
+
+[node name="Sprite" type="ColorRect" parent="FireZones/FireD"]
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+color = Color(0.85, 0.3, 0.3, 0.55)
+
+[node name="Label" type="Label" parent="FireZones/FireD"]
+offset_left = -40.0
+offset_top = 26.0
+offset_right = 40.0
+offset_bottom = 42.0
+text = "Огонь D"
+horizontal_alignment = 1
+
+[node name="Player" parent="." groups=["player"] instance=ExtResource("2_player")]
+position = Vector2(0, 90)
+idle_target_path = NodePath("../UI")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="Events" type="Node" parent="."]
+script = ExtResource("3_evcont")
+
+[node name="drill_fire" type="Node" parent="Events"]
+script = ExtResource("4_event")
+single_fire = false
+task_id = "drill_fire"
+task_title = "Учебная тревога: пожар"
+task_description = "Доберись до пожарного выхода, не задев огонь."
+chat_sender = "Завуч"
+start_chat = "Пожарная тревога: эвакуируйся."
+complete_chat = "Эвакуация выполнена."
+failed_chat = "Огонь догнал тебя — учения провалены."
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ChatUI" parent="UI" instance=ExtResource("7_chat")]
+
+[node name="TaskListUI" parent="UI" instance=ExtResource("8_tasks")]
+start_hidden = false
+
+[node name="Controls" type="PanelContainer" parent="UI"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -56.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBox" type="HBoxContainer" parent="UI/Controls"]
+layout_mode = 2
+
+[node name="Hint" type="Label" parent="UI/Controls/HBox"]
+layout_mode = 2
+text = "Пожарная тревога"
+
+[node name="StartButton" type="Button" parent="UI/Controls/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Запустить пожарную тревогу"
