@@ -53,7 +53,8 @@ script = ExtResource("6_zmgr")
 event_name = "drill_fire"
 sender = "Менеджер тревоги"
 announce_template = "Активна зона: %s"
-show_active = false
+show_active = true
+fade_duration = 0.4
 
 [node name="FireA" parent="FireZones" instance=ExtResource("5_zone")]
 position = Vector2(-200, 40)

@@ -32,15 +32,25 @@ extends Node
 @export var sender: String = "Менеджер тревоги"
 ## Goes through `% area.name` — leave the %s in place.
 @export var announce_template: String = "Активна зона: %s"
-## When true the picked child becomes visible while the others stay
-## hidden. Off by default so the player can't see which zone is live
-## until they walk into it (or read the chat hint).
-@export var show_active: bool = false
+## Toggles visibility together with monitoring. When true (default),
+## every zone's CanvasItem.visible follows its active state — so the
+## fire / drone / etc. textures attached to a zone disappear while
+## the event isn't running and reappear only on the chosen zone.
+## CanvasItem visibility cascades to children, so any Sprite2D /
+## Label / ColorRect dropped under a zone fades with it.
+@export var show_active: bool = true
+## How long the visibility transition takes (seconds). 0 = instant
+## toggle. Any positive value tweens modulate.a on the zone so
+## children fade in / out instead of popping.
+@export var fade_duration: float = 0.0
 ## Pixels: zones closer to the player than this are excluded from the
 ## random pick so we never spawn the danger right under the feet.
 @export var min_player_distance: float = 80.0
 ## Group used to locate the player on the active scene.
 @export var player_group: StringName = &"player"
+
+
+var _fade_tweens: Dictionary = {}
 
 
 func _ready() -> void:
@@ -116,8 +126,30 @@ func _disable_all_zones() -> void:
 
 func _apply_enabled(area: Area2D, enabled: bool) -> void:
 	area.monitoring = enabled
-	if show_active:
+	if not show_active:
+		return
+	# Stop any in-flight fade for this zone so toggles don't stack.
+	var prev: Tween = _fade_tweens.get(area)
+	if prev and prev.is_valid():
+		prev.kill()
+		_fade_tweens.erase(area)
+	if fade_duration <= 0.0:
 		area.visible = enabled
+		area.modulate.a = 1.0 if enabled else 0.0
+		return
+	# Tweened transition. visible has to flip on before the fade-in
+	# (otherwise the children stay culled); for the fade-out we wait
+	# until the tween ends, then hide.
+	if enabled:
+		area.visible = true
+		var tw_in := area.create_tween()
+		tw_in.tween_property(area, "modulate:a", 1.0, fade_duration)
+		_fade_tweens[area] = tw_in
+	else:
+		var tw_out := area.create_tween()
+		tw_out.tween_property(area, "modulate:a", 0.0, fade_duration)
+		tw_out.tween_callback(func(): area.visible = false)
+		_fade_tweens[area] = tw_out
 
 
 func _areas() -> Array[Area2D]:
