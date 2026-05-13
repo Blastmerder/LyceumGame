@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://gy8so1d43sfe"
+path="res://.godot/imported/МАТ.dialogue-82e5f9ef20a15819d1d5e1902f79420f.tres"
+
+[deps]
+
+source_file="res://diologue/conversations/МАТ.dialogue"
+dest_files=["res://.godot/imported/МАТ.dialogue-82e5f9ef20a15819d1d5e1902f79420f.tres"]
+
+[params]
+
+defaults=true

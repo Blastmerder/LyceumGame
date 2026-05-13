@@ -7,8 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://clpdgxmki4b1s" path="res://assets/raw/spritesheet new3.png" id="4_rjc7q"]
 [ext_resource type="Texture2D" uid="uid://da3ex4g2qfjkd" path="res://assets/raw/spriteshee new.png" id="5_cg0ad"]
 [ext_resource type="Texture2D" uid="uid://bd01q85dkccx6" path="res://assets/game/all spritesheet.png" id="6_s7nx6"]
-[ext_resource type="Texture2D" uid="uid://cjlapl3y7srae" path="res://assets/game/лестница лево (2).png" id="7_cg0ad"]
 [ext_resource type="Texture2D" uid="uid://bpstjoh46xrw4" path="res://assets/game/лестница право.png" id="8_s7nx6"]
+[ext_resource type="Texture2D" uid="uid://bqlxchfjycb58" path="res://assets/game/лестница лево 4 этаж верх.png" id="9_iawkm"]
+[ext_resource type="Texture2D" uid="uid://cfp3w2k1mqejj" path="res://assets/game/лестница лево 4 этаж низ.png" id="10_2h0hn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1kwib"]
 texture = ExtResource("1_55ucp")
@@ -309,7 +310,7 @@ rendering_quadrant_size = 40
 
 [node name="TileMapLayer4" type="TileMapLayer" parent="TileMapLayer" unique_id=2042044738]
 texture_filter = 1
-tile_map_data = PackedByteArray("AADY/+n/AwADAAcAAADY/+r/AwADAAcAAADY/+v/AwADAAcAAADY/+z/AwADAAcAAADY/+3/AwADAAcAAADY/+7/AwADAAcAAADY/+//AwADAAcAAADZ/+n/AwADAAcAAADZ/+r/AwADAAcAAADZ/+v/AwADAAcAAADZ/+z/AwADAAcAAADZ/+3/AwADAAcAAADZ/+7/AwADAAcAAADZ/+//AwADAAcAAADa/+n/AwADAAcAAADa/+r/AwADAAcAAADa/+v/AwADAAcAAADa/+z/AwADAAcAAADa/+3/AwADAAcAAADa/+7/AwADAAcAAADa/+//AwADAAcAAADb/+n/AwADAAcAAADb/+r/AwADAAcAAADb/+v/AwADAAcAAADb/+z/AwADAAcAAADb/+3/AwADAAcAAADb/+7/AwADAAcAAADb/+//AwADAAcAAADc/+n/AwADAAcAAADc/+r/AwADAAcAAADc/+v/AwADAAcAAADc/+z/AwADAAcAAADc/+3/AwADAAcAAADc/+7/AwADAAcAAADc/+//AwADAAcAAADd/+n/AwADAAcAAADd/+r/AwADAAcAAADd/+v/AwADAAcAAADd/+z/AwADAAcAAADd/+3/AwADAAcAAADd/+7/AwADAAcAAADd/+//AwADAAcAAADe/+n/AwADAAcAAADe/+r/AwADAAcAAADe/+v/AwADAAcAAADe/+z/AwADAAcAAADe/+3/AwADAAcAAADe/+7/AwADAAcAAADe/+//AwADAAcAAADf/+n/AwADAAcAAADf/+r/AwADAAcAAADf/+v/AwADAAcAAADf/+z/AwADAAcAAADf/+3/AwADAAcAAADf/+7/AwADAAcAAADf/+//AwADAAcAAADg/+n/AwADAAcAAADg/+r/AwADAAcAAADg/+v/AwADAAcAAADg/+z/AwADAAcAAADg/+3/AwADAAcAAADg/+7/AwADAAcAAADg/+//AwADAAcAAADh/+n/AwADAAcAAADh/+r/AwADAAcAAADh/+v/AwADAAcAAADh/+z/AwADAAcAAADh/+3/AwADAAcAAADh/+7/AwADAAcAAADh/+//AwADAAcAAADi/+n/AwADAAcAAADi/+r/AwADAAcAAADi/+v/AwADAAcAAADi/+z/AwADAAcAAADi/+3/AwADAAcAAADi/+7/AwADAAcAAADi/+//AwADAAcAAADj/+n/AwADAAcAAADj/+r/AwADAAcAAADj/+v/AwADAAcAAADj/+z/AwADAAcAAADj/+3/AwADAAcAAADj/+7/AwADAAcAAADj/+//AwADAAcAAADk/+n/AwADAAcAAADk/+r/AwADAAcAAADk/+v/AwADAAcAAADk/+z/AwADAAcAAADk/+3/AwADAAcAAADk/+7/AwADAAcAAADk/+//AwADAAcAAAAwAOn/AwADAAcAAAAwAOr/AwADAAcAAAAwAOv/AwADAAcAAAAwAOz/AwADAAcAAAAwAO3/AwADAAcAAAAwAO7/AwADAAcAAAAwAO//AwADAAcAAAAxAOn/AwADAAcAAAAxAOr/AwADAAcAAAAxAOv/AwADAAcAAAAxAOz/AwADAAcAAAAxAO3/AwADAAcAAAAxAO7/AwADAAcAAAAxAO//AwADAAcAAAAyAOn/AwADAAcAAAAyAOr/AwADAAcAAAAyAOv/AwADAAcAAAAyAOz/AwADAAcAAAAyAO3/AwADAAcAAAAyAO7/AwADAAcAAAAyAO//AwADAAcAAAAzAOn/AwADAAcAAAAzAOr/AwADAAcAAAAzAOv/AwADAAcAAAAzAOz/AwADAAcAAAAzAO3/AwADAAcAAAAzAO7/AwADAAcAAAAzAO//AwADAAcAAAA0AOn/AwADAAcAAAA0AOr/AwADAAcAAAA0AOv/AwADAAcAAAA0AOz/AwADAAcAAAA0AO3/AwADAAcAAAA0AO7/AwADAAcAAAA0AO//AwADAAcAAAA1AOn/AwADAAcAAAA1AOr/AwADAAcAAAA1AOv/AwADAAcAAAA1AOz/AwADAAcAAAA1AO3/AwADAAcAAAA1AO7/AwADAAcAAAA1AO//AwADAAcAAAA2AOn/AwADAAcAAAA2AOr/AwADAAcAAAA2AOv/AwADAAcAAAA2AOz/AwADAAcAAAA2AO3/AwADAAcAAAA2AO7/AwADAAcAAAA2AO//AwADAAcAAAA3AOn/AwADAAcAAAA3AOr/AwADAAcAAAA3AOv/AwADAAcAAAA3AOz/AwADAAcAAAA3AO3/AwADAAcAAAA3AO7/AwADAAcAAAA3AO//AwADAAcAAAA4AOn/AwADAAcAAAA4AOr/AwADAAcAAAA4AOv/AwADAAcAAAA4AOz/AwADAAcAAAA4AO3/AwADAAcAAAA4AO7/AwADAAcAAAA4AO//AwADAAcAAAA5AOn/AwADAAcAAAA5AOr/AwADAAcAAAA5AOv/AwADAAcAAAA5AOz/AwADAAcAAAA5AO3/AwADAAcAAAA5AO7/AwADAAcAAAA5AO//AwADAAcAAAA6AOn/AwADAAcAAAA6AOr/AwADAAcAAAA6AOv/AwADAAcAAAA6AOz/AwADAAcAAAA6AO3/AwADAAcAAAA6AO7/AwADAAcAAAA6AO//AwADAAcAAAA=")
+tile_map_data = PackedByteArray("AADY/+n/AwADAAcAAADY/+r/AwADAAcAAADY/+v/AwADAAcAAADY/+z/AwADAAcAAADY/+3/AwADAAcAAADY/+7/AwADAAcAAADY/+//AwADAAcAAADZ/+n/AwADAAcAAADZ/+r/AwADAAcAAADZ/+v/AwADAAcAAADZ/+z/AwADAAcAAADZ/+3/AwADAAcAAADZ/+7/AwADAAcAAADZ/+//AwADAAcAAADa/+n/AwADAAcAAADa/+r/AwADAAcAAADa/+v/AwADAAcAAADa/+z/AwADAAcAAADa/+3/AwADAAcAAADa/+7/AwADAAcAAADa/+//AwADAAcAAADb/+n/AwADAAcAAADb/+r/AwADAAcAAADb/+v/AwADAAcAAADb/+z/AwADAAcAAADb/+3/AwADAAcAAADb/+7/AwADAAcAAADb/+//AwADAAcAAADc/+n/AwADAAcAAADc/+r/AwADAAcAAADc/+v/AwADAAcAAADc/+z/AwADAAcAAADc/+3/AwADAAcAAADc/+7/AwADAAcAAADc/+//AwADAAcAAADd/+n/AwADAAcAAADd/+r/AwADAAcAAADd/+v/AwADAAcAAADd/+z/AwADAAcAAADd/+3/AwADAAcAAADd/+7/AwADAAcAAADd/+//AwADAAcAAADe/+n/AwADAAcAAADe/+r/AwADAAcAAADe/+v/AwADAAcAAADe/+z/AwADAAcAAADe/+3/AwADAAcAAADe/+7/AwADAAcAAADe/+//AwADAAcAAADf/+n/AwADAAcAAADf/+r/AwADAAcAAADf/+v/AwADAAcAAADf/+z/AwADAAcAAADf/+3/AwADAAcAAADf/+7/AwADAAcAAADf/+//AwADAAcAAADg/+n/AwADAAcAAADg/+r/AwADAAcAAADg/+v/AwADAAcAAADg/+z/AwADAAcAAADg/+3/AwADAAcAAADg/+7/AwADAAcAAADg/+//AwADAAcAAADh/+n/AwADAAcAAADh/+r/AwADAAcAAADh/+v/AwADAAcAAADh/+z/AwADAAcAAADh/+3/AwADAAcAAADh/+7/AwADAAcAAADh/+//AwADAAcAAADi/+n/AwADAAcAAADi/+r/AwADAAcAAADi/+v/AwADAAcAAADi/+z/AwADAAcAAADi/+3/AwADAAcAAADi/+7/AwADAAcAAADi/+//AwADAAcAAADj/+n/AwADAAcAAADj/+r/AwADAAcAAADj/+v/AwADAAcAAADj/+z/AwADAAcAAADj/+3/AwADAAcAAADj/+7/AwADAAcAAADj/+//AwADAAcAAAAwAOn/AwADAAcAAAAwAOr/AwADAAcAAAAwAOv/AwADAAcAAAAwAOz/AwADAAcAAAAwAO3/AwADAAcAAAAwAO7/AwADAAcAAAAwAO//AwADAAcAAAAxAOn/AwADAAcAAAAxAOr/AwADAAcAAAAxAOv/AwADAAcAAAAxAOz/AwADAAcAAAAxAO3/AwADAAcAAAAxAO7/AwADAAcAAAAxAO//AwADAAcAAAAyAOn/AwADAAcAAAAyAOr/AwADAAcAAAAyAOv/AwADAAcAAAAyAOz/AwADAAcAAAAyAO3/AwADAAcAAAAyAO7/AwADAAcAAAAyAO//AwADAAcAAAAzAOn/AwADAAcAAAAzAOr/AwADAAcAAAAzAOv/AwADAAcAAAAzAOz/AwADAAcAAAAzAO3/AwADAAcAAAAzAO7/AwADAAcAAAAzAO//AwADAAcAAAA0AOn/AwADAAcAAAA0AOr/AwADAAcAAAA0AOv/AwADAAcAAAA0AOz/AwADAAcAAAA0AO3/AwADAAcAAAA0AO7/AwADAAcAAAA0AO//AwADAAcAAAA1AOn/AwADAAcAAAA1AOr/AwADAAcAAAA1AOv/AwADAAcAAAA1AOz/AwADAAcAAAA1AO3/AwADAAcAAAA1AO7/AwADAAcAAAA1AO//AwADAAcAAAA2AOn/AwADAAcAAAA2AOr/AwADAAcAAAA2AOv/AwADAAcAAAA2AOz/AwADAAcAAAA2AO3/AwADAAcAAAA2AO7/AwADAAcAAAA2AO//AwADAAcAAAA3AOn/AwADAAcAAAA3AOr/AwADAAcAAAA3AOv/AwADAAcAAAA3AOz/AwADAAcAAAA3AO3/AwADAAcAAAA3AO7/AwADAAcAAAA3AO//AwADAAcAAAA4AOn/AwADAAcAAAA4AOr/AwADAAcAAAA4AOv/AwADAAcAAAA4AOz/AwADAAcAAAA4AO3/AwADAAcAAAA4AO7/AwADAAcAAAA4AO//AwADAAcAAAA5AOn/AwADAAcAAAA5AOr/AwADAAcAAAA5AOv/AwADAAcAAAA5AOz/AwADAAcAAAA5AO3/AwADAAcAAAA5AO7/AwADAAcAAAA5AO//AwADAAcAAAA6AOn/AwADAAcAAAA6AOr/AwADAAcAAAA6AOv/AwADAAcAAAA6AOz/AwADAAcAAAA6AO3/AwADAAcAAAA6AO7/AwADAAcAAAA6AO//AwADAAcAAAA=")
 tile_set = SubResource("TileSet_mpurv")
 rendering_quadrant_size = 40
 
@@ -322,25 +323,20 @@ direction = 1
 position = Vector2(999, -430)
 shape = SubResource("RectangleShape2D_1kwib")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladders/up" unique_id=1508041888]
-position = Vector2(-601, -430)
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="ladders/up" unique_id=1808334397]
+position = Vector2(-601, -350.5)
 shape = SubResource("RectangleShape2D_1kwib")
 
 [node name="down" parent="ladders" unique_id=831215949 instance=ExtResource("3_tyvuy")]
 direction = -1
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="ladders/down" unique_id=1808334397]
-position = Vector2(-601, -350.5)
-shape = SubResource("RectangleShape2D_1kwib")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ladders/down" unique_id=115419620]
 position = Vector2(999, -350.5)
 shape = SubResource("RectangleShape2D_1kwib")
 
-[node name="ЛестницаЛево(2)" type="Sprite2D" parent="." unique_id=1046364633]
-texture_filter = 1
-position = Vector2(-711, -393)
-texture = ExtResource("7_cg0ad")
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladders/down" unique_id=1508041888]
+position = Vector2(-601, -430)
+shape = SubResource("RectangleShape2D_1kwib")
 
 [node name="ЛестницаПраво" type="Sprite2D" parent="." unique_id=873906065]
 texture_filter = 1
@@ -356,3 +352,15 @@ shape = SubResource("RectangleShape2D_s7nx6")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=885149222]
 position = Vector2(-690.52344, -398.5)
 shape = SubResource("RectangleShape2D_s7nx6")
+
+[node name="ЛестницаЛево4ЭтажВерх" type="Sprite2D" parent="." unique_id=1617006703]
+texture_filter = 1
+position = Vector2(-726, -432)
+scale = Vector2(1.0649999, 1.0649999)
+texture = ExtResource("9_iawkm")
+
+[node name="ЛестницаЛево4ЭтажНиз" type="Sprite2D" parent="." unique_id=409119662]
+texture_filter = 1
+position = Vector2(-703.3, -370.8)
+scale = Vector2(1.0866665, 1.0866665)
+texture = ExtResource("10_2h0hn")

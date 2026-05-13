@@ -1,19 +1,21 @@
 [gd_scene format=4 uid="uid://mpgrxw4u3glh"]
 
-[ext_resource type="Script" uid="uid://dgre4c4x1xo7k" path="res://scenes/builds/rooms/lycium_1_floor.gd" id="1_2pgmq"]
 [ext_resource type="Texture2D" uid="uid://dqfkv3lc575gv" path="res://assets/game/build/walls.png" id="1_uc17g"]
 [ext_resource type="Texture2D" uid="uid://dmrlpif00bfbg" path="res://assets/game/build/lycium_inside.png" id="2_3j6x7"]
 [ext_resource type="PackedScene" uid="uid://cxvrirgifddkh" path="res://scenes/components/ladder_component/ladder_component.tscn" id="4_1w1c5"]
 [ext_resource type="Texture2D" uid="uid://bd01q85dkccx6" path="res://assets/game/all spritesheet.png" id="4_a0wtj"]
 [ext_resource type="PackedScene" path="res://scenes/characters/npc/dialogue_npc.tscn" id="5_raot0"]
-[ext_resource type="Resource" uid="uid://b7yraqrx2wc6k" path="res://diologue/conversations/мат.dialogue" id="7_g6dyr"]
-[ext_resource type="Texture2D" uid="uid://cjlapl3y7srae" path="res://assets/game/лестница лево (2).png" id="7_oeygp"]
+[ext_resource type="Resource" uid="uid://gy8so1d43sfe" path="res://diologue/conversations/МАТ.dialogue" id="6_pdq7r"]
+[ext_resource type="Texture2D" uid="uid://bn2pm4yk8j44u" path="res://assets/game/лестница право 4 этаж верх.png" id="7_07bby"]
 [ext_resource type="Resource" uid="uid://4g6rivprc0lb" path="res://diologue/conversations/РС.dialogue" id="8_07bby"]
-[ext_resource type="Texture2D" uid="uid://bpstjoh46xrw4" path="res://assets/game/лестница право.png" id="8_n18g0"]
+[ext_resource type="Texture2D" uid="uid://bdmjjfeervgot" path="res://assets/game/лестница право 4 этаж низ.png" id="8_pdq7r"]
 [ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="10_oo38l"]
-[ext_resource type="Script" path="res://scenes/components/trigger_zone/trigger_zone.gd" id="11_btheq"]
-[ext_resource type="Script" path="res://scripts/events/trigger_zones_manager.gd" id="12_zmgr"]
+[ext_resource type="Resource" uid="uid://ued4680tl1ga" path="res://diologue/conversations/test_npc.dialogue" id="10_pdq7r"]
+[ext_resource type="Script" uid="uid://ci13dv7117pv7" path="res://scenes/components/trigger_zone/trigger_zone.gd" id="11_btheq"]
+[ext_resource type="Script" uid="uid://dr1fyysptatqh" path="res://scripts/events/trigger_zones_manager.gd" id="12_zmgr"]
+[ext_resource type="Texture2D" uid="uid://bqlxchfjycb58" path="res://assets/game/лестница лево 4 этаж верх.png" id="13_g6dyr"]
 [ext_resource type="PackedScene" path="res://scenes/components/trigger_zone/trigger_zone.tscn" id="13_tzpkg"]
+[ext_resource type="Texture2D" uid="uid://cfp3w2k1mqejj" path="res://assets/game/лестница лево 4 этаж низ.png" id="14_07bby"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w6l0a"]
 texture = ExtResource("1_uc17g")
@@ -390,12 +392,19 @@ sources/1 = SubResource("TileSetAtlasSource_n18g0")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1w1c5"]
 size = Vector2(20, 60)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdq7r"]
+atlas = ExtResource("4_a0wtj")
+region = Rect2(285.4785, 223.03258, 19.849396, 47.123)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_lhv57"]
 atlas = ExtResource("4_a0wtj")
-region = Rect2(279.01202, 218.12775, 29.314056, 52.255493)
+region = Rect2(283.66403, 270.63116, 23.561493, 50.540314)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oo38l"]
-size = Vector2(64, 40)
+size = Vector2(265, 133)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pdq7r"]
+size = Vector2(1517, 46)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_btheq"]
 texture = ExtResource("1_uc17g")
@@ -551,8 +560,17 @@ sources/0 = SubResource("TileSetAtlasSource_btheq")
 sources/1 = SubResource("TileSetAtlasSource_g6dyr")
 sources/3 = SubResource("TileSetAtlasSource_07bby")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_btheq"]
+size = Vector2(372, 955)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g6dyr"]
+size = Vector2(92.52344, 23.5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_guakc"]
+atlas = ExtResource("4_a0wtj")
+region = Rect2(186.453, 272.26108, 21.743713, 46.19519)
+
 [node name="Lycium2Floor" type="Node2D" unique_id=1444185617]
-script = ExtResource("1_2pgmq")
 
 [node name="TileMapLayer4" type="TileMapLayer" parent="." unique_id=1779977915]
 texture_filter = 1
@@ -581,8 +599,8 @@ direction = 1
 position = Vector2(1050, -351)
 shape = SubResource("RectangleShape2D_1w1c5")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladders/up" unique_id=526719390]
-position = Vector2(-651, -350)
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="ladders/up" unique_id=76702836]
+position = Vector2(-661, -431)
 shape = SubResource("RectangleShape2D_1w1c5")
 
 [node name="down" parent="ladders" unique_id=1299973125 instance=ExtResource("4_1w1c5")]
@@ -592,16 +610,16 @@ direction = -1
 position = Vector2(1050, -430)
 shape = SubResource("RectangleShape2D_1w1c5")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="ladders/down" unique_id=76702836]
-position = Vector2(-651, -430)
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ladders/down" unique_id=526719390]
+position = Vector2(-651, -350)
 shape = SubResource("RectangleShape2D_1w1c5")
 
 [node name="NPCs" type="Node" parent="." unique_id=262984613]
 
 [node name="DialogueNPC10" parent="NPCs" unique_id=302088968 instance=ExtResource("5_raot0")]
-position = Vector2(380, 2)
-dialogue_resource = ExtResource("7_g6dyr")
-idle_texture = SubResource("AtlasTexture_lhv57")
+position = Vector2(685, -34)
+dialogue_resource = ExtResource("6_pdq7r")
+idle_texture = SubResource("AtlasTexture_pdq7r")
 
 [node name="DialogueNPC6" parent="NPCs" unique_id=1610530424 instance=ExtResource("5_raot0")]
 position = Vector2(-754, -268)
@@ -617,16 +635,6 @@ position = Vector2(1153, -648)
 [node name="DialogueNPC9" parent="NPCs" unique_id=687622419 instance=ExtResource("5_raot0")]
 position = Vector2(933, -825)
 
-[node name="ЛестницаЛево(2)" type="Sprite2D" parent="." unique_id=1072345367]
-texture_filter = 1
-position = Vector2(-711, -393)
-texture = ExtResource("7_oeygp")
-
-[node name="ЛестницаПраво" type="Sprite2D" parent="." unique_id=1710460277]
-texture_filter = 1
-position = Vector2(1095, -393)
-texture = ExtResource("8_n18g0")
-
 [node name="Triggers" type="Node" parent="." unique_id=498070334]
 
 [node name="TerrorShelter" parent="Triggers" unique_id=710325267 instance=ExtResource("10_oo38l")]
@@ -634,10 +642,19 @@ position = Vector2(0, 130)
 script = ExtResource("11_btheq")
 event_name = "drill_terror"
 trigger_type = 0
+arm_delay = 0.15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/TerrorShelter" unique_id=644106402]
-position = Vector2(101, -269)
+position = Vector2(202.5, -197.5)
 shape = SubResource("RectangleShape2D_oo38l")
+
+[node name="drone_2_a" parent="Triggers" unique_id=1898447507 instance=ExtResource("13_tzpkg")]
+event_name = "drill_drone"
+trigger_type = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/drone_2_a" unique_id=1900778269]
+position = Vector2(201.5, 26)
+shape = SubResource("RectangleShape2D_pdq7r")
 
 [node name="TileMapLayer5" type="TileMapLayer" parent="." unique_id=1724633460]
 texture_filter = 1
@@ -706,50 +723,79 @@ offset_bottom = -431.0
 text = "2 этаж
 "
 
-[node name="DroneZones" type="Node" parent="."]
-script = ExtResource("12_zmgr")
-event_name = "drill_drone"
-
-[node name="drone_2_a" parent="DroneZones" instance=ExtResource("13_tzpkg")]
-event_name = "drill_drone"
-trigger_type = 1
-
-[node name="drone_2_b" parent="DroneZones" instance=ExtResource("13_tzpkg")]
-event_name = "drill_drone"
-trigger_type = 1
-
-[node name="drone_2_c" parent="DroneZones" instance=ExtResource("13_tzpkg")]
-event_name = "drill_drone"
-trigger_type = 1
-
-[node name="FireZones" type="Node" parent="."]
+[node name="FireZones" type="Node" parent="." unique_id=364405621]
 script = ExtResource("12_zmgr")
 event_name = "drill_fire"
 
-[node name="fire_2_a" parent="FireZones" instance=ExtResource("13_tzpkg")]
+[node name="fire_2_a" parent="FireZones" unique_id=651476186 instance=ExtResource("13_tzpkg")]
+visible = false
 event_name = "drill_fire"
 trigger_type = 1
 
-[node name="fire_2_b" parent="FireZones" instance=ExtResource("13_tzpkg")]
+[node name="Background" type="ColorRect" parent="FireZones/fire_2_a" unique_id=1164009984]
+offset_left = -810.0
+offset_top = -902.0
+offset_right = -433.0
+offset_bottom = 52.0
+color = Color(0.14117648, 0.16078432, 0.18039216, 0.8117647)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FireZones/fire_2_a" unique_id=1457725327]
+position = Vector2(-617, -429.5)
+shape = SubResource("RectangleShape2D_btheq")
+
+[node name="fire_2_b" parent="FireZones" unique_id=575712996 instance=ExtResource("13_tzpkg")]
+visible = false
 event_name = "drill_fire"
 trigger_type = 1
 
-[node name="fire_2_c" parent="FireZones" instance=ExtResource("13_tzpkg")]
-event_name = "drill_fire"
-trigger_type = 1
+[node name="Background" type="ColorRect" parent="FireZones/fire_2_b" unique_id=1130851678]
+offset_left = 838.0
+offset_top = -902.0
+offset_right = 1215.0
+offset_bottom = 52.0
+color = Color(0.14117648, 0.16078432, 0.18039216, 0.8117647)
 
-[node name="TerrorZones" type="Node" parent="."]
-script = ExtResource("12_zmgr")
-event_name = "drill_terror"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FireZones/fire_2_b" unique_id=603789153]
+position = Vector2(1031, -429.5)
+shape = SubResource("RectangleShape2D_btheq")
 
-[node name="terror_2_a" parent="TerrorZones" instance=ExtResource("13_tzpkg")]
-event_name = "drill_terror"
-trigger_type = 1
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1781979927]
+position = Vector2(-651, -350)
 
-[node name="terror_2_b" parent="TerrorZones" instance=ExtResource("13_tzpkg")]
-event_name = "drill_terror"
-trigger_type = 1
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1392710001]
+position = Vector2(1757, -42.25)
+shape = SubResource("RectangleShape2D_g6dyr")
 
-[node name="terror_2_c" parent="TerrorZones" instance=ExtResource("13_tzpkg")]
-event_name = "drill_terror"
-trigger_type = 1
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=344886296]
+position = Vector2(-45.26172, -48)
+shape = SubResource("RectangleShape2D_g6dyr")
+
+[node name="ЛестницаЛево4ЭтажВерх" type="Sprite2D" parent="." unique_id=1624783635]
+texture_filter = 1
+position = Vector2(-726, -432)
+scale = Vector2(1.0649999, 1.0649999)
+texture = ExtResource("13_g6dyr")
+
+[node name="ЛестницаЛево4ЭтажНиз" type="Sprite2D" parent="." unique_id=724067554]
+z_index = 25
+texture_filter = 1
+position = Vector2(-703.3, -370.8)
+scale = Vector2(1.0866665, 1.0866665)
+texture = ExtResource("14_07bby")
+
+[node name="ЛестницаПраво4ЭтажВерх" type="Sprite2D" parent="." unique_id=690703307]
+z_index = 53
+texture_filter = 1
+position = Vector2(1099, -432)
+texture = ExtResource("7_07bby")
+
+[node name="ЛестницаПраво4ЭтажНиз" type="Sprite2D" parent="." unique_id=286729341]
+texture_filter = 1
+position = Vector2(1112, -364)
+texture = ExtResource("8_pdq7r")
+
+[node name="NPC-У_Входа" parent="." unique_id=1482732285 instance=ExtResource("5_raot0")]
+position = Vector2(-534, -49)
+dialogue_resource = ExtResource("10_pdq7r")
+interact_mode = 1
+idle_texture = SubResource("AtlasTexture_guakc")
