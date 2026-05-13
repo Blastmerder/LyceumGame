@@ -104,7 +104,7 @@ horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." unique_id=457826274 groups=["player"] instance=ExtResource("2_player")]
-idle_target_path = NodePath("../UI/ChatUI")
+idle_target_path = NodePath("../UI")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=94267807]
 
