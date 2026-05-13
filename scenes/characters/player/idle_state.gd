@@ -2,6 +2,7 @@ extends NodeState
 
 @export var player: Player
 @export var animatedSprite2d: AnimatedSprite2D 
+@onready var idle_timer: Timer = $"../../IdleTimer"
 
 func _on_process(_delta : float) -> void:
 	pass 
@@ -27,7 +28,7 @@ func _on_next_transitions() -> void:
 
 
 func _on_enter() -> void:
-	pass
+	idle_timer.start()
 
 
 func _on_exit() -> void:
