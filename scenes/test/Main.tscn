@@ -14,7 +14,7 @@ ledder_part = ExtResource("2_ptl7i")
 
 [node name="Player" parent="." unique_id=904295320 instance=ExtResource("1_vwkqo")]
 position = Vector2(182, 70)
-idle_target_path = NodePath("../UI/ChatUI")
+idle_target_path = NodePath("../UI")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=2027242827]
 
