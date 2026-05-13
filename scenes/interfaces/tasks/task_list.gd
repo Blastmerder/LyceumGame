@@ -1,25 +1,32 @@
 class_name TaskListUI
 extends Control
 
-## Lists accepted tasks. Honours the Player idle protocol:
-##   on_idle_enable  -> fade out
-##   on_idle_disable -> fade in
-## …so it can be parked under the same UI container as ChatUI and
-## both fade together when the player is AFK.
+## Renders a single flat list of accepted tasks (no categories). Each
+## row is an HBox containing a click-able icon Button (used as the
+## checkbox for fuzzy tasks) and a RichTextLabel for the title. When
+## a task completes, the row briefly flashes green; when it fails,
+## the icon switches to ✕, the title is wrapped in [s]…[/s] and the
+## row flashes red. Either resolution schedules the row to be removed
+## after `remove_delay` seconds.
+##
+## Implements the Player idle protocol: on_idle_enable fades the
+## panel out, on_idle_disable fades it back in.
 
 @export var toggle_action: StringName = &"task_list"
-## When true the panel hides itself in _ready and the toggle action
-## brings it back. Set to false on test/demo scenes that should always
-## show the list.
 @export var start_hidden: bool = true
-## Font size applied to dynamically created CheckBox rows. Matches the
-## downscaled ChatUI font (~2.3x smaller than Godot's default 16).
 @export var row_font_size: int = 7
+@export var remove_delay: float = 7.0
+@export var success_color: Color = Color(0.45, 1.0, 0.55, 1.0)
+@export var fail_color: Color = Color(1.0, 0.45, 0.45, 1.0)
+@export var flash_duration: float = 0.4
 @export var fade_out_duration: float = 0.6
 @export var fade_in_duration: float = 0.3
 
-@onready var exact_list: VBoxContainer = %ExactList
-@onready var fuzzy_list: VBoxContainer = %FuzzyList
+const ICON_PENDING := "☐"
+const ICON_DONE := "✔"
+const ICON_FAILED := "✕"
+
+@onready var task_list: VBoxContainer = %TaskList
 @onready var empty_label: Label = %EmptyLabel
 
 var _rows: Dictionary = {}
@@ -32,6 +39,8 @@ func _ready() -> void:
 		return
 	tm.task_accepted.connect(_on_task_accepted)
 	tm.task_state_changed.connect(_on_task_state_changed)
+	if tm.has_signal("task_failed"):
+		tm.task_failed.connect(_on_task_state_changed)
 	for task in tm.accepted_tasks():
 		_add_row(task)
 	_update_empty()
@@ -44,14 +53,14 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func on_idle_enable() -> void:
-	_fade_to(0.0, fade_out_duration)
+	_fade_panel_to(0.0, fade_out_duration)
 
 
 func on_idle_disable() -> void:
-	_fade_to(1.0, fade_in_duration)
+	_fade_panel_to(1.0, fade_in_duration)
 
 
-func _fade_to(alpha: float, duration: float) -> void:
+func _fade_panel_to(alpha: float, duration: float) -> void:
 	if _fade_tween and _fade_tween.is_valid():
 		_fade_tween.kill()
 	_fade_tween = create_tween()
@@ -66,37 +75,132 @@ func _on_task_accepted(task: TaskResource) -> void:
 func _on_task_state_changed(task: TaskResource) -> void:
 	if not _rows.has(task.id):
 		return
-	var row: Dictionary = _rows[task.id]
-	var cb: CheckBox = row["checkbox"]
-	if cb.button_pressed != task.completed:
-		cb.set_pressed_no_signal(task.completed)
+	_refresh_row(task)
+	if task.is_resolved():
+		_flash_row(task)
+		_schedule_removal(task.id)
 
 
 func _add_row(task: TaskResource) -> void:
 	if _rows.has(task.id):
 		return
-	var list: VBoxContainer = fuzzy_list if task.is_fuzzy() else exact_list
-	var cb := CheckBox.new()
-	cb.text = task.title
-	cb.tooltip_text = task.description
-	cb.button_pressed = task.completed
-	cb.add_theme_font_size_override("font_size", row_font_size)
-	if task.is_exact():
-		cb.disabled = true
-	cb.toggled.connect(_on_row_toggled.bind(task.id))
-	list.add_child(cb)
-	_rows[task.id] = {"checkbox": cb}
+	var row := HBoxContainer.new()
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+	var icon := Button.new()
+	icon.flat = true
+	icon.focus_mode = Control.FOCUS_NONE
+	icon.custom_minimum_size = Vector2(14, 0)
+	icon.add_theme_font_size_override("font_size", row_font_size)
+
+	var label := RichTextLabel.new()
+	label.bbcode_enabled = true
+	label.fit_content = true
+	label.scroll_active = false
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.tooltip_text = task.description
+	for k in [&"normal_font_size", &"bold_font_size", &"italics_font_size", &"bold_italics_font_size"]:
+		label.add_theme_font_size_override(k, row_font_size)
+
+	row.add_child(icon)
+	row.add_child(label)
+	task_list.add_child(row)
+
+	if task.is_fuzzy():
+		icon.pressed.connect(_on_row_icon_pressed.bind(task.id))
+	else:
+		icon.disabled = true
+
+	_rows[task.id] = {
+		"row": row,
+		"icon": icon,
+		"label": label,
+		"timer": null,
+		"flash_tween": null,
+	}
+	_refresh_row(task)
 
 
-func _on_row_toggled(pressed: bool, task_id: String) -> void:
+func _refresh_row(task: TaskResource) -> void:
+	var entry: Dictionary = _rows.get(task.id, {})
+	if entry.is_empty():
+		return
+	var icon: Button = entry.icon
+	var label: RichTextLabel = entry.label
+	if task.failed:
+		icon.text = ICON_FAILED
+		icon.disabled = true
+		label.text = "[s]%s[/s]" % task.title
+	elif task.completed:
+		icon.text = ICON_DONE
+		icon.disabled = true
+		label.text = task.title
+	else:
+		icon.text = ICON_PENDING
+		label.text = task.title
+
+
+func _flash_row(task: TaskResource) -> void:
+	var entry: Dictionary = _rows.get(task.id, {})
+	if entry.is_empty():
+		return
+	var row: HBoxContainer = entry.row
+	var prev: Tween = entry.flash_tween
+	if prev and prev.is_valid():
+		prev.kill()
+	var target_color: Color = fail_color if task.failed else success_color
+	row.modulate = target_color * 1.4
+	row.modulate.a = 1.0
+	var tw := create_tween()
+	tw.tween_property(row, "modulate", target_color, flash_duration)
+	entry.flash_tween = tw
+	_rows[task.id] = entry
+
+
+func _schedule_removal(task_id: String) -> void:
+	var entry: Dictionary = _rows.get(task_id, {})
+	if entry.is_empty():
+		return
+	var existing: Timer = entry.timer
+	if existing and is_instance_valid(existing):
+		return
+	var timer := Timer.new()
+	timer.one_shot = true
+	timer.wait_time = max(remove_delay, 0.1)
+	add_child(timer)
+	timer.timeout.connect(_remove_row.bind(task_id))
+	timer.start()
+	entry.timer = timer
+	_rows[task_id] = entry
+
+
+func _remove_row(task_id: String) -> void:
+	var entry: Dictionary = _rows.get(task_id, {})
+	if entry.is_empty():
+		return
+	var row: HBoxContainer = entry.row
+	if is_instance_valid(row):
+		row.queue_free()
+	var timer: Timer = entry.timer
+	if timer and is_instance_valid(timer):
+		timer.queue_free()
+	_rows.erase(task_id)
+	_update_empty()
+
+
+func _on_row_icon_pressed(task_id: String) -> void:
 	var tm := _task_manager()
 	if tm == null:
 		return
-	tm.set_completed(task_id, pressed)
+	var task: TaskResource = tm.get_task(task_id)
+	if task == null or task.is_resolved():
+		return
+	tm.complete(task_id)
 
 
 func _update_empty() -> void:
-	empty_label.visible = exact_list.get_child_count() == 0 and fuzzy_list.get_child_count() == 0
+	empty_label.visible = task_list.get_child_count() == 0
 
 
 func _task_manager() -> Node:

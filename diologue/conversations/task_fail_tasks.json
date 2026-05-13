@@ -1,0 +1,15 @@
+[
+	{
+		"id": "deliver_paper",
+		"title": "Отнести бумаги в кабинет",
+		"description": "Доберись до кабинета, не задев запретную зону.",
+		"fuzzy": false,
+		"exact_trigger": "paper_delivered"
+	},
+	{
+		"id": "stay_in_class",
+		"title": "Сидеть на месте до звонка",
+		"description": "Подождать, не покидая класс.",
+		"fuzzy": true
+	}
+]
