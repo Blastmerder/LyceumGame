@@ -22,12 +22,40 @@ const MESSAGE_TYPE := "trigger_zone"
 
 @export var event_name: String = ""
 @export var trigger_type: TriggerType = TriggerType.COMPLETE
+## Seconds to swallow body_entered after the zone is armed by the
+## manager (or anyone calling `arm()`). Godot fires body_entered for
+## bodies that are *already* inside an Area2D the moment monitoring
+## flips to true — without this grace window the player would fail
+## a drill just because the picked zone happened to overlap them.
+@export var arm_delay: float = 0.15
+
+var _arm_until_msec: int = -1
+
 
 func _ready() -> void:
 	interactable_activated.connect(_on_zone_entered)
 
 
+## Begin the grace window. While it's open, the next body_entered is
+## ignored so a pre-existing overlap doesn't instantly fire the zone.
+func arm() -> void:
+	if arm_delay > 0.0:
+		_arm_until_msec = Time.get_ticks_msec() + int(arm_delay * 1000.0)
+	else:
+		_arm_until_msec = -1
+
+
+## Cancel the grace window (used when the manager turns the zone off
+## for the next run).
+func disarm() -> void:
+	_arm_until_msec = -1
+
+
 func _on_zone_entered() -> void:
+	if _arm_until_msec > 0 and Time.get_ticks_msec() < _arm_until_msec:
+		# Still in the post-activation grace window — this body_entered
+		# is the spurious one from a body that was already overlapping.
+		return
 	if event_name.is_empty():
 		push_warning("TriggerZone %s has empty event_name" % name)
 		return

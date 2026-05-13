@@ -125,6 +125,15 @@ func _disable_all_zones() -> void:
 
 
 func _apply_enabled(area: Area2D, enabled: bool) -> void:
+	# Arm/disarm the TriggerZone *before* we flip monitoring so the
+	# grace window is already open when Godot decides to fire
+	# body_entered for whatever body was already overlapping.
+	if enabled:
+		if area.has_method("arm"):
+			area.arm()
+	else:
+		if area.has_method("disarm"):
+			area.disarm()
 	area.monitoring = enabled
 	if not show_active:
 		return
