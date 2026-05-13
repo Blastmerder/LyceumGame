@@ -1,77 +1,84 @@
 [gd_scene format=3 uid="uid://d3dv18p4yqrhb"]
 
 [ext_resource type="Script" uid="uid://btaqu57ocu6v8" path="res://scenes/builds/smallObjects/door/door.gd" id="1_uvcd1"]
-[ext_resource type="Texture2D" uid="uid://cdwjosdl4sdx7" path="res://assets/game/build/door_lycium_inside.png" id="2_68h7n"]
+[ext_resource type="Texture2D" uid="uid://bk02glmy46pxu" path="res://assets/game/door fix.png" id="2_2e0aa"]
 [ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="3_2e0aa"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wx70x"]
-atlas = ExtResource("2_68h7n")
+[sub_resource type="AtlasTexture" id="AtlasTexture_3aqd8"]
+atlas = ExtResource("2_2e0aa")
 region = Rect2(0, 60, 20, 20)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0f71x"]
-atlas = ExtResource("2_68h7n")
+[sub_resource type="AtlasTexture" id="AtlasTexture_shja6"]
+atlas = ExtResource("2_2e0aa")
 region = Rect2(0, 40, 20, 20)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gnis3"]
-atlas = ExtResource("2_68h7n")
+[sub_resource type="AtlasTexture" id="AtlasTexture_4tqen"]
+atlas = ExtResource("2_2e0aa")
 region = Rect2(0, 20, 20, 20)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wjalm"]
-atlas = ExtResource("2_68h7n")
+[sub_resource type="AtlasTexture" id="AtlasTexture_jbiqb"]
+atlas = ExtResource("2_2e0aa")
 region = Rect2(0, 0, 20, 20)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kc05j"]
-atlas = ExtResource("2_68h7n")
+[sub_resource type="AtlasTexture" id="AtlasTexture_2grn0"]
+atlas = ExtResource("2_2e0aa")
 region = Rect2(0, 0, 20, 20)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_swy1y"]
-atlas = ExtResource("2_68h7n")
+[sub_resource type="AtlasTexture" id="AtlasTexture_uvcd1"]
+atlas = ExtResource("2_2e0aa")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_68h7n"]
+atlas = ExtResource("2_2e0aa")
 region = Rect2(0, 20, 20, 20)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0eurl"]
-atlas = ExtResource("2_68h7n")
+[sub_resource type="AtlasTexture" id="AtlasTexture_2e0aa"]
+atlas = ExtResource("2_2e0aa")
 region = Rect2(0, 40, 20, 20)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_baecf"]
-atlas = ExtResource("2_68h7n")
+[sub_resource type="AtlasTexture" id="AtlasTexture_gmmib"]
+atlas = ExtResource("2_2e0aa")
 region = Rect2(0, 60, 20, 20)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cgj44"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wx70x")
+"texture": SubResource("AtlasTexture_3aqd8")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0f71x")
+"texture": SubResource("AtlasTexture_shja6")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gnis3")
+"texture": SubResource("AtlasTexture_4tqen")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wjalm")
+"texture": SubResource("AtlasTexture_jbiqb")
 }],
 "loop": false,
 "name": &"close",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2grn0")
+}],
 "loop": true,
 "name": &"default",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_kc05j")
+"texture": SubResource("AtlasTexture_uvcd1")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_swy1y")
+"texture": SubResource("AtlasTexture_68h7n")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0eurl")
+"texture": SubResource("AtlasTexture_2e0aa")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_baecf")
+"texture": SubResource("AtlasTexture_gmmib")
 }],
 "loop": false,
 "name": &"open",
@@ -89,8 +96,8 @@ script = ExtResource("1_uvcd1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=738714865]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_cgj44")
+animation = &"close"
 autoplay = "default"
-frame_progress = 0.6281904
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1563834877]
 shape = SubResource("RectangleShape2D_gsxvu")
@@ -99,6 +106,6 @@ shape = SubResource("RectangleShape2D_gsxvu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableComponent" unique_id=1497583813]
 light_mask = 4
-visibility_layer = 2
+visibility_layer = 10
 shape = SubResource("RectangleShape2D_uivk7")
 debug_color = Color(0.6291689, 0.5305546, 0, 0.41960785)

@@ -12,33 +12,40 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_chatui")
 
-[node name="Panel" type="PanelContainer" parent="." unique_id=62209294]
-layout_mode = 1
-offset_right = 148.0
-offset_bottom = 188.0
+[node name="Margin" type="MarginContainer" parent="." unique_id=2110179130]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 115.0
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
 
-[node name="Margin" type="MarginContainer" parent="Panel" unique_id=1573795810]
+[node name="Panel" type="PanelContainer" parent="Margin" unique_id=62209294]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Margin/Panel" unique_id=1573795810]
 layout_mode = 2
 theme_override_constants/margin_left = 6
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="VBox" type="VBoxContainer" parent="Panel/Margin" unique_id=650198209]
+[node name="VBox" type="VBoxContainer" parent="Margin/Panel/Margin" unique_id=650198209]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Panel/Margin/VBox" unique_id=1633330003]
+[node name="Title" type="Label" parent="Margin/Panel/Margin/VBox" unique_id=1633330003]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Чат"
 
-[node name="Scroll" type="ScrollContainer" parent="Panel/Margin/VBox" unique_id=1525824273]
+[node name="Scroll" type="ScrollContainer" parent="Margin/Panel/Margin/VBox" unique_id=1525824273]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="MessageList" type="VBoxContainer" parent="Panel/Margin/VBox/Scroll" unique_id=643541865]
+[node name="MessageList" type="VBoxContainer" parent="Margin/Panel/Margin/VBox/Scroll" unique_id=643541865]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
