@@ -43,9 +43,8 @@ texture = SubResource("GradientTexture2D_yppw0")
 unique_name_in_owner = true
 script = ExtResource("6_bi4fu")
 
-[node name="DroneDrill" type="Node" parent="Events" unique_id=1713927559]
+[node name="drill_drone" type="Node" parent="Events" unique_id=1713927559]
 script = ExtResource("5_yppw0")
-event_name = &"drill_drone"
 task_id = "drill_drone"
 task_title = "Учебная тревога: БПЛА"
 task_description = "Доберись до укрытия по подсказке на полу."
@@ -54,9 +53,8 @@ complete_chat = "Молодец, ты в укрытии."
 failed_chat = "Не успел спрятаться."
 chat_sender = "Завуч"
 
-[node name="FireDrill" type="Node" parent="Events" unique_id=1161889387]
+[node name="drill_fire" type="Node" parent="Events" unique_id=1161889387]
 script = ExtResource("5_yppw0")
-event_name = &"drill_fire"
 task_id = "drill_fire"
 task_title = "Учебная тревога: пожар"
 task_description = "Дойди до пожарного выхода."
@@ -65,9 +63,8 @@ complete_chat = "Эвакуация выполнена."
 failed_chat = "Пути отрезаны."
 chat_sender = "Завуч"
 
-[node name="TerrorDrill" type="Node" parent="Events" unique_id=2050230816]
+[node name="drill_terror" type="Node" parent="Events" unique_id=2050230816]
 script = ExtResource("5_yppw0")
-event_name = &"drill_terror"
 task_id = "drill_terror"
 task_title = "Антитеррор"
 task_description = "Спрячься в кабинете 202."

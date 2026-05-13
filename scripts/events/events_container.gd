@@ -2,16 +2,17 @@ class_name EventsContainer
 extends Node
 
 ## Routing-only node. Owns GameEvent children and forwards every
-## EventManager.event_signal payload to the child whose `event_name`
-## equals payload["name"]. The events themselves decide what to do
-## with the message (start vs. trigger_zone-resolution).
+## EventManager.event_signal payload to the child whose name equals
+## payload["name"] — the GameEvent's identity is just the node name.
+## The events themselves decide what to do with the message (start
+## vs. trigger_zone-resolution).
 
 var _by_name: Dictionary = {}
 
 func _ready() -> void:
 	for child in get_children():
-		if child is GameEvent and child.event_name != &"":
-			_by_name[child.event_name] = child
+		if child is GameEvent:
+			_by_name[child.name] = child
 	var em: Node = get_tree().root.get_node_or_null("EventManager")
 	if em == null:
 		push_warning("EventsContainer: EventManager autoload not found")

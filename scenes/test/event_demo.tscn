@@ -78,9 +78,8 @@ idle_target_path = NodePath("../UI")
 [node name="Events" type="Node" parent="."]
 script = ExtResource("3_evcont")
 
-[node name="DemoEvent" type="Node" parent="Events"]
+[node name="demo_event" type="Node" parent="Events"]
 script = ExtResource("4_event")
-event_name = &"demo_event"
 single_fire = false
 task_id = "demo_task"
 task_title = "Демо-задание"

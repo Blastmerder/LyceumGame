@@ -1,8 +1,11 @@
 class_name GameEvent
 extends Node
 
-## Base class for an event handled by EventsContainer. Two kinds of
-## message are recognised:
+## Base class for an event handled by EventsContainer. The event name
+## is the node's name in the scene tree (just call your GameEvent node
+## "drill_fire", "demo_event", …) — no separate @export to keep in sync.
+##
+## Two message kinds are recognised:
 ##   "start"        -> sets `fired` and registers/accepts the linked
 ##                     task in TaskManager, sends start_chat. If
 ##                     `single_fire` is true and the event has already
@@ -19,7 +22,6 @@ extends Node
 ## inspector.
 
 @export_group("Identity")
-@export var event_name: StringName = &""
 @export var single_fire: bool = false
 
 @export_group("Task")
@@ -35,6 +37,12 @@ extends Node
 
 var fired: bool = false
 var single_fired: bool = false
+
+
+## Convenience accessor — the event name is just the node's name.
+var event_name: StringName:
+	get:
+		return name
 
 
 ## Called by EventsContainer with a routed payload. The default
@@ -54,10 +62,10 @@ func receive(payload: Dictionary) -> void:
 
 func _handle_start(payload: Dictionary) -> void:
 	if fired:
-		print("[GameEvent] %s already fired — start ignored" % event_name)
+		print("[GameEvent] %s already fired — start ignored" % name)
 		return
 	if single_fire and single_fired:
-		print("[GameEvent] %s single_fire used up" % event_name)
+		print("[GameEvent] %s single_fire used up" % name)
 		return
 	fired = true
 	single_fired = true
@@ -129,7 +137,7 @@ func _send_chat(text: String) -> void:
 func _resolve_title() -> String:
 	if not task_title.is_empty():
 		return task_title
-	return String(event_name)
+	return String(name)
 
 
 func _task_manager() -> Node:
