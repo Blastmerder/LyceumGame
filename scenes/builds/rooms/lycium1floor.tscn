@@ -7,9 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://cxvrirgifddkh" path="res://scenes/components/ladder_component/ladder_component.tscn" id="4_qaqs4"]
 [ext_resource type="PackedScene" path="res://scenes/characters/npc/dialogue_npc.tscn" id="5_r8mrn"]
 [ext_resource type="Resource" uid="uid://ued4680tl1ga" path="res://diologue/conversations/test_npc.dialogue" id="6_1hqji"]
-[ext_resource type="Texture2D" uid="uid://22aeivuk4o3u" path="res://assets/game/characters/playerALT.png" id="7_utufe"]
 [ext_resource type="Texture2D" uid="uid://bpstjoh46xrw4" path="res://assets/game/лестница право.png" id="9_b6yea"]
 [ext_resource type="Texture2D" uid="uid://cjlapl3y7srae" path="res://assets/game/лестница лево (2).png" id="9_utufe"]
+[ext_resource type="Script" path="res://scripts/events/event_triggers_dispatcher.gd" id="11_bh6qa"]
+[ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="12_thufj"]
+[ext_resource type="Script" path="res://scripts/events/event_trigger.gd" id="13_ryu46"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b6yea"]
 texture = ExtResource("1_uc17g")
@@ -274,28 +276,17 @@ sources/1 = SubResource("TileSetAtlasSource_2pgmq")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ki1je"]
 size = Vector2(20, 60)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_npc_idle"]
-atlas = ExtResource("7_utufe")
-region = Rect2(0, 0, 19, 40)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_b6yea"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_npc_idle")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_32qff"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jv5ce"]
 atlas = ExtResource("4_1hqji")
-region = Rect2(271, 271, 49, 49)
+region = Rect2(186.453, 272.26108, 21.743713, 46.19519)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dx4s4"]
 atlas = ExtResource("4_1hqji")
 region = Rect2(271, 222, 49, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_32qff"]
+atlas = ExtResource("4_1hqji")
+region = Rect2(271, 271, 49, 49)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bh6qa"]
 atlas = ExtResource("4_1hqji")
@@ -313,14 +304,29 @@ region = Rect2(173, 271, 49, 49)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_32qff")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_dx4s4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
 }, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_32qff")
+}],
+"loop": true,
+"name": &"default_2",
+"speed": 5.0
+}, {
+"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bh6qa")
+}],
+"loop": true,
+"name": &"default_3",
+"speed": 5.0
 }, {
+"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_thufj")
 }, {
@@ -328,11 +334,22 @@ animations = [{
 "texture": SubResource("AtlasTexture_ryu46")
 }],
 "loop": true,
-"name": &"default",
+"name": &"default_4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ryu46")
+}],
+"loop": true,
+"name": &"default_5",
 "speed": 5.0
 }]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_32qff"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jv5ce"]
+size = Vector2(64, 35)
 
 [node name="Lycium1Floor" type="Node2D" unique_id=1444185617]
 script = ExtResource("1_2pgmq")
@@ -389,7 +406,7 @@ shape = SubResource("RectangleShape2D_ki1je")
 position = Vector2(173, -171)
 dialogue_resource = ExtResource("6_1hqji")
 interact_mode = 1
-sprite_frames = SubResource("SpriteFrames_b6yea")
+idle_texture = SubResource("AtlasTexture_jv5ce")
 
 [node name="DialogueNPC" parent="." unique_id=419836626 instance=ExtResource("5_r8mrn")]
 position = Vector2(369, 1)
@@ -419,3 +436,15 @@ position = Vector2(-750, -849)
 
 [node name="DialogueNPC9" parent="." unique_id=743734416 instance=ExtResource("5_r8mrn")]
 position = Vector2(-636, -522)
+
+[node name="Triggers" type="Node" parent="." unique_id=650280285]
+script = ExtResource("11_bh6qa")
+
+[node name="DroneShelter" parent="Triggers" unique_id=1972534258 instance=ExtResource("12_thufj")]
+position = Vector2(-220, -120)
+script = ExtResource("13_ryu46")
+event_name = "drill_drone"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Triggers/DroneShelter" unique_id=202642539]
+position = Vector2(-41, -18)
+shape = SubResource("RectangleShape2D_jv5ce")
