@@ -11,7 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://bpstjoh46xrw4" path="res://assets/game/лестница право.png" id="9_b6yea"]
 [ext_resource type="Resource" uid="uid://crtucu33cfvwi" path="res://diologue/conversations/ГОША.dialogue" id="9_bh6qa"]
 [ext_resource type="Texture2D" uid="uid://cjlapl3y7srae" path="res://assets/game/лестница лево (2).png" id="9_utufe"]
-[ext_resource type="Script" uid="uid://cfi22hd8uh7j7" path="res://scripts/events/event_triggers_dispatcher.gd" id="11_bh6qa"]
+[ext_resource type="Script" path="res://scripts/events/event_triggers_dispatcher.gd" id="11_bh6qa"]
+[ext_resource type="Resource" uid="uid://1icxoiyrvjpr" path="res://diologue/conversations/АК.dialogue" id="11_ryu46"]
 [ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="12_thufj"]
 [ext_resource type="Script" path="res://scripts/events/event_trigger.gd" id="13_ryu46"]
 
@@ -286,6 +287,10 @@ size = Vector2(20, 60)
 atlas = ExtResource("4_1hqji")
 region = Rect2(186.453, 272.26108, 21.743713, 46.19519)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ankyd"]
+atlas = ExtResource("4_1hqji")
+region = Rect2(236.17354, 222.74324, 21.404678, 45.930862)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jv5ce"]
 size = Vector2(64, 35)
 
@@ -349,8 +354,14 @@ dialogue_resource = ExtResource("9_bh6qa")
 interact_mode = 1
 idle_texture = SubResource("AtlasTexture_jv5ce")
 
+[node name="NPC-У_Входа2" parent="." unique_id=492532735 instance=ExtResource("5_r8mrn")]
+position = Vector2(57, -103)
+dialogue_resource = ExtResource("11_ryu46")
+interact_mode = 1
+idle_texture = SubResource("AtlasTexture_ankyd")
+
 [node name="NPC-У_Входа" parent="." unique_id=174773808 instance=ExtResource("5_r8mrn")]
-position = Vector2(254, -137)
+position = Vector2(229, -126)
 dialogue_resource = ExtResource("6_1hqji")
 interact_mode = 1
 idle_texture = SubResource("AtlasTexture_jv5ce")
