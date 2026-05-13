@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://dmrlpif00bfbg" path="res://assets/game/build/lycium_inside.png" id="2_3j6x7"]
 [ext_resource type="PackedScene" uid="uid://cxvrirgifddkh" path="res://scenes/components/ladder_component/ladder_component.tscn" id="4_o6r6n"]
 [ext_resource type="Texture2D" uid="uid://bd01q85dkccx6" path="res://assets/game/all spritesheet.png" id="5_631b1"]
+[ext_resource type="Script" path="res://scripts/events/trigger_zones_manager.gd" id="6_zmgr"]
+[ext_resource type="PackedScene" path="res://scenes/components/trigger_zone/trigger_zone.tscn" id="7_tzpkg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ui8ub"]
 texture = ExtResource("1_uc17g")
@@ -338,3 +340,51 @@ shape = SubResource("RectangleShape2D_631b1")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="ladders/down" unique_id=312575565]
 position = Vector2(-650, -429)
 shape = SubResource("RectangleShape2D_631b1")
+
+[node name="DroneZones" type="Node" parent="."]
+script = ExtResource("6_zmgr")
+event_name = "drill_drone"
+
+[node name="drone_4_a" parent="DroneZones" instance=ExtResource("7_tzpkg")]
+event_name = "drill_drone"
+trigger_type = 1
+
+[node name="drone_4_b" parent="DroneZones" instance=ExtResource("7_tzpkg")]
+event_name = "drill_drone"
+trigger_type = 1
+
+[node name="drone_4_c" parent="DroneZones" instance=ExtResource("7_tzpkg")]
+event_name = "drill_drone"
+trigger_type = 1
+
+[node name="FireZones" type="Node" parent="."]
+script = ExtResource("6_zmgr")
+event_name = "drill_fire"
+
+[node name="fire_4_a" parent="FireZones" instance=ExtResource("7_tzpkg")]
+event_name = "drill_fire"
+trigger_type = 1
+
+[node name="fire_4_b" parent="FireZones" instance=ExtResource("7_tzpkg")]
+event_name = "drill_fire"
+trigger_type = 1
+
+[node name="fire_4_c" parent="FireZones" instance=ExtResource("7_tzpkg")]
+event_name = "drill_fire"
+trigger_type = 1
+
+[node name="TerrorZones" type="Node" parent="."]
+script = ExtResource("6_zmgr")
+event_name = "drill_terror"
+
+[node name="terror_4_a" parent="TerrorZones" instance=ExtResource("7_tzpkg")]
+event_name = "drill_terror"
+trigger_type = 1
+
+[node name="terror_4_b" parent="TerrorZones" instance=ExtResource("7_tzpkg")]
+event_name = "drill_terror"
+trigger_type = 1
+
+[node name="terror_4_c" parent="TerrorZones" instance=ExtResource("7_tzpkg")]
+event_name = "drill_terror"
+trigger_type = 1
