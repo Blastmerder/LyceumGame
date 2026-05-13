@@ -27,7 +27,7 @@ func _on_next_transitions() -> void:
 
 
 func _on_enter() -> void:
-	pass
+	player.idle_timer.start()
 
 
 func _on_exit() -> void:

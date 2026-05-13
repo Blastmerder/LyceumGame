@@ -29,6 +29,7 @@ layout_mode = 2
 
 [node name="Title" type="Label" parent="Panel/Margin/VBox" unique_id=1633330003]
 layout_mode = 2
+theme_override_font_sizes/font_size = 8
 text = "Чат"
 
 [node name="Scroll" type="ScrollContainer" parent="Panel/Margin/VBox" unique_id=1525824273]
