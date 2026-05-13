@@ -3,9 +3,12 @@
 [ext_resource type="Script" uid="uid://co08hci2dlcaf" path="res://scenes/test/main.gd" id="1_3vdn0"]
 [ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="1_vwkqo"]
 [ext_resource type="PackedScene" uid="uid://dh2mt1hptbipw" path="res://scenes/builds/rooms/ledderPart.tscn" id="2_ptl7i"]
-[ext_resource type="PackedScene" uid="uid://c6vfy7ojfiv85" path="res://scenes/interfaces/chat/chat_ui.tscn" id="6_3vdn0"]
+
+[ext_resource type="Script" uid="uid://b4y3i4ibrnu1a" path="res://scripts/events/drone_drill_event.gd" id="5_yppw0"]
+[ext_resource type="PackedScene" path="res://scenes/interfaces/chat/chat_ui.tscn" id="6_3vdn0"]
+[ext_resource type="Script" uid="uid://b0r5m0tj1gpj" path="res://scripts/events/fire_drill_event.gd" id="6_7buam"]
 [ext_resource type="Script" uid="uid://cqu1r3wb01rsf" path="res://scripts/events/events_container.gd" id="6_bi4fu"]
-[ext_resource type="Script" uid="uid://c833ruxnus227" path="res://scripts/events/evacuation_event.gd" id="6_gjcg6"]
+[ext_resource type="Script" uid="uid://cysieftbepaad" path="res://scripts/events/terror_drill_event.gd" id="7_bi4fu"]
 [ext_resource type="PackedScene" uid="uid://biyhbeknolt4d" path="res://scenes/interfaces/tasks/task_list.tscn" id="7_ptl7i"]
 
 [node name="Main" type="Node2D" unique_id=2021297408]
@@ -22,36 +25,32 @@ idle_target_path = NodePath("../UI")
 unique_name_in_owner = true
 script = ExtResource("6_bi4fu")
 
-[node name="DroneDrill" type="Node" parent="Events" unique_id=376521250]
-script = ExtResource("6_gjcg6")
+
+[node name="DroneDrill" type="Node" parent="Events" unique_id=1713927559]
+script = ExtResource("5_yppw0")
 task_id = "drill_drone"
 task_title = "Учебная тревога: БПЛА"
 task_description = "Доберись до укрытия по подсказке на полу."
 path_color = Color(0.4, 0.7, 1, 0.9)
-period = 60.0
-repeats = false
 autostart = false
 event_name = &"drill_drone"
 
-[node name="FireDrill" type="Node" parent="Events" unique_id=745453913]
-script = ExtResource("6_gjcg6")
+
+[node name="FireDrill" type="Node" parent="Events" unique_id=1161889387]
+script = ExtResource("6_7buam")
 task_id = "drill_fire"
 task_title = "Учебная тревога: пожар"
 task_description = "Дойди до пожарного выхода."
 path_color = Color(1, 0.5, 0.2, 0.9)
-period = 60.0
-repeats = false
 autostart = false
 event_name = &"drill_fire"
 
-[node name="TerrorDrill" type="Node" parent="Events" unique_id=452694386]
-script = ExtResource("6_gjcg6")
+[node name="TerrorDrill" type="Node" parent="Events" unique_id=2050230816]
+script = ExtResource("7_bi4fu")
 task_id = "drill_terror"
 task_title = "Антитеррор"
 task_description = "Спрячься в кабинете 202."
 path_color = Color(0.7, 0.4, 0.9, 0.9)
-period = 60.0
-repeats = false
 autostart = false
 event_name = &"drill_terror"
 

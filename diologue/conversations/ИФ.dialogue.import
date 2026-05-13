@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://dh6dpralhsudt"
+path="res://.godot/imported/ИФ.dialogue-24f86e3a0af43b49d1a33267665993b2.tres"
+
+[deps]
+
+source_file="res://diologue/conversations/ИФ.dialogue"
+dest_files=["res://.godot/imported/ИФ.dialogue-24f86e3a0af43b49d1a33267665993b2.tres"]
+
+[params]
+
+defaults=true

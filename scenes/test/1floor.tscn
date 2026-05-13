@@ -1,93 +1,17 @@
 [gd_scene format=3 uid="uid://cq6ed64ywriir"]
 
 [ext_resource type="Script" uid="uid://cae3t8tsf2rrn" path="res://scenes/test/MainNode.gd" id="1_4y7x7"]
-[ext_resource type="PackedScene" uid="uid://ceq3mqplpgs8l" path="res://scenes/builds/rooms/lycium1floor.tscn" id="1_uglxo"]
 [ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="2_4y7x7"]
-[ext_resource type="PackedScene" uid="uid://mpgrxw4u3glh" path="res://scenes/builds/rooms/Old_lycium2floor.tscn" id="6_f2"]
-[ext_resource type="PackedScene" uid="uid://86nct6jf2cjp" path="res://scenes/builds/rooms/Old_lycium3floor.tscn" id="7_f3"]
-[ext_resource type="PackedScene" uid="uid://d1c050hhxmimi" path="res://scenes/builds/rooms/lycium4floor.tscn" id="8_f4"]
-[ext_resource type="PackedScene" path="res://scenes/characters/npc/dialogue_npc.tscn" id="9_npc"]
-[ext_resource type="Script" uid="uid://cqu1r3wb01rsf" path="res://scripts/events/events_container.gd" id="10_events"]
-[ext_resource type="Script" uid="uid://dyni6mpi3p24o" path="res://scripts/events/game_event.gd" id="11_gameevent"]
-[ext_resource type="Resource" uid="uid://ued4680tl1ga" path="res://diologue/conversations/test_npc.dialogue" id="12_npcdlg"]
-[ext_resource type="Script" uid="uid://bh103yfrtgflr" path="res://scenes/test/floor_manager.gd" id="12_r8oix"]
-[ext_resource type="PackedScene" uid="uid://ba5ee2c86h0bq" path="res://scenes/components/interactable_component/interactable_component.tscn" id="13_7838m"]
-[ext_resource type="Texture2D" uid="uid://22aeivuk4o3u" path="res://assets/game/characters/playerALT.png" id="13_npctex"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_npc_idle"]
-atlas = ExtResource("13_npctex")
-region = Rect2(0, 0, 19, 40)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_npc"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_npc_idle")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwogh"]
-size = Vector2(40, 60)
+[ext_resource type="PackedScene" uid="uid://d3dv18p4yqrhb" path="res://scenes/builds/smallObjects/door/door.tscn" id="3_4y7x7"]
 
 [node name="1Floor" type="Node2D" unique_id=278158406]
 script = ExtResource("1_4y7x7")
 tasks_file = "res://diologue/conversations/act1_tasks.json"
-
-[node name="floors" type="Node2D" parent="." unique_id=958970242]
-
-[node name="Lycium1Floor" parent="floors" unique_id=2030766381 instance=ExtResource("1_uglxo")]
-metadata/floor_id = 0
-
-[node name="Lycium2Floor" parent="floors" unique_id=114641034 instance=ExtResource("6_f2")]
-visible = false
-metadata/floor_id = 1
-
-[node name="Lycium3Floor" parent="floors" unique_id=214094768 instance=ExtResource("7_f3")]
-visible = false
-metadata/floor_id = 2
-
-[node name="Lycium4Floor" parent="floors" unique_id=1462995416 instance=ExtResource("8_f4")]
-visible = false
-collision_enabled = false
-metadata/floor_id = 3
-
-[node name="TestNPC" parent="." unique_id=1704993369 instance=ExtResource("9_npc")]
-position = Vector2(234, -244)
-dialogue_resource = ExtResource("12_npcdlg")
-interact_mode = 1
-sprite_frames = SubResource("SpriteFrames_npc")
-
-[node name="Events" type="Node" parent="." unique_id=2094271310]
-script = ExtResource("10_events")
-
-[node name="TestEvent" type="Node" parent="Events" unique_id=630233816]
-script = ExtResource("11_gameevent")
-event_name = &"test_event"
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Events" unique_id=185467063]
-
-[node name="FloorManager" type="Node" parent="." unique_id=1984907520]
-script = ExtResource("12_r8oix")
-
-[node name="GoUp" parent="." unique_id=723965860 instance=ExtResource("13_7838m")]
-position = Vector2(2006, -814)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GoUp" unique_id=1592719771]
-position = Vector2(-956, 463)
-shape = SubResource("RectangleShape2D_xwogh")
-
-[node name="GoDown" parent="." unique_id=415302691 instance=ExtResource("13_7838m")]
-position = Vector2(1003, -407)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GoDown" unique_id=25338944]
-position = Vector2(47, -23)
-shape = SubResource("RectangleShape2D_xwogh")
 
 [node name="Player2" parent="." unique_id=904295320 instance=ExtResource("2_4y7x7")]
 position = Vector2(88, 85)
 
 [node name="Camera2D" type="Camera2D" parent="Player2" unique_id=87859352]
 position = Vector2(1, 2)
+
+[node name="Door" parent="." unique_id=1557800463 instance=ExtResource("3_4y7x7")]
