@@ -4,6 +4,7 @@ extends Node
 signal task_registered(task: TaskResource)
 signal task_accepted(task: TaskResource)
 signal task_completed(task: TaskResource)
+signal task_failed(task: TaskResource)
 signal task_state_changed(task: TaskResource)
 
 var tasks: Dictionary = {}
@@ -62,10 +63,18 @@ func accept(id: String) -> void:
 
 func complete(id: String) -> void:
 	var task: TaskResource = get_task(id)
-	if task == null or task.completed:
+	if task == null or task.completed or task.failed:
 		return
 	task.completed = true
 	task_completed.emit(task)
+	task_state_changed.emit(task)
+
+func fail(id: String) -> void:
+	var task: TaskResource = get_task(id)
+	if task == null or task.failed or task.completed:
+		return
+	task.failed = true
+	task_failed.emit(task)
 	task_state_changed.emit(task)
 
 func set_completed(id: String, value: bool) -> void:

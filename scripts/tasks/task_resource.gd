@@ -14,9 +14,13 @@ enum Kind {
 
 var accepted: bool = false
 var completed: bool = false
+var failed: bool = false
 
 func is_fuzzy() -> bool:
 	return kind == Kind.FUZZY
 
 func is_exact() -> bool:
 	return kind == Kind.EXACT
+
+func is_resolved() -> bool:
+	return completed or failed
