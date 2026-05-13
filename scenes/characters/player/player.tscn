@@ -183,8 +183,8 @@ radius = 5.3851647
 collision_layer = 2
 script = ExtResource("1_kqtwu")
 
-[node name="IdleTimer" type="Timer" parent="."]
-wait_time = 5.0
+[node name="IdleTimer" type="Timer" parent="." unique_id=126421586]
+wait_time = 3.0
 one_shot = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1871826510]

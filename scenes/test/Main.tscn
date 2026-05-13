@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://co08hci2dlcaf" path="res://scenes/test/main.gd" id="1_3vdn0"]
 [ext_resource type="PackedScene" uid="uid://dl0qgbe50ojd3" path="res://scenes/characters/player/player.tscn" id="1_vwkqo"]
 [ext_resource type="PackedScene" uid="uid://dh2mt1hptbipw" path="res://scenes/builds/rooms/ledderPart.tscn" id="2_ptl7i"]
-[ext_resource type="PackedScene" path="res://scenes/interfaces/chat/chat_ui.tscn" id="6_3vdn0"]
+[ext_resource type="PackedScene" uid="uid://c6vfy7ojfiv85" path="res://scenes/interfaces/chat/chat_ui.tscn" id="6_3vdn0"]
 [ext_resource type="Script" uid="uid://cqu1r3wb01rsf" path="res://scripts/events/events_container.gd" id="6_bi4fu"]
 [ext_resource type="Script" uid="uid://c833ruxnus227" path="res://scripts/events/evacuation_event.gd" id="6_gjcg6"]
 [ext_resource type="PackedScene" uid="uid://biyhbeknolt4d" path="res://scenes/interfaces/tasks/task_list.tscn" id="7_ptl7i"]
@@ -14,6 +14,7 @@ ledder_part = ExtResource("2_ptl7i")
 
 [node name="Player" parent="." unique_id=904295320 instance=ExtResource("1_vwkqo")]
 position = Vector2(182, 70)
+idle_target_path = NodePath("../UI/ChatUI")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=2027242827]
 
@@ -23,9 +24,6 @@ script = ExtResource("6_bi4fu")
 
 [node name="DroneDrill" type="Node" parent="Events" unique_id=376521250]
 script = ExtResource("6_gjcg6")
-announcement = "Воздушная тревога: дойди до укрытия!"
-success_message = "Молодец, ты в укрытии."
-already_message = "Ты уже в укрытии. Жди следующего этапа."
 task_id = "drill_drone"
 task_title = "Учебная тревога: БПЛА"
 task_description = "Доберись до укрытия по подсказке на полу."
@@ -37,8 +35,6 @@ event_name = &"drill_drone"
 
 [node name="FireDrill" type="Node" parent="Events" unique_id=745453913]
 script = ExtResource("6_gjcg6")
-announcement = "Пожарная тревога: эвакуируйся."
-already_message = "Ты уже у выхода — жди продолжения."
 task_id = "drill_fire"
 task_title = "Учебная тревога: пожар"
 task_description = "Дойди до пожарного выхода."
@@ -50,9 +46,6 @@ event_name = &"drill_fire"
 
 [node name="TerrorDrill" type="Node" parent="Events" unique_id=452694386]
 script = ExtResource("6_gjcg6")
-announcement = "Антитеррор: укройся в кабинете 202."
-success_message = "Кабинет закрыт изнутри. Молодец."
-already_message = "Ты уже в кабинете 202."
 task_id = "drill_terror"
 task_title = "Антитеррор"
 task_description = "Спрячься в кабинете 202."
