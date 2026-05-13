@@ -68,6 +68,11 @@ func _fade_panel_to(alpha: float, duration: float) -> void:
 
 
 func _on_task_accepted(task: TaskResource) -> void:
+	# If a row already exists (re-running a drill, for example), drop
+	# the resolved leftover immediately so the new run gets a fresh
+	# pending row without waiting for the auto-removal timer.
+	if _rows.has(task.id):
+		_remove_row_now(task.id)
 	_add_row(task)
 	_update_empty()
 
@@ -187,6 +192,21 @@ func _remove_row(task_id: String) -> void:
 		timer.queue_free()
 	_rows.erase(task_id)
 	_update_empty()
+
+
+## Like _remove_row but frees the row immediately so a new row can
+## take its slot in the same frame.
+func _remove_row_now(task_id: String) -> void:
+	var entry: Dictionary = _rows.get(task_id, {})
+	if entry.is_empty():
+		return
+	var row: HBoxContainer = entry.row
+	if is_instance_valid(row):
+		row.free()
+	var timer: Timer = entry.timer
+	if timer and is_instance_valid(timer):
+		timer.free()
+	_rows.erase(task_id)
 
 
 func _on_row_icon_pressed(task_id: String) -> void:

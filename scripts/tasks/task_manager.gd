@@ -88,6 +88,21 @@ func set_completed(id: String, value: bool) -> void:
 		task_completed.emit(task)
 	task_state_changed.emit(task)
 
+
+## Clears accepted / completed / failed so the task is "fresh" again.
+## Used by re-runnable events (e.g. evacuation drills) before re-
+## accepting on a new run.
+func reset(id: String) -> void:
+	var task: TaskResource = get_task(id)
+	if task == null:
+		return
+	var changed: bool = task.accepted or task.completed or task.failed
+	task.accepted = false
+	task.completed = false
+	task.failed = false
+	if changed:
+		task_state_changed.emit(task)
+
 func notify_exact_trigger(trigger_id: String) -> void:
 	for task in tasks.values():
 		if task.is_exact() and task.accepted and not task.completed and task.exact_trigger == trigger_id:

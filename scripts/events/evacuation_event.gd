@@ -42,17 +42,25 @@ func _ready() -> void:
 		var tm: Node = get_tree().root.get_node_or_null("TaskManager")
 		if tm and tm.get_task(task_id) == null:
 			tm.register_raw(task_id, _resolve_title(), task_description, false, "")
+	# Listen for an external fail (player walked into a fail trigger)
+	# so we can release the drill state and let it be started again.
+	var tmf: Node = get_tree().root.get_node_or_null("TaskManager")
+	if tmf and tmf.has_signal("task_failed"):
+		tmf.task_failed.connect(_on_task_failed)
 
 
 func on_start(_payload: Dictionary = {}) -> void:
-	if active:
-		print("[EvacuationEvent] %s already active — start ignored" % event_name)
-		return
+	# Drills are re-runnable: every start wipes the previous state, the
+	# task in TaskManager, the line on screen, and any latched
+	# TaskTrigger target. After that the drill begins from scratch.
 	print("[EvacuationEvent] start:", event_name)
+	_clear_path()
 	active = true
 	_completed = false
 	_player = _find_player()
+	_reset_task()
 	_accept_task()
+	_reset_target()
 	_setup_path()
 	_on_drill_started()
 	fire_now()
@@ -68,6 +76,7 @@ func on_complete(_payload: Dictionary = {}) -> void:
 		return
 	print("[EvacuationEvent] complete:", event_name)
 	_completed = true
+	active = false
 	if task_id != "":
 		var tm: Node = get_tree().root.get_node_or_null("TaskManager")
 		if tm:
@@ -76,6 +85,16 @@ func on_complete(_payload: Dictionary = {}) -> void:
 	_on_drill_completed()
 	fire_now()
 	succeeded.emit(self)
+
+
+func _on_task_failed(task: TaskResource) -> void:
+	if task_id == "" or task.id != task_id:
+		return
+	# External failure: drop our running state + visuals so the next
+	# on_start runs cleanly.
+	active = false
+	_completed = false
+	_clear_path()
 
 
 ## Override in a subclass to push the drill's start text to chat.
@@ -115,6 +134,19 @@ func _accept_task() -> void:
 	var tm: Node = get_tree().root.get_node_or_null("TaskManager")
 	if tm and tm.get_task(task_id) != null:
 		tm.accept(task_id)
+
+
+func _reset_task() -> void:
+	if task_id == "":
+		return
+	var tm: Node = get_tree().root.get_node_or_null("TaskManager")
+	if tm and tm.get_task(task_id) != null and tm.has_method("reset"):
+		tm.reset(task_id)
+
+
+func _reset_target() -> void:
+	if _target is TaskTrigger:
+		(_target as TaskTrigger).reset()
 
 
 func _setup_path() -> void:
